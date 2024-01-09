@@ -1,0 +1,77 @@
+  @import '../../index.scss';
+
+
+  .pagination {
+     display: flex;
+     justify-content: center;
+     padding-top: 65px;
+     padding-bottom: 65px;
+
+
+     &__list {
+        display: flex;
+        @include adaptiv-value('gap', 7, 4, 0);
+     }
+
+     &__item {
+        border-radius: 10px;
+        background: #1B2133;
+
+     }
+
+     &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include adaptiv-value('width', 73, 33, 0);
+        @include adaptiv-value('height', 73, 33, 0);
+        border-radius: 10px;
+        color: #FFF;
+        @include adaptiv-value('font-size', 25, 18, 0);
+        font-weight: 600;
+        cursor: pointer;
+     }
+
+     &__pointers {
+        @include adaptiv-value('width', 73, 33, 0);
+        @include adaptiv-value('height', 73, 33, 0);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include adaptiv-value('font-size', 25, 18, 0);
+        font-weight: 600;
+     }
+
+     &__arrow-prev,
+     &__arrow-next {
+        @include adaptiv-value('width', 73, 33, 0);
+        @include adaptiv-value('height', 73, 33, 0);
+        border-radius: 10px;
+        background: #1B2133;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+           @include adaptiv-value('width', 41, 24, 0);
+           @include adaptiv-value('height', 20, 10, 0);
+        }
+
+        svg * {
+
+           fill: rgba(255, 255, 255, 0.50);
+        }
+     }
+
+     &__arrow-next {
+        svg * {
+           fill: #FFF;
+        }
+     }
+  }
+
+  .pagination_link-active {
+     background: #3657CB;
+  }
