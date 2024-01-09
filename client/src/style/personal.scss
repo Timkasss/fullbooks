@@ -1,0 +1,93 @@
+@import '../index.scss';
+
+.personal {
+   &__container {
+      display: flex;
+      gap: 10px;
+   }
+
+
+   &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+   }
+
+   @media (max-width:1000px) {
+      &__container {
+         flex-direction: column;
+      }
+
+      &__list {
+         flex-direction: row;
+         justify-content: center;
+      }
+   }
+
+   &__item {
+      @include adaptiv-value('width', 105, 50, 0);
+      @include adaptiv-value('height', 105, 50, 0);
+      border-radius: 10px;
+      background: #191E2E;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+
+   &__item_active {
+      //border-radius: 10px;
+      background-color: #3657CB;
+   }
+
+   &__link {
+      position: relative;
+      width: 100%;
+      height: 100%;
+   }
+
+   &__link_icon_home::before,
+   &__link_icon_friends::before,
+   &__link_icon_reviews::before,
+   &__link_icon_comment::before,
+   &__link_icon_books::before,
+   &__link_icon_famous::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      @include adaptiv-value('width', 31, 15, 0);
+      @include adaptiv-value('height', 31, 15, 0);
+   }
+
+   &__link_icon_home::before {
+      content: '';
+      background: url('../img/personal/home.svg')no-repeat center center/cover;
+
+   }
+
+   &__link_icon_friends::before {
+      content: '';
+      background: url('../img/personal/friends.svg')no-repeat center center/cover;
+   }
+
+   &__link_icon_reviews::before {
+      content: '';
+      background: url('../img/personal/comment.svg')no-repeat center center/cover;
+   }
+
+   &__link_icon_comment::before {
+      content: '';
+      background: url('../img/personal/review.svg')no-repeat center center/cover;
+   }
+
+   &__link_icon_books::before {
+      content: '';
+      background: url('../img/personal/film.svg')no-repeat center center/cover;
+   }
+
+   &__link_icon_famous::before {
+      content: '';
+      background: url('../img/personal/famous.svg')no-repeat center center/cover;
+   }
+}

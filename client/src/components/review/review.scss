@@ -1,0 +1,282 @@
+@import '../../index.scss';
+
+.review {
+   border-radius: 10px;
+   border: 5px solid #57D043;
+   background: #191E2E;
+   @include adaptiv-value('padding', 45, 20, 0);
+
+   &__header {
+      display: grid;
+      grid-template-areas:
+         'avatar name grade'
+         'avatar links grade';
+      grid-template-columns: 10% 80% 10%;
+      align-items: center;
+      @include adaptiv-value('padding-bottom', 45, 20, 0);
+   }
+
+   @media (max-width:1100px) {
+      &__header {
+         grid-template-areas:
+            'avatar name grade'
+            'links links links';
+         row-gap: 20px;
+         grid-template-columns: 15% 70% 10%;
+      }
+   }
+
+   @media (max-width:$tablet) {
+      &__header {
+         grid-template-areas:
+            'avatar name name'
+            'grade grade grade'
+            'links links links';
+         row-gap: 20px;
+         grid-template-columns: auto;
+      }
+   }
+
+
+   &__header-name-kind {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      grid-area: name;
+   }
+
+   &__img-wrapper {
+      @include adaptiv-value('width', 115, 57, 0);
+      @include adaptiv-value('height', 115, 57, 0);
+      border-radius: 50%;
+      grid-area: avatar;
+   }
+
+   &__img {
+      max-width: 100%;
+      border-radius: 50%;
+   }
+
+   &__header-name {
+      @include adaptiv-value('font-size', 30, 20, 0);
+      font-weight: 700;
+   }
+
+   &__header-kind {
+      padding: 9px 16px;
+      border-radius: 5px;
+      background: rgba(87, 208, 67, 0.38);
+      color: #57D043;
+      @include adaptiv-value('font-size', 15, 12, 0);
+      font-weight: 500;
+   }
+
+   &__person-data {
+      display: flex;
+      flex-wrap: wrap;
+      @include adaptiv-value('gap', 20, 15, 0);
+      grid-area: links;
+   }
+
+   .review_name {
+      @include adaptiv-value('font-size', 18, 13, 0);
+      font-weight: 500;
+      display: flex;
+      gap: 5px;
+   }
+
+   &__grade-pick {
+      display: flex;
+      gap: 8px;
+      grid-area: grade;
+   }
+
+   &__grade-like {
+      border-radius: 10px;
+      background: #1B2133;
+      @include adaptiv-value('width', 59, 38, 0);
+      @include adaptiv-value('height', 59, 38, 0);
+      position: relative;
+      cursor: pointer;
+   }
+
+   &__grade-like:hover {
+      background: #37405a;
+   }
+
+   &__grade-like::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url('../../img/book/like.svg') no-repeat center center /cover;
+      @include adaptiv-value('width', 26, 17, 0);
+      @include adaptiv-value('height', 26, 17, 0);
+   }
+
+   &__grade-dislike {
+      border-radius: 10px;
+      background: #1B2133;
+      @include adaptiv-value('width', 59, 38, 0);
+      @include adaptiv-value('height', 59, 38, 0);
+      position: relative;
+      cursor: pointer;
+   }
+
+   &__grade-dislike::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url('../../img/book/dislike.svg') no-repeat center center /cover;
+      @include adaptiv-value('width', 26, 17, 0);
+      @include adaptiv-value('height', 26, 17, 0);
+   }
+
+   &__grade-like-wrapper,
+   &__grade-dislike-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+   }
+
+   @media (max-width:$tablet) {
+
+      &__grade-like-wrapper,
+      &__grade-dislike-wrapper {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+      }
+   }
+
+   &__grade-dislike:hover {
+      background: #37405a;
+   }
+
+   &__count-like {
+      font-size: 15px;
+      font-weight: 400;
+
+   }
+
+   &__count-dislike {
+      font-size: 15px;
+      font-weight: 400;
+
+   }
+
+
+   &__title-wrapper {
+      display: flex;
+      align-items: center;
+      @include adaptiv-value('gap', 24, 14, 0);
+      @include adaptiv-value('padding-bottom', 21, 14, 0);
+   }
+
+   &__title {
+      @include adaptiv-value('font-size', 30, 20, 0);
+      font-weight: 700;
+   }
+
+   &__time {
+      @include adaptiv-value('font-size', 15, 12, 0);
+   }
+
+   &__text {
+      @include adaptiv-value('font-size', 20, 13, 0);
+      font-weight: 400;
+      line-height: normal;
+      @include adaptiv-value('padding-bottom', 20, 15, 0);
+   }
+
+   &__footer {
+      display: flex;
+      justify-content: space-between;
+   }
+
+
+
+   &__comment-link-wrapper {
+      display: flex;
+      gap: 50px;
+   }
+
+   @media (max-width:$tablet) {
+      &__footer {
+         flex-wrap: wrap;
+         gap: 20px;
+      }
+
+      &__comment-link-wrapper {
+         gap: 20px;
+      }
+   }
+
+   &__footer-commeting {
+      @include adaptiv-value('font-size', 15, 13, 0);
+      font-weight: 600;
+      text-decoration-line: underline;
+      position: relative;
+      padding-left: 25px;
+      cursor: pointer;
+   }
+
+   &__footer-commeting::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url('../../img/book/comment.svg') no-repeat center center /cover;
+      width: 16px;
+      height: 16px;
+   }
+
+   &__footer-link {
+      @include adaptiv-value('font-size', 15, 13, 0);
+      font-weight: 600;
+      text-decoration-line: underline;
+      position: relative;
+      color: #FFF;
+      padding-left: 25px;
+      white-space: nowrap;
+   }
+
+   &__footer-link::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url('../../img/book/link.svg') no-repeat center center /cover;
+      width: 14px;
+      height: 14px;
+   }
+
+
+   &__foter-complain {
+      color: #FF9E9E;
+      @include adaptiv-value('font-size', 15, 13, 0);
+      font-weight: 600;
+      text-decoration-line: underline;
+      position: relative;
+      padding-left: 25px;
+      cursor: pointer;
+   }
+
+   &__foter-complain:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url('../../img/book/alert.svg') no-repeat center center /cover;
+      width: 16px;
+      height: 16px;
+   }
+
+}
