@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString } from 'class-validator'
 
-export class CreateBookDto {
+export class CreateAuthorDto {
 	@ApiProperty({ description: 'Full name of Author', type: String })
 	@IsString({ message: 'Full name must be a string' })
 	readonly fullname: string

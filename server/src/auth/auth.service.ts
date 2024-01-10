@@ -1,15 +1,11 @@
-import {
-	BadRequestException,
-	Injectable,
-	NotFoundException
-} from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateUserDto } from 'src/users/dto/create-user.dto'
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/mongoose'
-import { UserDocument } from 'src/schemas/user.schema'
 import { Model } from 'mongoose'
 import { UsersService } from 'src/users/users.service'
+import { UserDocument } from 'src/schemas/user.schema'
 
 @Injectable()
 export class AuthService {
@@ -18,16 +14,15 @@ export class AuthService {
 		private jwtService: JwtService,
 		private usersService: UsersService
 	) {}
-	async signIn(email: string, pass: string): Promise<{ access_token: string }> {
-		const user = await this.userModel.findOne({ email })
 
-		const payload = {
-			id: user._id,
-			username: user.username,
-			email: user.email,
-			role: user.role
+	async signIn(email: string, pass: string): Promise<{ access_token: string }> {
+		const user: UserDocument | null = await this.userModel.findOne({ email })
+
+		if (!user) {
+			throw new NotFoundException()
 		}
 
+		const payload: { [key: string]: any } = this.createJwtPayload(user)
 		return {
 			access_token: await this.jwtService.signAsync(payload)
 		}
@@ -36,35 +31,49 @@ export class AuthService {
 	async signUp(
 		CreateUserDto: CreateUserDto
 	): Promise<{ access_token: string }> {
-		const user = new this.userModel(CreateUserDto)
-		const salt = await bcrypt.genSalt(10)
-		const hashPassword = await bcrypt.hash(user.password, salt)
+		const user: UserDocument = new this.userModel(CreateUserDto)
+		const hashPassword: string = await this.hashPassword(user.password)
 
 		user.password = hashPassword
 		await user.save()
 
-		const payload = {
-			id: user._id,
-			username: user.username,
-			email: user.email,
-			role: user.role
-		}
+		const payload: { [key: string]: any } = this.createJwtPayload(user)
 		return {
 			access_token: await this.jwtService.signAsync(payload)
 		}
 	}
 
-	async validateUser(email: string, pass: string): Promise<any> {
-		const user = await this.usersService.findByEmail(email) // fix here
+	async validateUser(
+		email: string,
+		pass: string
+	): Promise<{ [key: string]: any } | null> {
+		const user: UserDocument | null = await this.usersService.findByEmail(email)
 
-		if (!user) throw new NotFoundException()
+		if (!user) {
+			throw new NotFoundException()
+		}
 
-		const { password } = user
-		const match = await bcrypt.compare(pass, password)
-		if (user && match) {
-			const { password, ...result } = user
+		const { password, ...result } = user
+		const match: boolean = await bcrypt.compare(pass, password)
+
+		if (match) {
 			return result
 		}
+
 		return null
+	}
+
+	private async hashPassword(password: string): Promise<string> {
+		const salt: string = await bcrypt.genSalt(10)
+		return bcrypt.hash(password, salt)
+	}
+
+	private createJwtPayload(user: UserDocument): { [key: string]: any } {
+		return {
+			id: user._id,
+			username: user.username,
+			email: user.email,
+			role: user.role
+		}
 	}
 }

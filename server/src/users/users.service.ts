@@ -1,7 +1,5 @@
 import {
 	BadRequestException,
-	HttpException,
-	HttpStatus,
 	Injectable,
 	NotFoundException
 } from '@nestjs/common'
@@ -11,26 +9,25 @@ import { UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
-import { catchError, firstValueFrom } from 'rxjs'
-import { HttpService } from '@nestjs/axios'
-import { AxiosError } from 'axios'
+import { ImageService } from 'src/utils/imageService.service'
 
 @Injectable()
 export class UsersService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
 		private jwtService: JwtService,
-		private readonly httpService: HttpService
+		private imageService: ImageService
 	) {}
+
 	async findByUsername(username: string): Promise<UserDocument> {
-		const user = this.userModel.findOne({ username })
+		const user = await this.userModel.findOne({ username })
 
 		if (!user) throw new NotFoundException('User not found')
 		return user
 	}
 
 	async findByEmail(email: string): Promise<UserDocument> {
-		const user = this.userModel.findOne({ email })
+		const user = await this.userModel.findOne({ email })
 
 		if (!user) throw new NotFoundException('User not found')
 		return user
@@ -42,38 +39,12 @@ export class UsersService {
 	): Promise<UserDocument> {
 		try {
 			const user = await this.userModel.findById(id)
+
 			if (!user) {
-				throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+				throw new NotFoundException('User not found')
 			}
 
-			if (updateUserDto.username) {
-				user.username = updateUserDto.username
-			}
-
-			if (updateUserDto.email) {
-				user.email = updateUserDto.email
-			}
-
-			if (updateUserDto.password) {
-				const salt = await bcrypt.genSalt(10)
-				const hashPassword = await bcrypt.hash(updateUserDto.password, salt)
-				user.password = hashPassword
-			}
-
-			if (updateUserDto.avatar) {
-				const avatar = updateUserDto.avatar
-				const formData = new FormData()
-				formData.append('image', avatar.buffer.toString('base64'))
-				const uploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.IMG_API_KEY}`
-				const { data: imageData } = await firstValueFrom(
-					this.httpService.post(uploadUrl, formData).pipe(
-						catchError((error: AxiosError) => {
-							throw error
-						})
-					)
-				)
-				user.avatar = imageData.data.url
-			}
+			this.updateUserFields(user, updateUserDto)
 
 			await user.save()
 
@@ -85,7 +56,7 @@ export class UsersService {
 	}
 
 	async remove(id: string): Promise<UserDocument> {
-		const user = this.userModel.findByIdAndDelete(id).exec()
+		const user = await this.userModel.findByIdAndDelete(id).exec()
 
 		if (!user) throw new NotFoundException('User not found')
 		return user
@@ -95,5 +66,18 @@ export class UsersService {
 		return this.jwtService.verify(token, {
 			secret: process.env.SECRET_KEY
 		})
+	}
+
+	private async updateUserFields(user: UserDocument, dto: updateUserDto) {
+		if (dto.username) user.username = dto.username
+		if (dto.email) user.email = dto.email
+		if (dto.password) user.password = await this.hashPassword(dto.password)
+		if (dto.avatar)
+			user.avatar = await this.imageService.uploadImage(dto.avatar)
+	}
+
+	private async hashPassword(password: string): Promise<string> {
+		const salt = await bcrypt.genSalt(10)
+		return bcrypt.hash(password, salt)
 	}
 }

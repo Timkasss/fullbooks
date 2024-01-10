@@ -2,7 +2,6 @@ import {
 	Body,
 	Controller,
 	Delete,
-	Get,
 	HttpCode,
 	HttpStatus,
 	Param,
@@ -12,24 +11,22 @@ import { UsersService } from './users.service'
 import { updateUserDto } from './dto/update-user.dto'
 import {
 	ApiBody,
-	ApiNotFoundResponse,
-	ApiOkResponse,
 	ApiOperation,
 	ApiParam,
 	ApiResponse,
 	ApiTags
 } from '@nestjs/swagger'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
-import { User } from 'src/schemas/user.schema'
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
 	constructor(private readonly usersService: UsersService) {}
+
 	@HttpCode(HttpStatus.OK)
 	@ApiOperation({
 		description: 'Update a user',
-		summary: 'Update user'
+		summary: 'Update user details by ID'
 	})
 	@ApiParam({
 		name: 'id',
@@ -37,7 +34,7 @@ export class UserController {
 		required: true
 	})
 	@ApiBody({
-		description: 'User data',
+		description: 'Updated user data',
 		type: updateUserDto
 	})
 	@ApiResponse({
@@ -45,8 +42,16 @@ export class UserController {
 		description: 'User updated successfully'
 	})
 	@ApiResponse({
-		status: 403,
-		description: 'Forbidden'
+		status: 400,
+		description: 'Bad Request'
+	})
+	@ApiResponse({
+		status: 404,
+		description: 'User not found'
+	})
+	@ApiResponse({
+		status: 500,
+		description: 'Internal Server Error'
 	})
 	@FormDataRequest({ storage: MemoryStoredFile })
 	@Patch(':id')
@@ -56,24 +61,24 @@ export class UserController {
 
 	@ApiOperation({
 		description: 'Delete a user',
-		summary: 'Delete a user from data base'
+		summary: 'Delete a user from the database by ID'
 	})
 	@ApiParam({
 		name: 'id',
 		description: 'User ID',
 		required: true
 	})
-	@ApiBody({
-		description: 'User data',
-		type: updateUserDto
-	})
 	@ApiResponse({
 		status: 200,
 		description: 'User deleted successfully'
 	})
 	@ApiResponse({
-		status: 403,
-		description: 'Forbidden'
+		status: 404,
+		description: 'User not found'
+	})
+	@ApiResponse({
+		status: 500,
+		description: 'Internal Server Error'
 	})
 	@Delete(':id')
 	remove(@Param('id') id: string) {

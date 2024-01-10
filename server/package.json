@@ -39,6 +39,7 @@
 		"mongo-gridfs": "github:khoapmd/mongo-gridfs",
 		"mongoose": "^8.0.1",
 		"nestjs-form-data": "^1.9.5",
+		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",
 		"passport-local": "^1.0.0",
 		"redis": "^4.6.10",

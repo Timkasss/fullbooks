@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { UserController } from './user.controller'
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
 import { HttpModule } from '@nestjs/axios'
+import { ImageService } from 'src/utils/imageService.service'
 
 @Module({
 	imports: [
@@ -12,7 +13,7 @@ import { HttpModule } from '@nestjs/axios'
 		NestjsFormDataModule.config({ storage: MemoryStoredFile }),
 		HttpModule
 	],
-	providers: [UsersService],
+	providers: [UsersService, ImageService],
 	exports: [UsersService],
 	controllers: [UserController]
 })
