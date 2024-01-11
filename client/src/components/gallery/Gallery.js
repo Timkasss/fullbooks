@@ -7,22 +7,22 @@ import photo4 from '../../img/page-person/gallery4.png';
 import photo5 from '../../img/page-person/gallery5.png';
 import photo6 from '../../img/page-person/gallery6.png';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-// import required modules
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
+import { Navigation } from 'swiper/modules';
 
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import 'swiper/element/css/free-mode';
+import 'swiper/element/css/navigation';
+import 'swiper/element/css/thumbs';
 
-
+import { register } from 'swiper/element/bundle';
+// register Swiper custom elements
+register();
 
 
 function Gallery() {
-   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+   const [showGallery, setShowGallery] = useState(false);
+
 
    return (
       <section className="gallery">
@@ -46,14 +46,14 @@ function Gallery() {
             <div className="gallery__image gallery_image_height">
                <img src={photo5} alt="photo" className="gallery__img" />
             </div>
-            <div className="gallery__image">
+            <div className="gallery__image" onClick={() => setShowGallery(!showGallery)}>
                <img src={photo6} alt="photo" className="gallery__img" />
                <div className="gallery__image_hover">
                   <span className="gallery__image_count">+196</span>
                </div>
             </div>
          </div>
-         <div className="swiper-background">
+         {/* <div className="swiper-background">
             <div className="swiper">
                <div className="swiper__big">
                   <div className="swiper__big-photo">
@@ -78,34 +78,30 @@ function Gallery() {
                   </div>
                </div>
             </div>
-         </div>
-         {/* <Swiper
-            loop={true}
-            spaceBetween={10}
-            navigation={true}
-            thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2"
-         >
-            <SwiperSlide><img src={photo1} alt="photo" /></SwiperSlide>
-            <SwiperSlide><img src={photo2} alt="photo" /></SwiperSlide>
-            <SwiperSlide><img src={photo3} alt="photo" /></SwiperSlide>
-         </Swiper>
-         <Swiper
-            onSwiper={setThumbsSwiper}
-            loop={true}
-            spaceBetween={10}
-            slidesPerView={3}
-            freeMode={true}
-            watchSlidesProgress={true}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper"
-         >
-            <SwiperSlide><img src={photo1} alt="photo" /></SwiperSlide>
-            <SwiperSlide><img src={photo2} alt="photo" /></SwiperSlide>
-            <SwiperSlide><img src={photo3} alt="photo" /></SwiperSlide>
-         </Swiper> */}
-      </section>
+         </div> */}
+         {
+            showGallery &&
+            <>
+               <div className="swiper-background" onClick={() => setShowGallery(false)}>
+               </div>
+               <div className="swip">
+                  <swiper-container
+                     navigation="true"
+                     modules={[Navigation]}
+                  >
+                     <swiper-slide><img src={photo1} alt="photo" /></swiper-slide>
+                     <swiper-slide><img src={photo2} alt="photo" /></swiper-slide>
+                     <swiper-slide><img src={photo3} alt="photo" /></swiper-slide>
+                     <swiper-slide><img src={photo4} alt="photo" /></swiper-slide>
+                     <swiper-slide><img src={photo5} alt="photo" /></swiper-slide>
+                     <swiper-slide><img src={photo6} alt="photo" /></swiper-slide>
+                  </swiper-container>
+               </div>
+            </>
+         }
+
+
+      </section >
    )
 }
 
