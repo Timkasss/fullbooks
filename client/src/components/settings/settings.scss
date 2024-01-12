@@ -1,0 +1,273 @@
+@import '../../index.scss';
+
+.settings {
+   border-radius: 10px;
+   background: #191E2E;
+   @include adaptiv-value('padding-left', 50, 15, 0);
+   @include adaptiv-value('padding-right', 50, 15, 0);
+   @include adaptiv-value('padding-top', 30, 15, 0);
+   @include adaptiv-value('padding-bottom', 70, 15, 0);
+   width: 100%;
+
+   &__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @include adaptiv-value('padding-bottom', 30, 15, 0);
+   }
+
+   &__title {
+      @include adaptiv-value('font-size', 30, 20, 0);
+      font-weight: 900;
+   }
+
+   &__button {
+      border-radius: 10px;
+      background: #1E2538;
+      color: #FFF;
+      @include adaptiv-value('font-size', 14, 12, 0);
+      font-weight: 500;
+      position: relative;
+      @include adaptiv-value('padding-top', 20, 13, 0);
+      @include adaptiv-value('padding-bottom', 20, 13, 0);
+      @include adaptiv-value('padding-left', 52, 36, 0);
+      @include adaptiv-value('padding-right', 25, 10, 0);
+   }
+
+   &__button::before {
+      content: '';
+      position: absolute;
+      left: 15%;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url('../../img/personal/save.svg') no-repeat center center / cover;
+      @include adaptiv-value('width', 19, 15, 0);
+      @include adaptiv-value('height', 19, 15, 0);
+   }
+
+   &__content {
+      display: grid;
+      grid-template-areas:
+         'image form'
+         'social form';
+      grid-template-columns: 1fr 1.8fr;
+      @include adaptiv-value('gap', 30, 15, 0);
+   }
+
+   &__image-wrapper {
+      grid-area: image;
+
+   }
+
+   @media (max-width:$tablet) {
+      &__content {
+         grid-template-areas:
+            'image '
+            'form'
+            'social';
+         grid-template-columns: 1fr;
+         justify-items: center;
+      }
+
+      &__image-wrapper {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+      }
+   }
+
+   &__image {
+      @include adaptiv-value('width', 477, 203, 0);
+      @include adaptiv-value('height', 477, 203, 0);
+      object-fit: cover;
+      border-radius: 10px;
+   }
+
+   &__form {
+      display: flex;
+      flex-direction: column;
+      @include adaptiv-value('gap', 20, 10, 0);
+      width: 100%;
+      grid-area: form;
+   }
+
+   &__form-head {
+      display: flex;
+      @include adaptiv-value('gap', 20, 10, 0);
+      width: 100%;
+   }
+
+   &__form-left {
+      display: flex;
+      flex-direction: column;
+      @include adaptiv-value('row-gap', 20, 10, 0);
+      width: 50%;
+   }
+
+   &__form-right {
+      display: flex;
+      flex-direction: column;
+      @include adaptiv-value('row-gap', 20, 10, 0);
+      width: 50%;
+   }
+
+   @media (max-width:$tablet) {
+      &__form-head {
+         flex-direction: column;
+      }
+
+      &__form-left {
+         width: 100%;
+      }
+
+      &__form-right {
+         width: 100%;
+      }
+   }
+
+   &__input {
+      border-radius: 10px;
+      background: #1E2538;
+      @include adaptiv-value('padding-left', 26, 20, 0);
+      @include adaptiv-value('height', 54, 44, 0);
+      color: #FFF;
+   }
+
+   #genre,
+   #sex,
+   #country,
+   #date {
+      color: #FFF;
+   }
+
+   #genre {
+      @include adaptiv-value('min-height', 54, 44, 0);
+   }
+
+   #about {
+      border-radius: 10px;
+      background: #1E2538;
+      resize: none;
+      width: 100%;
+      height: 100%;
+      @include adaptiv-value('padding', 20, 15, 0);
+      color: #FFF;
+   }
+
+   &__social {
+      display: flex;
+      flex-direction: column;
+      @include adaptiv-value('gap', 20, 10, 0);
+      @include adaptiv-value('padding-top', 20, 10, 0);
+      @include adaptiv-value('width', 477, 203, 0);
+      grid-area: social;
+   }
+
+   @media (max-width:$tablet) {
+      &__social {
+         width: 100%;
+      }
+
+      #about {
+         min-height: 267px;
+      }
+   }
+
+   &__social-item {
+      display: flex;
+      align-items: center;
+      height: 54px;
+      border-radius: 10px;
+      background: #1E2538;
+
+   }
+
+   &__social-link {
+      height: 100%;
+      width: 100%;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+      background: #1E2538;
+      color: #FFF;
+      @include adaptiv-value('font-size', 17, 13, 0);
+      font-weight: 500;
+      @include adaptiv-value('padding-left', 20, 8, 0);
+   }
+
+   &__social-icon {
+      flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+
+   &__social-icon_telegram,
+   &__social-icon_youtube,
+   &__social-icon_facebook,
+   &__social-icon_x,
+   &__social-icon_instagram {
+      position: relative;
+   }
+
+   &__social-icon_telegram {
+      border-radius: 10px;
+      background: #1DA1F2;
+   }
+
+   &__social-icon_youtube {
+      border-radius: 10px;
+      background: #F00;
+   }
+
+   &__social-icon_facebook {
+      border-radius: 10px;
+      background: #3B5998;
+   }
+
+   &__social-icon_x {
+      border-radius: 10px;
+      background: #1DA1F2;
+   }
+
+   &__social-icon_instagram {
+      border-radius: 10px;
+      background: linear-gradient(218deg, #532CD7 6.15%, #E32A47 58.57%, #EF7230 93.47%);
+   }
+
+   &__social-icon_telegram::before,
+   &__social-icon_youtube::before,
+   &__social-icon_facebook::before,
+   &__social-icon_x::before,
+   &__social-icon_instagram::before {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 20px;
+
+   }
+
+   &__social-icon_telegram::before {
+      background: url('../../img/personal/telegram.svg') no-repeat center center / contain;
+
+   }
+
+   &__social-icon_youtube::before {
+      background: url('../../img/personal/youtube.svg') no-repeat center center / contain;
+   }
+
+   &__social-icon_facebook::before {
+      background: url('../../img/personal/facebook.svg') no-repeat center center / contain;
+   }
+
+   &__social-icon_x::before {
+      background: url('../../img/personal/x.svg') no-repeat center center / contain;
+   }
+
+   &__social-icon_instagram::before {
+      background: url('../../img/personal/instagram.svg') no-repeat center center / contain;
+   }
+
+
+}

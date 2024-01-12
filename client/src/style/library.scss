@@ -1,0 +1,44 @@
+@import '../index.scss';
+
+.library {
+   position: relative;
+
+   &__title {
+      @include adaptiv-value('font-size', 65, 32, 0);
+      font-weight: 900;
+      line-height: 1.09;
+   }
+
+   &__text {
+      @include adaptiv-value('font-size', 18, 13, 0);
+      font-weight: 500;
+      line-height: 168.7%;
+      max-width: 950px;
+   }
+
+   &__books-wrapper {
+      @include adaptiv-value('padding-top', 40, 20, 0);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 20px;
+      row-gap: 40px;
+   }
+
+   @media (max-width:$tablet) {
+      &__books-wrapper {
+         grid-template-columns: repeat(3, 1fr);
+         column-gap: 10px;
+         row-gap: 20px;
+      }
+   }
+
+   @media (max-width:425px) {
+      &__books-wrapper {
+         grid-template-columns: repeat(2, 1fr);
+         column-gap: 10px;
+         row-gap: 20px;
+      }
+   }
+
+
+}
