@@ -39,7 +39,7 @@ export class BooksController {
 		try {
 			const newBook = await this.booksService.createBook(createBookDto)
 
-			return newBook
+			return res.json(newBook)
 		} catch (error) {
 			console.error(error)
 			if (error.code === 11000) {

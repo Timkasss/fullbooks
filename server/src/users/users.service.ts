@@ -1,7 +1,5 @@
 import {
 	BadRequestException,
-	HttpException,
-	HttpStatus,
 	Injectable,
 	NotFoundException
 } from '@nestjs/common'
@@ -48,6 +46,7 @@ export class UsersService {
 					new: true
 				}
 			)
+
 			return user
 		} catch (error) {
 			console.error(error)

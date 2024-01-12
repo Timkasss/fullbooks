@@ -14,8 +14,8 @@ import { BooksModule } from './books/books.module'
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
 import { HttpService } from '@nestjs/axios'
 import { RbacMiddleware } from './users/rbac.middleware'
-import { AuthorsModule } from './authors/authors.module';
-import { AuthorsAwardsModule } from './authors-awards/authors-awards.module';
+import { AuthorsModule } from './authors/authors.module'
+import { AuthorsAwardsModule } from './authors-awards/authors-awards.module'
 @Module({
 	imports: [
 		ConfigModule.forRoot({ isGlobal: true }),
