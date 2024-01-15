@@ -6,7 +6,8 @@ import {
 	Param,
 	Post,
 	HttpException,
-	HttpStatus
+	HttpStatus,
+	UseGuards
 } from '@nestjs/common'
 import {
 	ApiTags,
@@ -21,8 +22,14 @@ import {
 import { CreateAuthorDto } from './create-author.dto'
 import { AuthorsService } from './authors.service'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
+import { RoleGuard } from 'src/guards/role.guard'
+import { AuthGuard } from 'src/guards/auth.guard'
+import { Role } from 'src/enums/role.enum'
+import { Roles } from 'src/decorators/roles.decorator'
 
 @ApiTags('authors')
+@Roles(Role.USER)
+@UseGuards(AuthGuard, RoleGuard)
 @Controller('authors')
 export class AuthorsController {
 	constructor(private authorsService: AuthorsService) {}
