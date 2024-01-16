@@ -1,38 +1,35 @@
 import { Injectable } from '@nestjs/common'
 import { Role } from 'src/enums/role.enum'
 
-interface IsAuhtorizedParams {
-	currentRole: Role
-	requiredRole: Role
-}
-
 @Injectable()
 export class AccessControlService {
-	private hierarchies: Array<Map<string, number>> = []
+	private roleHierarchy: Map<Role, number> = new Map()
 	private priority: number = 1
 
 	constructor() {
-		this.buildRoles([Role.USER, Role.ADMIN])
+		this.buildRoleHierarchy([Role.USER, Role.ADMIN])
 	}
 
-	private buildRoles(roles: Role[]) {
-		const hierarchy: Map<string, number> = new Map()
+	private buildRoleHierarchy(roles: Role[]) {
 		roles.forEach(role => {
-			hierarchy.set(role, this.priority)
+			this.roleHierarchy.set(role, this.priority)
 			this.priority++
 		})
-		this.hierarchies.push(hierarchy)
 	}
 
-	public isAuthorized({ currentRole, requiredRole }: IsAuhtorizedParams) {
-		for (let hierarchy of this.hierarchies) {
-			const priority = hierarchy.get(currentRole)
-			const requiredPriority = hierarchy.get(requiredRole)
+	public isAuthorized({ currentRole, requiredRole }: IsAuthorizedParams) {
+		const currentPriority = this.roleHierarchy.get(currentRole)
+		const requiredPriority = this.roleHierarchy.get(requiredRole)
 
-			if (priority && requiredPriority && priority >= requiredPriority) {
-				return true
-			}
-		}
-		return false
+		console.log(currentPriority, requiredPriority)
+
+		return (
+			currentPriority && requiredPriority && currentPriority >= requiredPriority
+		)
 	}
+}
+
+interface IsAuthorizedParams {
+	currentRole: Role
+	requiredRole: Role
 }

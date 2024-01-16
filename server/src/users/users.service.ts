@@ -8,7 +8,6 @@ import { Model } from 'mongoose'
 import { UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
-import * as bcrypt from 'bcrypt'
 import { ImageService } from 'src/utils/imageService.service'
 
 @Injectable()
@@ -33,24 +32,28 @@ export class UsersService {
 		return user
 	}
 
-	async update(
-		id: string,
-		updateUserDto: updateUserDto
-	): Promise<UserDocument> {
+	async update(id: string, updateUserDto: updateUserDto): Promise<any> {
 		try {
+			const user = await this.userModel.findById(id)
+			if (!user) {
+				throw new NotFoundException('User not found')
+			}
+
 			const image = await this.imageService.uploadImage(updateUserDto.avatar)
-			const user = await this.userModel.findByIdAndUpdate(
+			const updatedUser = await this.userModel.findByIdAndUpdate(
 				id,
 				{ ...updateUserDto, avatar: image },
-				{
-					new: true
-				}
+				{ new: true }
 			)
 
-			return user
+			if (!updatedUser) {
+				throw new BadRequestException('Update operation not acknowledged')
+			}
+
+			return updatedUser
 		} catch (error) {
 			console.error(error)
-			throw new BadRequestException('Something went wrong')
+			throw error
 		}
 	}
 
@@ -61,16 +64,15 @@ export class UsersService {
 		return user
 	}
 
+	async profile(id: string): Promise<UserDocument> {
+		const user = await this.userModel.findById(id)
+		if (!user) throw new NotFoundException('User not found')
+		return user
+	}
+
 	async validateToken(token: string) {
 		return this.jwtService.verify(token, {
 			secret: process.env.SECRET_KEY
 		})
-	}
-
-	private async updateUserFields(user: UserDocument, dto: updateUserDto) {}
-
-	private async hashPassword(password: string): Promise<string> {
-		const salt = await bcrypt.genSalt(10)
-		return bcrypt.hash(password, salt)
 	}
 }

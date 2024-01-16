@@ -1,11 +1,15 @@
 import {
+	BadRequestException,
 	Body,
 	Controller,
 	Delete,
+	Get,
 	HttpCode,
 	HttpStatus,
+	NotFoundException,
 	Param,
-	Patch
+	Patch,
+	UseGuards
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { updateUserDto } from './dto/update-user.dto'
@@ -17,6 +21,11 @@ import {
 	ApiTags
 } from '@nestjs/swagger'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
+import { Roles } from 'src/decorators/roles.decorator'
+import { Role } from 'src/enums/role.enum'
+import { AuthGuard } from 'src/guards/auth.guard'
+import { RoleGuard } from 'src/guards/role.guard'
+import { OwnerGuard } from 'src/guards/owner.guard'
 
 @ApiTags('users')
 @Controller('users')
@@ -53,10 +62,33 @@ export class UserController {
 		status: 500,
 		description: 'Internal Server Error'
 	})
+	@Roles(Role.ADMIN, Role.USER)
+	@UseGuards(AuthGuard, RoleGuard, OwnerGuard)
 	@FormDataRequest({ storage: MemoryStoredFile })
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateUserDto: updateUserDto) {
-		return this.usersService.update(id, updateUserDto)
+	async update(@Param('id') id: string, @Body() updateUserDto: updateUserDto) {
+		try {
+			const updatedUser = await this.usersService.update(id, updateUserDto)
+			return { success: true, data: updatedUser }
+		} catch (error) {
+			if (error instanceof NotFoundException) {
+				throw new NotFoundException({
+					success: false,
+					message: 'User not found'
+				})
+			} else if (error instanceof BadRequestException) {
+				throw new BadRequestException({
+					success: false,
+					message: 'Bad request'
+				})
+			} else {
+				console.error(error)
+				throw new BadRequestException({
+					success: false,
+					message: 'Something went wrong'
+				})
+			}
+		}
 	}
 
 	@ApiOperation({
@@ -83,5 +115,10 @@ export class UserController {
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.usersService.remove(id)
+	}
+
+	@Get(':id')
+	profile(@Param('id') id: string) {
+		return this.usersService.profile(id)
 	}
 }

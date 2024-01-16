@@ -32,10 +32,10 @@ import { SharedModule } from './shared/shared.module'
 	controllers: [],
 	providers: []
 })
-export class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer
-			.apply(JwtMiddleware)
-			.forRoutes({ path: 'users/:id', method: RequestMethod.ALL }) //('users/:id', 'books/:id')
-	}
+export class AppModule {
+	// configure(consumer: MiddlewareConsumer) {
+	// 	consumer
+	// 		.apply(JwtMiddleware)
+	// 		.forRoutes({ path: 'users/:id', method: RequestMethod.ALL }) //('users/:id', 'books/:id')
+	// }
 }

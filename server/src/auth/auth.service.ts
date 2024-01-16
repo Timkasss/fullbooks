@@ -45,8 +45,6 @@ export class AuthService {
 
 		const payload = {
 			id: user._id,
-			username: user.username,
-			email: user.email,
 			role: user.role
 		}
 		return {
@@ -77,8 +75,6 @@ export class AuthService {
 	private createJwtPayload(user: UserDocument): { [key: string]: any } {
 		return {
 			id: user._id,
-			username: user.username,
-			email: user.email,
 			role: user.role
 		}
 	}

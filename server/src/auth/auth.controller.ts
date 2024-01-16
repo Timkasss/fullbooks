@@ -83,18 +83,18 @@ export class AuthController {
 		}
 	}
 
-	@UseGuards(JwtAuthGuard)
-	@ApiBearerAuth()
-	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
-	@ApiOperation({
-		summary: 'Get User Profile',
-		description: 'Get User Profile (work only via Bearer tokens)'
-	})
-	@ApiOkResponse({
-		description: 'User profile retrieved successfully'
-	})
-	@Get('profile')
-	getProfile(@Request() req): CreateUserDto {
-		return req.user
-	}
+	// 	@UseGuards(JwtAuthGuard)
+	// 	@ApiBearerAuth()
+	// 	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
+	// 	@ApiOperation({
+	// 		summary: 'Get User Profile',
+	// 		description: 'Get User Profile (work only via Bearer tokens)'
+	// 	})
+	// 	@ApiOkResponse({
+	// 		description: 'User profile retrieved successfully'
+	// 	})
+	// 	@Get('profile')
+	// 	getProfile(@Request() req): CreateUserDto {
+	// 		return req.user
+	// 	}
 }
