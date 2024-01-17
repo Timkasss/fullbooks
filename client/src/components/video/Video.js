@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import ReactPlayer from 'react-player';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+
+import 'swiper/scss';
 import './video.scss';
 
 import poster1 from '../../img/video/video1.png';
 import poster2 from '../../img/video/video2.png';
 import poster3 from '../../img/video/video3.png';
 import poster4 from '../../img/video/video4.png';
-import ReactPlayer from 'react-player';
-
 import vid from '../../img/video/video.mp4';
+
+
 
 function Video() {
 
@@ -18,29 +23,50 @@ function Video() {
          img: poster1,
          name: 'Мулан',
          link: vid,
+         like: 0,
+         dislike: 0,
       },
-
       {
          img: poster4,
          name: 'Тихое место 2',
          link: 'https://www.youtube.com/watch?v=reN_okp2Gq4',
+         like: 0,
+         dislike: 0,
       },
       {
          img: poster3,
          name: 'Чёрная Вдова',
          link: 'https://www.youtube.com/watch?v=jG85y1Vf0Ng',
+         like: 0,
+         dislike: 0,
       },
       {
          img: poster1,
          name: 'Мулан',
          link: 'https://www.youtube.com/watch?v=jG85y1Vf0Ng',
+         like: 0,
+         dislike: 0,
       },
       {
          img: poster2,
          name: 'Форсаж 9',
          link: vid,
+         like: 0,
+         dislike: 0,
       },
    ]
+   const [countGrade, setCountGrade] = useState(videos);
+
+   function like() {
+      const newMeant = [...countGrade];
+      newMeant[video].like += 1;
+      setCountGrade(newMeant)
+   }
+   function dislike() {
+      const newMeant = [...countGrade];
+      newMeant[video].dislike += 1;
+      setCountGrade(newMeant)
+   }
 
    return (
       <section className="video">
@@ -70,7 +96,7 @@ function Video() {
                         </div>
                      </div>
                      <div className="video__grade">
-                        <div className="video__grade-like">
+                        <div className="video__grade-like" onClick={like}>
                            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 27 26" fill="none">
                               <g clipPath="url(#clip0_1_1775)">
                                  <path d="M6.23803 12.262H3.18512C2.76363 12.262 2.42188 12.6037 2.42188 13.0252V25.2366C2.42188 25.6581 2.76358 25.9999 3.18512 25.9999H6.23798C6.65946 25.9999 7.00122 25.6582 7.00122 25.2366V13.0252C7.00122 12.6037 6.65956 12.262 6.23803 12.262Z" fill="white" />
@@ -82,9 +108,9 @@ function Video() {
                                  </clipPath>
                               </defs>
                            </svg>
-                           <span className="video__like-count">3 245</span>
+                           <span className="video__like-count">{countGrade[video].like}</span>
                         </div>
-                        <div className="video__grade-dislike">
+                        <div className="video__grade-dislike" onClick={dislike}>
                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="27" viewBox="0 0 26 27" fill="none">
                               <g clipPath="url(#clip0_1_1766)">
                                  <path d="M20.6331 14.6091L23.686 14.6091C24.1075 14.6091 24.4492 14.2674 24.4492 13.8459L24.4492 1.63445C24.4492 1.21296 24.1075 0.871204 23.686 0.871204L20.6331 0.871204C20.2116 0.871204 19.8699 1.21291 19.8699 1.63444L19.8699 13.8459C19.8699 14.2674 20.2115 14.6091 20.6331 14.6091Z" fill="white" />
@@ -96,7 +122,7 @@ function Video() {
                                  </clipPath>
                               </defs>
                            </svg>
-                           <span className="video__dislike-count">420</span>
+                           <span className="video__dislike-count">{countGrade[video].dislike}</span>
                         </div>
                      </div>
                   </footer>
@@ -120,14 +146,41 @@ function Video() {
                </section>
                <div className="video__list-wrapper">
                   <div className="video__list-container">
-                     {
-                        videos.map((item, index) => {
-                           return (
-
-                              <article className="video__item" key={index} >
-                                 <div className="video__item-wrapper" onClick={() => setVideo(index)}>
-                                    <img className="video__small-video" src={item.img} alt="poster" />
-                                    {/* <video className="video__small-video"
+                     <Swiper
+                        modules={[Pagination]}
+                        slidesPerView={4}
+                        slidesPerGroup={1}
+                        pagination={{
+                           type: 'progressbar',
+                           el: '.swiper-pagination',
+                        }}
+                        breakpoints={{
+                           0: {
+                              slidesPerView: 2,
+                              spaceBetween: 10,
+                           },
+                           320: {
+                              slidesPerView: 2,
+                              spaceBetween: 10,
+                           },
+                           425: {
+                              slidesPerView: 3,
+                              spaceBetween: 10,
+                           },
+                           768: {
+                              slidesPerView: 4,
+                              spaceBetween: 20,
+                           },
+                        }}
+                        className='my-swiper-video'>
+                        {
+                           videos.map((item, index) => {
+                              return (
+                                 <SwiperSlide>
+                                    <article className="video__item" key={index} >
+                                       <div className="video__item-wrapper" onClick={() => setVideo(index)}>
+                                          <img className="video__small-video" src={item.img} alt="poster" />
+                                          {/* <video className="video__small-video"
                                        controls
                                        poster={item.img}>
                                        <source
@@ -135,13 +188,15 @@ function Video() {
                                           type="video/mp4"
                                        />
                                     </video> */}
-                                 </div>
-                                 <h2 className="video__item-title">{item.name}</h2>
-                              </article>
-
-                           )
-                        })
-                     }
+                                       </div>
+                                       <h2 className="video__item-title">{item.name}</h2>
+                                    </article>
+                                 </SwiperSlide>
+                              )
+                           })
+                        }
+                        <div className="swiper-pagination"></div>
+                     </Swiper>
                   </div>
                </div>
             </div>

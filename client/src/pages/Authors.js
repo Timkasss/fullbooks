@@ -1,15 +1,11 @@
-
-import Filter from "../components/filter/Filter";
-import Pagination from "../components/pagination/Pagination";
-import Poster from "../components/popular/poster/Poster";
-
-import '../style/authors.scss';
-
 import { useEffect, useState, useMemo, useContext } from "react";
+import { AuthorsContext } from "../components/context";
 
 import BreadCrumbs from "../components/bread-crumbs/BreadCrumbs";
 import Author from "../components/author/Author";
-import { AuthorsContext } from "../components/context";
+import Pagination from "../components/pagination/Pagination";
+
+import '../style/authors.scss';
 
 function Authors() {
    const authors = useContext(AuthorsContext)

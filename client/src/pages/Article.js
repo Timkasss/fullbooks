@@ -1,9 +1,14 @@
-import '../style/article.scss';
-import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
-import image from '../img/article/image.png';
 import ReactPlayer from 'react-player';
+
 import Comment from '../components/comment/Comment';
 import Quote from '../components/quote/Quote';
+import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
+
+import '../style/article.scss';
+
+import image from '../img/article/image.png';
+
+
 
 function Article() {
    return (

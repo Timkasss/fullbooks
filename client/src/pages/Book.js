@@ -1,14 +1,14 @@
 import { BooksContext } from '../components/context';
-import { useContext, useRef, useEffect } from 'react';
-import '../style/book.scss';
+import { useContext } from 'react';
+
 import BookCard from '../components/book-card/BookCard';
-import Poster from '../components/popular/poster/Poster';
-import avatar from '../img/book/avatar-comment.png';
-import { Navigation, Pagination } from 'swiper/modules';
-import { register } from 'swiper/element/bundle';
+import Slider from '../components/slider/Slider';
 import Review from '../components/review/Review';
-// register Swiper custom elements
-register();
+
+import '../style/book.scss';
+
+
+import avatar from '../img/book/avatar-comment.png';
 
 
 function Book() {
@@ -17,48 +17,6 @@ function Book() {
 
    const slides = dataBooks.slice(0, 9);
 
-   const swiperElRef = useRef(null);
-   useEffect(() => {
-      //swiper parameters
-      const swiperParams = {
-         modules: [Navigation, Pagination],
-         injectStyles: [
-            `
-            swiper-container::part(pagination) {
-        bottom:150px;
-             }
-            `,
-         ],
-         slidesPerView: 4,
-         spaceBetween: 20,
-         breakpoints: {
-            25: {
-               slidesPerView: 2,
-               spaceBetween: 10,
-            },
-            425: {
-               slidesPerView: 3,
-               spaceBetween: 15,
-            },
-            768: {
-               slidesPerView: 4,
-               spaceBetween: 20,
-            },
-         },
-         on: {
-            init() {
-               // ...
-            },
-         },
-      };
-
-      // now we need to assign all parameters to Swiper element
-      if (swiperElRef.current !== null) {
-         Object.assign(swiperElRef.current, swiperParams);
-         // and now initialize it
-         swiperElRef.current.initialize();
-      }
-   }, [])
    return (
       <>
          {
@@ -78,28 +36,7 @@ function Book() {
             </section>
             <section className="similer-books">
                <h1 className="similer-books__title section_title">Схожі книги</h1>
-               <swiper-container
-                  ref={swiperElRef}
-                  init="false"
-                  navigation={{
-                     nextEl: '.swipper-button-next',
-                     prevEl: '.swipper-button-prev',
-                  }}
-                  pagination={{
-                     type: 'fraction',
-                     el: '.swiper-pagination',
-                  }}
-               >
-                  <div className="swiper-navigation-wrapper" slot="container-start">
-                     <div className="swipper-button-next"></div>
-                     <div className="swipper-button-prev"></div>
-                  </div>
-                  {
-                     slides.map(book => (
-                        <swiper-slide key={book.id}><Poster books={book} /></swiper-slide>
-                     ))
-                  }
-               </swiper-container>
+               <Slider books={slides} />
             </section>
             <section className="book-reviews">
                <div className="book-reviews__title-wrapper">

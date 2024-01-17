@@ -88,6 +88,13 @@ function App() {
     data()
   }, []);
 
+  // let urls = 'http://localhost:4000/books';
+  // useEffect(() => {
+  //   const dan = fetch(urls).then(response => response.json());
+  //   console.log(dan)
+  // }, [])
+
+
   return (
     <BooksContext.Provider value={{ dataBooks, setDataBooks }}>
       <AuthorsContext.Provider value={authors}>

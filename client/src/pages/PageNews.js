@@ -1,10 +1,13 @@
-import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
-import '../style/pagenews.scss';
-import Pagination from '../components/pagination/Pagination';
+import { useState, useMemo } from "react";
 import { Link } from 'react-router-dom';
+
+import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
+import Pagination from '../components/pagination/Pagination';
+
+import '../style/pagenews.scss';
+
 import article from '../img/news/articleOne.png';
 import article1 from '../img/news/articleTwo.png';
-import { useState, useMemo } from "react";
 
 function PageNews() {
    const articles = ["oen", "two", "three", "oen", "two", "three", "oen", "two", "three", "oen", "two", "three", "oen", "two", "three", "oen", "two", "three", "oen", "two", "three", "oen", "two", "three"]

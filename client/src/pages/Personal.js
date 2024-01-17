@@ -1,11 +1,13 @@
-import '../style/personal.scss';
 import { useRef, useState } from 'react';
+
 import Profile from '../components/profile/Profile';
 import Settings from '../components/settings/Settings';
 import Friends from '../components/friends/Friends';
 import MyReviews from '../components/my-reviews/MyReviews';
 import ListBooks from '../components/list-books/ListBooks';
 import ListPerson from '../components/list-person/ListPerson';
+
+import '../style/personal.scss';
 
 function Personal() {
    const [setting, setSetting] = useState(false);

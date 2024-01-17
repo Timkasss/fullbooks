@@ -1,17 +1,12 @@
-import Email from "../components/email/Email";
+import { useEffect, useState, useMemo, useContext } from "react";
+import { BooksContext } from "../components/context";
+
 import Filter from "../components/filter/Filter";
-import Footer from "../components/footer/Footer";
-import Header from "../components/header/Header";
 import Pagination from "../components/pagination/Pagination";
 import Poster from "../components/popular/poster/Poster";
-
-import '../style/library.scss';
-
-import { useEffect, useState, useMemo, useContext } from "react";
-
-import { BooksContext } from "../components/context";
 import BreadCrumbs from "../components/bread-crumbs/BreadCrumbs";
 
+import '../style/library.scss';
 
 function Library() {
    const { dataBooks, setDataBooks } = useContext(BooksContext)

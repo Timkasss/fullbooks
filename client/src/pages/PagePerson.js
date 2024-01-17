@@ -1,17 +1,19 @@
 import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { AuthorsContext } from '../components/context';
 
-import '../style/pagePerson.scss';
 import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
-import person from '../img/page-person/person.png';
-import award1 from '../img/page-person/award1.png';
-import award2 from '../img/page-person/award2.png';
-import award3 from '../img/page-person/award3.png';
 import BookPerson from '../components/book-person/BookPerson';
 import Gallery from '../components/gallery/Gallery';
 import Comment from '../components/comment/Comment';
 
-import { AuthorsContext } from '../components/context';
-import { useLocation } from 'react-router-dom';
+import '../style/pagePerson.scss';
+
+import person from '../img/page-person/person.png';
+import award1 from '../img/page-person/award1.png';
+import award2 from '../img/page-person/award2.png';
+import award3 from '../img/page-person/award3.png';
+
 function PagePerson() {
    const path = useLocation().pathname;
    const lastMean = path.split('/');
