@@ -13,11 +13,11 @@ export class JwtMiddleware implements NestMiddleware {
 
 	use(req: Request, res: Response, next: NextFunction) {
 		try {
-			const token = req.headers.authorization.trim()
-			if (!token) throw new ForbiddenException()
-			const decoded = this.jwtService.verify(token.split(' ')[1])
+			// const token = req.headers.authorization.trim()
+			// if (!token) throw new ForbiddenException()
+			// const decoded = this.jwtService.verify(token.split(' ')[1])
 
-			if (decoded.id !== req.params.id) throw new ForbiddenException()
+			// if (decoded.id !== req.params.id) throw new ForbiddenException()
 			next()
 		} catch (error) {
 			if (error) throw new ForbiddenException()

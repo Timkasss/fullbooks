@@ -3,7 +3,9 @@ import {
 	Controller,
 	Get,
 	HttpCode,
+	HttpException,
 	HttpStatus,
+	NotFoundException,
 	Post,
 	Request,
 	Res,
@@ -14,12 +16,15 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto'
 import { AuthService } from './auth.service'
 import {
 	ApiBadRequestResponse,
+	ApiBearerAuth,
+	ApiCreatedResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
-	ApiTags
+	ApiOperation,
+	ApiTags,
+	ApiUnauthorizedResponse
 } from '@nestjs/swagger'
 import { LoginUserDto } from 'src/users/dto/loginin-user.dto'
-import { AuthGuard } from '@nestjs/passport'
 import { LocalAuthGuard } from './local-auth.guard'
 import { JwtAuthGuard } from './jwt-auth.guard'
 
@@ -29,12 +34,14 @@ export class AuthController {
 	constructor(private authService: AuthService) {}
 
 	@HttpCode(HttpStatus.OK)
+	@ApiOperation({ summary: 'Sign In' })
 	@ApiOkResponse({
-		description: 'Found Succesfully'
+		description: 'User found successfully'
 	})
 	@ApiNotFoundResponse({ description: 'User not found' })
+	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 	@ApiBadRequestResponse({ description: 'Bad Request' })
-	@UseGuards(LocalAuthGuard)
+	@ApiBearerAuth()
 	@Post('signin')
 	async signIn(@Body() signInDto: LoginUserDto, @Res() res: Response) {
 		try {
@@ -43,39 +50,51 @@ export class AuthController {
 				signInDto.password
 			)
 
-			return res.status(HttpStatus.OK).json(user)
+			return res.json(user)
 		} catch (error) {
 			console.error(error)
-
-			return res.status(error.status).json({
-				statusCode: error.status,
-				message: error.response.message
-			})
+			throw new NotFoundException('User not found')
 		}
 	}
 
-	@HttpCode(HttpStatus.OK)
-	@ApiOkResponse({ description: 'Created Succesfully' })
+	@HttpCode(HttpStatus.CREATED)
+	@ApiOperation({ summary: 'Sign Up' })
+	@ApiCreatedResponse({
+		description: 'User created successfully'
+	})
 	@ApiBadRequestResponse({ description: 'Bad Request' })
+	@ApiBearerAuth()
 	@Post('signup')
 	async signUp(@Body() signUpDto: CreateUserDto, @Res() res: Response) {
 		try {
 			const newUser = await this.authService.signUp(signUpDto)
 
-			return res.status(HttpStatus.CREATED).json(newUser)
+			return res.json(newUser)
 		} catch (error) {
 			console.error(error)
-			return res.status(HttpStatus.BAD_REQUEST).json({
-				statusCode: HttpStatus.BAD_REQUEST,
-				message: 'Bad Request'
-			})
+			if (error.code === 11000) {
+				throw new HttpException('User already exists', HttpStatus.CONFLICT)
+			} else {
+				throw new HttpException(
+					'Failed to create user',
+					HttpStatus.INTERNAL_SERVER_ERROR
+				)
+			}
 		}
 	}
 
-	@UseGuards(JwtAuthGuard)
-	@Get('profile')
-	getProfile(@Request() req) {
-		// test
-		return req.user
-	}
+	// 	@UseGuards(JwtAuthGuard)
+	// 	@ApiBearerAuth()
+	// 	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
+	// 	@ApiOperation({
+	// 		summary: 'Get User Profile',
+	// 		description: 'Get User Profile (work only via Bearer tokens)'
+	// 	})
+	// 	@ApiOkResponse({
+	// 		description: 'User profile retrieved successfully'
+	// 	})
+	// 	@Get('profile')
+	// 	getProfile(@Request() req): CreateUserDto {
+	// 		return req.user
+	// 	}
 }

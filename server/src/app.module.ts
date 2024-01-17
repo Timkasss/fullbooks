@@ -6,15 +6,14 @@ import {
 } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { ConfigModule } from '@nestjs/config'
-import { UserSchema } from './schemas/user.schema'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
 import { JwtMiddleware } from './users/permission.middleware'
 import { BooksModule } from './books/books.module'
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
-import { HttpService } from '@nestjs/axios'
-import { RbacMiddleware } from './users/rbac.middleware'
-import { AuthorsModule } from './authors/authors.module';
+import { AuthorsModule } from './authors/authors.module'
+import { AuthorsAwardsModule } from './authors-awards/authors-awards.module'
+import { SharedModule } from './shared/shared.module'
 @Module({
 	imports: [
 		ConfigModule.forRoot({ isGlobal: true }),
@@ -26,19 +25,17 @@ import { AuthorsModule } from './authors/authors.module';
 		UsersModule,
 		AuthModule,
 		BooksModule,
-		AuthorsModule
+		AuthorsModule,
+		AuthorsAwardsModule,
+		SharedModule
 	],
 	controllers: [],
 	providers: []
 })
-export class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer
-			.apply(JwtMiddleware)
-			.forRoutes({ path: 'users/:id', method: RequestMethod.ALL }) //('users/:id', 'books/:id')
-
-		consumer
-			.apply(RbacMiddleware)
-			.forRoutes({ path: 'books/:id', method: RequestMethod.DELETE })
-	}
+export class AppModule {
+	// configure(consumer: MiddlewareConsumer) {
+	// 	consumer
+	// 		.apply(JwtMiddleware)
+	// 		.forRoutes({ path: 'users/:id', method: RequestMethod.ALL }) //('users/:id', 'books/:id')
+	// }
 }

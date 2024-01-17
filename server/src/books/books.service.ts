@@ -1,30 +1,24 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateBookDto } from './dto/create-book.dto'
-import { Book, BookDocument } from 'src/schemas/book.schema'
+import { BookDocument } from 'src/schemas/book.schema'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { Model } from 'mongoose'
-import { firstValueFrom } from 'rxjs'
-import { HttpService } from '@nestjs/axios'
+import { ImageService } from 'src/utils/imageService.service'
 
 @Injectable()
 export class BooksService {
 	constructor(
 		@InjectModel('Books') private bookModel: Model<BookDocument>,
-		private httpService: HttpService
+		private imageService: ImageService
 	) {}
 
 	async createBook(CreateBookDto: CreateBookDto): Promise<BookDocument> {
 		const book = new this.bookModel(CreateBookDto)
 
-		const image = CreateBookDto.image
-		const formData = new FormData()
-		formData.append('image', image.buffer.toString('base64')) // put it into utils
-		const uploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.IMG_API_KEY}`
-		const { data: imageData } = await firstValueFrom(
-			this.httpService.post(uploadUrl, formData)
-		)
-		book.image = imageData.data.url
+		// Upload image
+		const imageUrl = await this.imageService.uploadImage(CreateBookDto.image)
+		book.image = imageUrl
 
 		return await book.save()
 	}
@@ -34,7 +28,11 @@ export class BooksService {
 	}
 
 	async getBook(id: string): Promise<BookDocument> {
-		return await this.bookModel.findById(id)
+		const book = await this.bookModel.findById(id)
+
+		if (!book) throw new NotFoundException('Book not found')
+
+		return book
 	}
 
 	async deleteBook(id: string): Promise<BookDocument> {

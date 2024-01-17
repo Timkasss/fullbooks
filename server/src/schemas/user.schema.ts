@@ -19,8 +19,8 @@ export class User {
 	@Prop({ type: String })
 	avatar: string
 
-	@Prop({ default: 'User' })
-	role: [string]
+	@Prop({ default: 'USER' })
+	role: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

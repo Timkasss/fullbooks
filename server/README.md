@@ -1,8 +1,10 @@
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Back end for our full stack project about books
 
 ## Installation
+
+First of all you need to remove yarn.lock from server folder, then execute this bash script:
 
 ```bash
 $ yarn install
@@ -23,6 +25,9 @@ $ yarn run start:prod
 
 ## Test
 
+tests havent written yet
+
+<!--
 ```bash
 # unit tests
 $ yarn run test
@@ -32,7 +37,7 @@ $ yarn run test:e2e
 
 # test coverage
 $ yarn run test:cov
-```
+``` -->
 
 ## License
 

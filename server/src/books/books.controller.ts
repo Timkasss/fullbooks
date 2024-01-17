@@ -3,12 +3,21 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpException,
 	HttpStatus,
 	Param,
 	Post,
 	Res
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import {
+	ApiTags,
+	ApiCreatedResponse,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiNotFoundResponse,
+	ApiParam,
+	ApiOperation
+} from '@nestjs/swagger'
 import { CreateBookDto } from './dto/create-book.dto'
 import { Response } from 'express'
 import { BooksService } from './books.service'
@@ -21,34 +30,63 @@ export class BooksController {
 
 	@FormDataRequest({ storage: MemoryStoredFile })
 	@Post()
+	@ApiOperation({ summary: 'Create Book' })
+	@ApiCreatedResponse({
+		description: 'Book created successfully'
+	})
+	@ApiBadRequestResponse({ description: 'Bad Request' })
 	async createBook(@Body() createBookDto: CreateBookDto, @Res() res: Response) {
 		try {
 			const newBook = await this.booksService.createBook(createBookDto)
 
-			return res.status(HttpStatus.CREATED).json(newBook)
+			return res.json(newBook)
 		} catch (error) {
 			console.error(error)
-			return res.status(HttpStatus.BAD_REQUEST).json({
-				statusCode: HttpStatus.BAD_REQUEST,
-				message: 'Bad Request'
-			})
+			if (error.code === 11000) {
+				throw new HttpException('Book already exists', HttpStatus.CONFLICT)
+			} else {
+				throw new HttpException(
+					'Failed to create book',
+					HttpStatus.INTERNAL_SERVER_ERROR
+				)
+			}
 		}
 	}
 
+	@ApiOkResponse({
+		description: 'List of books retrieved successfully'
+	})
+	@ApiOperation({ summary: 'Get all Books' })
 	@Get()
 	async getBooks() {
 		return await this.booksService.getBooks()
 	}
 
+	@ApiOkResponse({
+		description: 'Book retrieved successfully'
+	})
+	@ApiNotFoundResponse({ description: 'Book not found' })
+	@ApiOperation({ summary: 'Get Book by id' })
+	@ApiParam({ name: 'id', description: 'Book ID', required: true })
 	@Get(':id')
-	async getBook(@Res() res: Response, @Param('id') id: string) {
+	async getBook(@Param('id') id: string) {
 		const book = await this.booksService.getBook(id)
-		return res.status(HttpStatus.OK).json(book)
+		return book
 	}
 
+	@ApiOkResponse({
+		description: 'Book deleted successfully'
+	})
+	@ApiNotFoundResponse({ description: 'Book not found' })
+	@ApiBadRequestResponse({ description: 'Bad Request' })
+	@ApiOperation({ summary: 'Delete Book by id' })
+	@ApiParam({ name: 'id', description: 'Book ID', required: true })
 	@Delete(':id')
-	async deleteBook(@Res() res: Response, @Param('id') id: string) {
+	async deleteBook(@Param('id') id: string) {
 		const book = await this.booksService.deleteBook(id)
-		return res.status(HttpStatus.OK).json(book)
+
+		if (!book) throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
+
+		return book
 	}
 }
