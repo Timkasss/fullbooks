@@ -45,10 +45,7 @@ export class AuthorsController {
 			if (error.code === 11000) {
 				throw new HttpException('Author already exists', HttpStatus.CONFLICT)
 			} else {
-				throw new HttpException(
-					'Failed to create author',
-					HttpStatus.INTERNAL_SERVER_ERROR
-				)
+				throw error
 			}
 		}
 	}

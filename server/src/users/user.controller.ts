@@ -9,6 +9,7 @@ import {
 	NotFoundException,
 	Param,
 	Patch,
+	Req,
 	UseGuards
 } from '@nestjs/common'
 import { UsersService } from './users.service'
@@ -26,6 +27,7 @@ import { Role } from 'src/enums/role.enum'
 import { AuthGuard } from 'src/guards/auth.guard'
 import { RoleGuard } from 'src/guards/role.guard'
 import { OwnerGuard } from 'src/guards/owner.guard'
+import { Request } from 'express'
 
 @ApiTags('users')
 @Controller('users')
@@ -117,8 +119,8 @@ export class UserController {
 		return this.usersService.remove(id)
 	}
 
-	@Get(':id')
-	profile(@Param('id') id: string) {
-		return this.usersService.profile(id)
+	@Get('profile')
+	profile(@Req() req: Request) {
+		return this.usersService.profile(req)
 	}
 }
