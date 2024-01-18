@@ -22,14 +22,8 @@ import {
 import { CreateAuthorDto } from './create-author.dto'
 import { AuthorsService } from './authors.service'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
-import { RoleGuard } from 'src/guards/role.guard'
-import { AuthGuard } from 'src/guards/auth.guard'
-import { Role } from 'src/enums/role.enum'
-import { Roles } from 'src/decorators/roles.decorator'
 
 @ApiTags('authors')
-@Roles(Role.ADMIN)
-@UseGuards(AuthGuard, RoleGuard)
 @Controller('authors')
 export class AuthorsController {
 	constructor(private authorsService: AuthorsService) {}
@@ -58,6 +52,7 @@ export class AuthorsController {
 			}
 		}
 	}
+
 	@ApiOperation({ summary: 'Get all Authors' })
 	@ApiOkResponse({
 		description: 'List of authors retrieved successfully'
