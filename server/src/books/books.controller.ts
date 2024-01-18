@@ -6,6 +6,7 @@ import {
 	HttpException,
 	HttpStatus,
 	Param,
+	Patch,
 	Post,
 	Res
 } from '@nestjs/common'
@@ -22,6 +23,7 @@ import { CreateBookDto } from './dto/create-book.dto'
 import { Response } from 'express'
 import { BooksService } from './books.service'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
+import { UpdateBookDto } from './dto/update-book.dto'
 
 @ApiTags('books')
 @Controller('books')
@@ -87,6 +89,23 @@ export class BooksController {
 
 		if (!book) throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
 
+		return book
+	}
+
+	@ApiOkResponse({
+		description: 'Book updated successfully'
+	})
+	@ApiNotFoundResponse({ description: 'Book not found' })
+	@ApiBadRequestResponse({ description: 'Bad Request' })
+	@ApiOperation({ summary: 'Update Book by id' })
+	@ApiParam({ name: 'id', description: 'Book ID', required: true })
+	@FormDataRequest({ storage: MemoryStoredFile })
+	@Patch(':id')
+	async updateBook(
+		@Param('id') id: string,
+		@Body() updateBookDto: UpdateBookDto
+	) {
+		const book = await this.booksService.updateBook(id, updateBookDto)
 		return book
 	}
 }

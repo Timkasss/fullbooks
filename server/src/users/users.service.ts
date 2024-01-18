@@ -9,6 +9,7 @@ import { UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from 'src/utils/imageService.service'
+import { Request } from 'express'
 
 @Injectable()
 export class UsersService {
@@ -64,10 +65,29 @@ export class UsersService {
 		return user
 	}
 
-	async profile(id: string): Promise<UserDocument> {
-		const user = await this.userModel.findById(id)
-		if (!user) throw new NotFoundException('User not found')
-		return user
+	async profile(req: Request): Promise<UserDocument> {
+		try {
+			const token = req.headers.authorization.split(' ')[1]
+			const decodedToken = await this.jwtService.verify(token, {
+				secret: process.env.SECRET_KEY
+			})
+
+			if (typeof decodedToken !== 'object' || !('id' in decodedToken)) {
+				throw new BadRequestException('Invalid token format')
+			}
+
+			const userId = decodedToken.id
+			const user = await this.userModel.findById(userId)
+
+			if (!user) {
+				throw new NotFoundException('User not found')
+			}
+
+			return user
+		} catch (error) {
+			console.error(error)
+			throw error
+		}
 	}
 
 	async validateToken(token: string) {
