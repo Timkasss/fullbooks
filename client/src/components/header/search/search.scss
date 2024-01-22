@@ -32,12 +32,13 @@
    }
 
    &__form {
+      padding-top: 100px;
       max-width: 815px;
       width: 100%;
       position: fixed;
       z-index: 10;
       left: 50%;
-      transform: translate(-50%, 20%);
+      transform: translateX(-50%);
       animation: open-model 0.5s;
    }
 
@@ -73,7 +74,7 @@
    &__form::before {
       content: '';
       position: absolute;
-      top: -100px;
+      top: 0px;
       left: 50%;
       transform: translateX(-50%);
       background-image: url('../../../img/header/header_logo.png');
@@ -158,10 +159,6 @@
       cursor: pointer;
    }
 
-   &__films {}
-
-   &__actors {}
-
    &__title {
       font-size: 22px;
       font-weight: 600;
@@ -199,6 +196,7 @@
       @include adaptiv-value('font-size', 20, 15, 0);
       font-weight: 700;
       line-height: normal;
+      color: #FFF;
    }
 
    &__unname {

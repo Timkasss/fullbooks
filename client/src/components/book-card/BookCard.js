@@ -3,22 +3,21 @@ import BreadCrumbs from '../bread-crumbs/BreadCrumbs';
 import { useParams } from 'react-router-dom';
 
 function BookCard({ databook }) {
-   const { userId } = useParams();
+   const { bookId } = useParams();
 
-   const book = databook.find(item => item.id === userId)
-
-   const name = book.volumeInfo.title;
-   const surName = book.volumeInfo.subtitle;
-   const rating = book.volumeInfo.averageRating;
-   const description = book.volumeInfo.description;
-   const image = book.volumeInfo.imageLinks.thumbnail;
-   const year = book.volumeInfo.publishedDate;
-   const country = book.saleInfo.country;
-   const genre = book.volumeInfo.categories[0];
+   const book = databook.find(item => item._id === bookId)
+   const name = book.title;
+   const surName = book.subTitle;
+   const rating = book.rating;
+   const description = book.description;
+   const image = book.image;
+   const year = book.publishedDate;
+   const country = 'Ukraine';
+   const genre = book.genre;
    const seria = "";
-   const publishing = book.volumeInfo.publisher;
-   const language = book.volumeInfo.language;
-   const pageCount = book.volumeInfo.pageCount;
+   const publishing = book.publisher;
+   const language = book.language;
+   const pageCount = book.pages;
    const format = 'pdf';
 
 
@@ -74,33 +73,45 @@ function BookCard({ databook }) {
                   </div>
                </div>
                <table id="table">
-                  <tbody>
+                  {/* <tbody className='table-adapt'> */}
+                  <tbody className="table-adapt-one">
                      <tr>
-                        <th>Рік </th>
+                        <th>Рік</th>
                         <td>{year}</td>
+                     </tr>
+                     <tr>
                         <th>Країна</th>
                         <td>{country}</td>
                      </tr>
                      <tr>
-                        <th>Жанр</th>
-                        <td>{genre}</td>
-                        <th>Серія</th>
-                        <td>{seria}</td>
-                     </tr>
-                     <tr>
-                        <th>Видавництво</th>
-                        <td>{publishing}</td>
                         <th>Мова</th>
                         <td>{language}</td>
                      </tr>
                      <tr>
-                        <th>Кількість сторінок</th>
-                        <td>{pageCount}</td>
-                        <th>Формат</th>
-                        <td>{format}</td>
+                        <th>Жанр</th>
+                        <td>{genre}</td>
                      </tr>
 
                   </tbody>
+                  <tbody className="table-adapt-two">
+                     <tr>
+                        <th>Видавництво</th>
+                        <td>{publishing}</td>
+                     </tr>
+                     <tr>
+                        <th>Серія</th>
+                        <td>{seria}</td>
+                     </tr>
+                     <tr>
+                        <th>Кількість сторінок</th>
+                        <td>{pageCount}</td>
+                     </tr>
+                     <tr>
+                        <th>Формат</th>
+                        <td>{format}</td>
+                     </tr>
+                  </tbody>
+
                </table>
             </div>
          </section>

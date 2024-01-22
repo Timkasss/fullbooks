@@ -82,9 +82,8 @@
    &__header-title {
       @include adaptiv-value('font-size', 65, 25, 0);
       font-weight: 900;
-      white-space: nowrap;
       padding-bottom: 15px;
-      word-wrap: break-word;
+      @include adaptiv-value('min-width', 650, 250, 0);
    }
 
    &__header-subtitle {
@@ -95,18 +94,9 @@
    &__social {
       display: flex;
       position: absolute;
-      left: 50%;
-      bottom: 10%;
+      left: 0;
+      bottom: -10%;
    }
-
-   @media (max-width:1500px) {
-
-      &__social {
-         bottom: 0%;
-      }
-   }
-
-   @media (max-width:1000px) {}
 
    @media (max-width:$tablet) {
       &__header-wrapper {
@@ -114,8 +104,8 @@
       }
 
       &__social {
-         left: 60%;
-         bottom: 20%;
+         left: 50%;
+         bottom: -50%;
       }
    }
 

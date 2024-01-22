@@ -43,8 +43,8 @@ function Slider({ books }) {
          className='my-swiper'
       >
          {
-            books.map(book => (
-               <SwiperSlide key={book.id} ><Poster books={book} /></SwiperSlide>
+            books.map((book, index) => (
+               <SwiperSlide key={index} ><Poster books={book} index={book._id} /></SwiperSlide>
             ))
          }
          <div className="swiper-button-prev"></div>

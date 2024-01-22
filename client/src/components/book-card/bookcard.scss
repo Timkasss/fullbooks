@@ -48,6 +48,7 @@
    }
 
    &__wrapper-img {
+      margin: 0 auto;
       @include adaptiv-value('width', 395, 225, 0);
       @include adaptiv-value('height', 539, 300, 0);
    }
@@ -56,7 +57,7 @@
       max-width: 100%;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: fill;
       border-radius: 10px;
    }
 
@@ -218,8 +219,8 @@
    &__like,
    &__dislike,
    &__favorites {
-      height: 59px;
-      width: 59px;
+      @include adaptiv-value('width', 59, 39, 0);
+      @include adaptiv-value('height', 59, 39, 0);
       border-radius: 10px;
       background: #1B2133;
       position: relative;
@@ -232,6 +233,10 @@
       background: #54618a;
    }
 
+   &__favorites-text {
+      font-size: 14px;
+   }
+
    &__like::before {
       content: '';
       position: absolute;
@@ -239,8 +244,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: url('../../img/book-card/like.svg') no-repeat center center /cover;
-      width: 26px;
-      height: 26px;
+      @include adaptiv-value('width', 26, 18, 0);
+      @include adaptiv-value('height', 26, 18, 0);
    }
 
    &__dislike::before {
@@ -250,8 +255,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: url('../../img/book-card/dislike.svg') no-repeat center center /cover;
-      width: 26px;
-      height: 26px;
+      @include adaptiv-value('width', 26, 18, 0);
+      @include adaptiv-value('height', 26, 18, 0);
    }
 
    &__favorites-wrapper {
@@ -267,12 +272,15 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: url('../../img/book-card/heart.svg') no-repeat center center /cover;
-      width: 24px;
-      height: 24px;
+      @include adaptiv-value('width', 24, 18, 0);
+      @include adaptiv-value('height', 24, 18, 0);
    }
 
    #table {
       margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      @include adaptiv-value('gap', 40, 20, 0);
 
       th {
          text-align: left;
@@ -290,7 +298,13 @@
          font-weight: 400;
          text-decoration-line: underline;
          padding-bottom: 20px;
-         @include adaptiv-value('padding-right', 40, 20, 0);
+
+      }
+   }
+
+   @media (max-width:$tablet) {
+      #table {
+         flex-direction: column;
       }
    }
 }

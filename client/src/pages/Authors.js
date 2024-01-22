@@ -8,37 +8,15 @@ import Pagination from "../components/pagination/Pagination";
 import '../style/authors.scss';
 
 function Authors() {
-   const authors = useContext(AuthorsContext)
-   // const authors = [
-   //    { id: 0, name: 'Іван Олексійович Бунін' },
-   //    { id: 1, name: 'Іван Олексійович Бунін' },
-   //    { id: 2, name: 'Борис Леонідович Пастернак' },
-   //    { id: 3, name: 'Михайло Афанасійович Булгаков' },
-   //    { id: 4, name: 'Олександр Ісаєвич Солженіцін' },
-   //    { id: 5, name: 'Іван Олександрович Бунін' },
-   //    { id: 6, name: 'Олексій Максимович Пешков (Максим Горький)' },
-   //    { id: 7, name: 'Микола Васильович Гоголь' },
-   //    { id: 8, name: 'Федір Михайлович Достоєвський' },
-   //    { id: 9, name: 'Лев Миколайович Толстой' },
-   //    { id: 10, name: 'Антон Павлович Чехов' },
-   //    { id: 11, name: 'Іван Олексійович Бунін' },
-   //    { id: 12, name: 'Борис Леонідович Пастернак' },
-   //    { id: 13, name: 'Михайло Афанасійович Булгаков' },
-   //    { id: 14, name: 'Олександр Ісаєвич Солженіцін' },
-   //    { id: 15, name: 'Іван Олександрович Бунін' },
-   //    { id: 16, name: 'Олексій Максимович Пешков (Максим Горький)' },
-   //    { id: 17, name: 'Микола Васильович Гоголь' },
-   //    { id: 18, name: 'Федір Михайлович Достоєвський' },
-   //    { id: 19, name: 'Лев Миколайович Толстой' },
-   //    { id: 20, name: 'Антон Павлович Чехов' }
-   // ];
+   const { dataAuthors } = useContext(AuthorsContext)
+
    let PageSize = 12;
    const [currentPage, setCurrentPage] = useState(1);
    const currentTableData = useMemo(() => {
       const firstPageIndex = (currentPage - 1) * PageSize;
       const lastPageIndex = firstPageIndex + PageSize;
-      return authors.slice(firstPageIndex, lastPageIndex);
-   }, [currentPage, authors]);
+      return dataAuthors.slice(firstPageIndex, lastPageIndex);
+   }, [currentPage, dataAuthors]);
    useEffect(() => {
       window.scrollTo({
          top: 0,
@@ -53,15 +31,15 @@ function Authors() {
             </header>
             <div className="authors__books-wrapper">
                {
-                  currentTableData.map((item) => (
-                     <Author authors={item} key={item.id} index={item.id} />
+                  currentTableData.map((item, index) => (
+                     <Author key={index} authors={item} index={item._id} />
                   ))
                }
 
             </div>
             <Pagination
                currentPage={currentPage}
-               totalCount={authors.length}
+               totalCount={dataAuthors.length}
                pageSize={PageSize}
                onPageChange={page => setCurrentPage(page)}
             />

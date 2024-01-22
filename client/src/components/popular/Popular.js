@@ -8,7 +8,16 @@ function Popular() {
    const [pick, setPick] = useState(0);
    const { dataBooks, setDataBooks } = useContext(BooksContext);
    const books = dataBooks.slice(0, 9);
-   let nameFilter = ['Все', 'Боевики', 'Приключения', 'Комедии', 'Фантастика', 'Триллеры', 'Драма'];
+   // let sortGenre = () => {
+   //    let result = ['Все']
+   //    for (let str of dataBooks) {
+   //       if (!result.includes(str.genre)) {
+   //          result.push(str.genre)
+   //       }
+   //    }
+   //    return result;
+   // }
+   const genre = ['Все', 'Художня', 'Наукова', 'Історична', 'Документальна'];
    return (
       <section className="popular">
          <div className="popualar__container">
@@ -20,7 +29,7 @@ function Popular() {
                      <nav className="popular__filter">
                         <ul className="popular__filter-list">
                            {
-                              nameFilter.map((item, index) => {
+                              genre.map((item, index) => {
                                  return (
                                     <li className="polupar__filter-item" key={index}>
                                        <a className={`popular__filter-link section_filter ${pick === index ? 'popular__filter_pick' : ''}`} onClick={() => setPick(index)}>{item}</a>
@@ -38,8 +47,8 @@ function Popular() {
             </div>
             <div className="popular__films-container">
                {
-                  books.map((book) => (
-                     <Poster books={book} key={book.id} index={book.id} />
+                  books.map((book, index) => (
+                     <Poster key={index} books={book} index={book._id} />
                   ))
                }
             </div>

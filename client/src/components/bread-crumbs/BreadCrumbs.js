@@ -1,17 +1,19 @@
 import './breadCrumbs.scss';
 import { useLocation, Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { BooksContext } from '../context';
-function BreadCrumbs({ author }) {
+import { AuthorsContext, BooksContext } from '../context';
+function BreadCrumbs() {
 
    const { dataBooks } = useContext(BooksContext);
+   const { dataAuthors } = useContext(AuthorsContext);
 
    const path = useLocation().pathname;
    const lastMean = path.split('/');
-   const lastValue = parseInt(lastMean[lastMean.length - 1]);
+   const lastValue = lastMean[lastMean.length - 1];
 
-   const name = dataBooks.find(item => item.id === lastValue);
-   const authorItem = author?.find(item => item.id === lastValue);
+   const book = dataBooks.find(item => item._id === lastValue);
+
+   const author = dataAuthors.find(item => item._id === lastValue);
 
    function breadCrumbs() {
       if (path === '/library') {
@@ -43,7 +45,7 @@ function BreadCrumbs({ author }) {
             </ol>
          )
       }
-      else if (lastValue === name?.id) {
+      else if (book) {
          return (
             <ol className="bread-crumbs__list">
                <li className="bread-crumbs__item">
@@ -51,11 +53,11 @@ function BreadCrumbs({ author }) {
                <li className="bread-crumbs__item">
                   <Link to={'/library'} className="bread-crumbs__link">Бібліотека</Link></li>
                <li className="bread-crumbs__item">
-                  <a className="bread-crumbs__link">{name.volumeInfo.title}</a></li>
+                  <a className="bread-crumbs__link">{book.title}</a></li>
             </ol>
          )
       }
-      else if (lastValue === authorItem?.id) {
+      else if (author) {
          return (
             <ol className="bread-crumbs__list">
                <li className="bread-crumbs__item">
@@ -63,7 +65,7 @@ function BreadCrumbs({ author }) {
                <li className="bread-crumbs__item">
                   <Link to={'/library'} className="bread-crumbs__link">Бібліотека</Link></li>
                <li className="bread-crumbs__item">
-                  <a className="bread-crumbs__link">{authorItem.name}</a></li>
+                  <a className="bread-crumbs__link">{author.fullname}</a></li>
             </ol>
          )
       }

@@ -5,10 +5,9 @@ import './poster.scss';
 function Poster({ books, index }) {
    const [hover, setHover] = useState(false)
 
-   let poster = books.volumeInfo.imageLinks.thumbnail;
-   let categories = books.volumeInfo.categories;
-   let name = books.volumeInfo.title;
-
+   let poster = books.image;
+   let categories = books.genre;
+   let name = books.title;
    return (
       <article className="film-poster">
          <h1 className="film-poster__name">{name}</h1>

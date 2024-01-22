@@ -19,40 +19,22 @@ import Feedback from './pages/Feedback.js';
 import Error from './pages/Error.js';
 import Authors from './pages/Authors.js';
 
+//import { author } from './dataSever.js';
 
 function App() {
   let path = useLocation()
   let finishPath = path.pathname;
-  const authors = [
-    { id: 0, name: 'Іван Олексійович Бунін' },
-    { id: 1, name: 'Іван Олексійович Бунін' },
-    { id: 2, name: 'Борис Леонідович Пастернак' },
-    { id: 3, name: 'Михайло Афанасійович Булгаков' },
-    { id: 4, name: 'Олександр Ісаєвич Солженіцін' },
-    { id: 5, name: 'Іван Олександрович Бунін' },
-    { id: 6, name: 'Олексій Максимович Пешков' },
-    { id: 7, name: 'Микола Васильович Гоголь' },
-    { id: 8, name: 'Федір Михайлович Достоєвський' },
-    { id: 9, name: 'Лев Миколайович Толстой' },
-    { id: 10, name: 'Антон Павлович Чехов' },
-    { id: 11, name: 'Іван Олексійович Бунін' },
-    { id: 12, name: 'Борис Леонідович Пастернак' },
-    { id: 13, name: 'Михайло Афанасійович Булгаков' },
-    { id: 14, name: 'Олександр Ісаєвич Солженіцін' },
-    { id: 15, name: 'Іван Олександрович Бунін' },
-    { id: 16, name: 'Олексій Максимович Пешков' },
-    { id: 17, name: 'Микола Васильович Гоголь' },
-    { id: 18, name: 'Федір Михайлович Достоєвський' },
-    { id: 19, name: 'Лев Миколайович Толстой' },
-    { id: 20, name: 'Антон Павлович Чехов' }
-  ];
+
+  // useEffect(() => {
+  //   author();
+  // }, []);
 
   const [viewArrow, setViewArrow] = useState(false);
 
   window.addEventListener('scroll', () => {
-    let hei = document.documentElement.getBoundingClientRect().top;
+    let bodyHeight = document.documentElement.getBoundingClientRect().top;
     let top = document.documentElement.offsetHeight;
-    if (-top > hei) {
+    if (-top > bodyHeight) {
       setViewArrow(true)
     } else {
       setViewArrow(false)
@@ -74,30 +56,28 @@ function App() {
     });
   }, [finishPath])
   const [dataBooks, setDataBooks] = useState([])
+  const [dataAuthors, setDataAuthors] = useState([])
   useEffect(() => {
-    const data = async () => {
-      const result = await Promise.all([
-        fetch(url)
-          .then(response => response.json()),
-        fetch(url2)
-          .then(response => response.json())
-      ])
-      setDataBooks([...result[0].items, ...result[1].items])
+
+    const fetchData = async () => {
+      try {
+        const [dataBooks, dataAuthors] = await Promise.all([
+          fetch(url).then(response => response.json()),
+          fetch(url2).then(response => response.json())
+        ]);
+        setDataBooks(dataBooks);
+        setDataAuthors(dataAuthors);
+      } catch (error) {
+        console.error('Error. try again', error)
+      }
 
     }
-    data()
+    fetchData()
   }, []);
-
-  // let urls = 'http://localhost:4000/books';
-  // useEffect(() => {
-  //   const dan = fetch(urls).then(response => response.json());
-  //   console.log(dan)
-  // }, [])
-
 
   return (
     <BooksContext.Provider value={{ dataBooks, setDataBooks }}>
-      <AuthorsContext.Provider value={authors}>
+      <AuthorsContext.Provider value={{ dataAuthors, setDataAuthors }}>
         <div className="wrapper">
           <Header />
           <main className="main">
@@ -105,8 +85,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/library" element={<Library />} />
               <Route path="/authors" element={<Authors />} />
-              <Route path="/authors/:id" element={<PagePerson />} />
-              <Route path="/library/:userId" element={<Book />} />
+              <Route path="/authors/:authorId" element={<PagePerson />} />
+              <Route path="/library/:bookId" element={<Book />} />
               <Route path="/mypage" element={<Personal />} />
               <Route path="/news" element={<PageNews />} />
               <Route path="/news/id" element={<Article />} />

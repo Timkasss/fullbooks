@@ -22,7 +22,9 @@
    //section filter
    &__filter-list {
       display: flex;
-      @include adaptiv-value('gap', 30, 15, 0);
+      flex-wrap: wrap;
+      row-gap: 5px;
+      @include adaptiv-value('column-gap', 30, 15, 0);
    }
 
    &__filter-link.section_filter.popular__filter_pick {

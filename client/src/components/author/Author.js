@@ -1,15 +1,15 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './author.scss';
-import author from '../../img/authors/author.png';
-import BreadCrumbs from '../bread-crumbs/BreadCrumbs';
+
+
+//import BreadCrumbs from '../bread-crumbs/BreadCrumbs';
 
 function Author({ authors, index }) {
-   const [hover, setHover] = useState(false)
-
+   const [hover, setHover] = useState(false);
    return (
       <article className="author">
-         <h1 className="author__name">{authors.name}</h1>
+         <h1 className="author__name">{authors.fullname}</h1>
          <div className="author__poster-wrapper poster-hover"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
@@ -19,7 +19,7 @@ function Author({ authors, index }) {
                   <Link to={`/authors/${index}`} className="author__hover-button author-hover__button">Карточка персоны</Link>
                </div>
             }
-            <img src={author} alt="poster" className="author__poster" />
+            <img src={authors.image} alt="poster" className="author__poster" />
          </div>
 
       </article>

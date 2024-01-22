@@ -1,54 +1,40 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import './filter.scss';
+import { BooksContext } from '../context';
 
-const dataFilter = [
-   'автобіографія',
-   'біографія',
-   'вибрані твори',
-   'ВКПБ',
-   'діамат',
-   'загальне',
-   'збірка статей',
-   'ілюстроване видання',
-   'істмат',
-   'історична хроніка',
-   'історичні нариси',
-   'літературна критика',
-   'літературознавство',
-   'листи',
-   'наукова монографія',
-   'оповідання',
-   'педагогічні твори',
-   'переклади',
-   'пзт',
-   'поезія',
-   'політекономія',
-   'проза',
-   'публіцистика',
-   'робочі нариси',
-   'спогади',
-   'твори',
-   'худліт'
-];
 
-function Filter() {
+
+function Filter({ checked }) {
    const [open, setOpen] = useState(false);
+   const { dataBooks } = useContext(BooksContext);
 
+
+   function sortGenre() {
+      let result = [];
+      for (let str of dataBooks) {
+         if (!result.includes(str.genre)) {
+            result.push(str.genre)
+         }
+      }
+      return result;
+   }
+   const dataFilter = sortGenre();
    return (
       <div className={`filter ${open ? 'filter__close' : ''}`}>
          <div className={`filter__choose ${open ? 'filter__choose-active' : ''}`} onClick={() => setOpen(!open)}>
-            Choose item            Choose item            Choose item
+            Вибери жанри
          </div>
          <div className="filter__value-wrapper ">
             <div className="filter__value">
                {dataFilter.map((item, index) => (
                   <label key={index} className="filter__checkbox-label">
-
                      <input
                         alt={item}
                         className='filter__check'
                         type="checkbox"
+                        name={item}
+                        onChange={checked}
                      />
                      <span className="filter__text" title={item}>{item}</span>
                   </label>

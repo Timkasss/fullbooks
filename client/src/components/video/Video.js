@@ -22,7 +22,7 @@ function Video() {
       {
          img: poster1,
          name: 'Мулан',
-         link: vid,
+         link: 'https://www.youtube.com/watch?v=NzrjZXaItVg&ab_channel=RemiMeisner',
          like: 0,
          dislike: 0,
       },
@@ -50,7 +50,7 @@ function Video() {
       {
          img: poster2,
          name: 'Форсаж 9',
-         link: vid,
+         link: 'https://www.youtube.com/watch?v=NzrjZXaItVg&ab_channel=RemiMeisner',
          like: 0,
          dislike: 0,
       },
@@ -176,8 +176,8 @@ function Video() {
                         {
                            videos.map((item, index) => {
                               return (
-                                 <SwiperSlide>
-                                    <article className="video__item" key={index} >
+                                 <SwiperSlide key={index}>
+                                    <article className="video__item">
                                        <div className="video__item-wrapper" onClick={() => setVideo(index)}>
                                           <img className="video__small-video" src={item.img} alt="poster" />
                                           {/* <video className="video__small-video"
