@@ -21,8 +21,11 @@ export class AccessControlService {
 		const currentPriority = this.roleHierarchy.get(currentRole)
 		const requiredPriority = this.roleHierarchy.get(requiredRole)
 
+<<<<<<< HEAD
 		console.log(currentPriority, requiredPriority)
 
+=======
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 		return (
 			currentPriority && requiredPriority && currentPriority >= requiredPriority
 		)

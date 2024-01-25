@@ -19,6 +19,10 @@ export class AuthorsAwardsService {
 		const award = new this.authorsAwardsModel(createAwardDto)
 
 		const image = await this.imageService.uploadImage(createAwardDto.image)
+<<<<<<< HEAD
+=======
+		console.log(image)
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 		award.image = image
 		return await award.save()
 	}

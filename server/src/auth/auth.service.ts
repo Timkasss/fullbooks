@@ -41,6 +41,20 @@ export class AuthService {
 		const hashPassword = await bcrypt.hash(user.password, salt)
 
 		user.password = hashPassword
+<<<<<<< HEAD
+=======
+
+		let date_ob = new Date()
+
+		let date = ('0' + date_ob.getDate()).slice(-2)
+		let month = ('0' + (date_ob.getMonth() + 1)).slice(-2)
+		let year = date_ob.getFullYear()
+		let hours = date_ob.getHours()
+		let minutes = date_ob.getMinutes()
+
+		user.date = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes
+
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 		await user.save()
 
 		const payload = {

@@ -10,6 +10,7 @@ import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from 'src/utils/imageService.service'
 import { Request } from 'express'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
@@ -36,20 +37,21 @@ export class UsersService {
 	async update(id: string, updateUserDto: updateUserDto): Promise<any> {
 		try {
 			const user = await this.userModel.findById(id)
-			if (!user) {
-				throw new NotFoundException('User not found')
-			}
+
+			if (!user) throw new NotFoundException('User not found')
 
 			const image = await this.imageService.uploadImage(updateUserDto.avatar)
+
+			const password = await bcrypt.hash(updateUserDto.password, 10)
+
 			const updatedUser = await this.userModel.findByIdAndUpdate(
 				id,
-				{ ...updateUserDto, avatar: image },
+				{ ...updateUserDto, avatar: image, password: password },
 				{ new: true }
 			)
 
-			if (!updatedUser) {
+			if (!updatedUser)
 				throw new BadRequestException('Update operation not acknowledged')
-			}
 
 			return updatedUser
 		} catch (error) {
@@ -72,16 +74,13 @@ export class UsersService {
 				secret: process.env.SECRET_KEY
 			})
 
-			if (typeof decodedToken !== 'object' || !('id' in decodedToken)) {
+			if (typeof decodedToken !== 'object' || !('id' in decodedToken))
 				throw new BadRequestException('Invalid token format')
-			}
 
 			const userId = decodedToken.id
 			const user = await this.userModel.findById(userId)
 
-			if (!user) {
-				throw new NotFoundException('User not found')
-			}
+			if (!user) throw new NotFoundException('User not found')
 
 			return user
 		} catch (error) {

@@ -1,15 +1,22 @@
 import {
 	Body,
 	Controller,
+<<<<<<< HEAD
 	Get,
+=======
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 	HttpCode,
 	HttpException,
 	HttpStatus,
 	NotFoundException,
 	Post,
+<<<<<<< HEAD
 	Request,
 	Res,
 	UseGuards
+=======
+	Res
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 } from '@nestjs/common'
 import { Response } from 'express'
 import { CreateUserDto } from 'src/users/dto/create-user.dto'
@@ -25,8 +32,11 @@ import {
 	ApiUnauthorizedResponse
 } from '@nestjs/swagger'
 import { LoginUserDto } from 'src/users/dto/loginin-user.dto'
+<<<<<<< HEAD
 import { LocalAuthGuard } from './local-auth.guard'
 import { JwtAuthGuard } from './jwt-auth.guard'
+=======
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 
 @ApiTags('auth')
 @Controller('auth')
@@ -82,6 +92,7 @@ export class AuthController {
 			}
 		}
 	}
+<<<<<<< HEAD
 
 	// 	@UseGuards(JwtAuthGuard)
 	// 	@ApiBearerAuth()
@@ -97,4 +108,6 @@ export class AuthController {
 	// 	getProfile(@Request() req): CreateUserDto {
 	// 		return req.user
 	// 	}
+=======
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 }
