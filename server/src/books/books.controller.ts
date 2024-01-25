@@ -8,6 +8,7 @@ import {
 	Param,
 	Patch,
 	Post,
+	Query,
 	Res
 } from '@nestjs/common'
 import {
@@ -67,8 +68,8 @@ export class BooksController {
 	@ApiOkResponse({
 		description: 'Book retrieved successfully'
 	})
-	@ApiNotFoundResponse({ description: 'Book not found' })
 	@ApiOperation({ summary: 'Get Book by id' })
+	@ApiNotFoundResponse({ description: 'Book not found' })
 	@ApiParam({ name: 'id', description: 'Book ID', required: true })
 	@Get(':id')
 	async getBook(@Param('id') id: string) {
@@ -107,5 +108,30 @@ export class BooksController {
 	) {
 		const book = await this.booksService.updateBook(id, updateBookDto)
 		return book
+	}
+
+	@Post('/like/:id')
+	async giveLike(@Param('id') id: string) {
+		return await this.booksService.giveLike(id)
+	}
+
+	@Post('/dislike/:id')
+	async giveDislike(@Param('id') id: string) {
+		return await this.booksService.giveDislike(id)
+	}
+
+	@Post('/remove-like/:id')
+	async removeLike(@Param('id') id: string) {
+		return await this.booksService.removeLike(id)
+	}
+
+	@Post('/remove-dislike/:id')
+	async removeDislike(@Param('id') id: string) {
+		return await this.booksService.removeDislike(id)
+	}
+
+	@Get('/author/getbooks')
+	async getBooksByAuthor(@Query('name') name: string) {
+		return await this.booksService.getBooksByAuthor(name)
 	}
 }

@@ -7,9 +7,12 @@ import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UserSchema } from 'src/schemas/user.schema'
+<<<<<<< HEAD
 import { LocalStrategy } from './local.strategy'
 import { JwtStrategy } from './jwt.strategy'
 import { JwtAuthGuard } from './jwt-auth.guard'
+=======
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 
 @Module({
 	imports: [
@@ -23,7 +26,11 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 		UsersModule,
 		PassportModule
 	],
+<<<<<<< HEAD
 	providers: [AuthService, LocalStrategy, JwtStrategy],
+=======
+	providers: [AuthService],
+>>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 	controllers: [AuthController],
 	exports: [AuthService]
 })
