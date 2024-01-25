@@ -99,8 +99,8 @@ export class BooksController {
 	@ApiNotFoundResponse({ description: 'Book not found' })
 	@ApiBadRequestResponse({ description: 'Bad Request' })
 	@ApiOperation({ summary: 'Update Book by id' })
-	@FormDataRequest({ storage: MemoryStoredFile })
 	@ApiParam({ name: 'id', description: 'Book ID', required: true })
+	@FormDataRequest({ storage: MemoryStoredFile })
 	@Patch(':id')
 	async updateBook(
 		@Param('id') id: string,
