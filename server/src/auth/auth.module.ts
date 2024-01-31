@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UserSchema } from 'src/schemas/user.schema'
+import { GoogleStrategy } from './google.strategy'
 
 @Module({
 	imports: [
@@ -20,7 +21,7 @@ import { UserSchema } from 'src/schemas/user.schema'
 		UsersModule,
 		PassportModule
 	],
-	providers: [AuthService],
+	providers: [AuthService, GoogleStrategy],
 	controllers: [AuthController],
 	exports: [AuthService]
 })

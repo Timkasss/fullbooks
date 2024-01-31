@@ -83,6 +83,16 @@ export class AuthService {
 		return null
 	}
 
+	async googleLogin(req) {
+		const user = req.user
+		if (!user) return 'No user found'
+
+		return {
+			message: 'User information successfully retrieved',
+			user
+		}
+	}
+
 	private createJwtPayload(user: UserDocument): { [key: string]: any } {
 		return {
 			id: user._id,

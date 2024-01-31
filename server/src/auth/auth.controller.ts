@@ -1,12 +1,15 @@
 import {
 	Body,
 	Controller,
+	Get,
 	HttpCode,
 	HttpException,
 	HttpStatus,
 	NotFoundException,
 	Post,
-	Res
+	Req,
+	Res,
+	UseGuards
 } from '@nestjs/common'
 import { Response } from 'express'
 import { CreateUserDto } from 'src/users/dto/create-user.dto'
@@ -22,6 +25,7 @@ import {
 	ApiUnauthorizedResponse
 } from '@nestjs/swagger'
 import { LoginUserDto } from 'src/users/dto/loginin-user.dto'
+import { AuthGuard } from '@nestjs/passport'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -76,5 +80,16 @@ export class AuthController {
 				)
 			}
 		}
+	}
+
+	@Get('google')
+	@UseGuards(AuthGuard('google'))
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	async googleAuth(@Req() req) {}
+
+	@Get('google/redirect')
+	@UseGuards(AuthGuard('google'))
+	async googleAuthRedirect(@Req() req) {
+		return this.authService.googleLogin(req)
 	}
 }
