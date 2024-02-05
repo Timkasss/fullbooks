@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { UserDocument } from '../schemas/user.schema'
+import { GoogleOAuthUserDocument, UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from 'src/utils/imageService.service'
@@ -16,6 +16,8 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
+		@InjectModel('GoogleOAuthUser')
+		private googleUserModel: Model<GoogleOAuthUserDocument>,
 		private jwtService: JwtService,
 		private imageService: ImageService
 	) {}
@@ -27,17 +29,34 @@ export class UsersService {
 		return user
 	}
 
-	async findByEmail(email: string): Promise<UserDocument> {
-		const user = await this.userModel.findOne({ email })
+	async findByEmail(
+		email: string,
+		place: string
+	): Promise<UserDocument | null | GoogleOAuthUserDocument> {
+		try {
+			if (place === 'google') {
+				const user = await this.googleUserModel.findOne({ email })
+				if (!user) {
+					return null
+				}
+				return user
+			} else if (place === 'local') {
+				const user = await this.userModel.findOne({ email })
 
-		if (!user) throw new NotFoundException('User not found')
-		return user
+				if (!user) {
+					return null
+				}
+
+				return user
+			}
+		} catch (error) {
+			throw error
+		}
 	}
 
 	async update(id: string, updateUserDto: updateUserDto): Promise<any> {
 		try {
 			const user = await this.userModel.findById(id)
-
 			if (!user) throw new NotFoundException('User not found')
 
 			const image = await this.imageService.uploadImage(updateUserDto.avatar)

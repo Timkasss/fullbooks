@@ -6,13 +6,8 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
-import { UserSchema } from 'src/schemas/user.schema'
-<<<<<<< HEAD
-import { LocalStrategy } from './local.strategy'
-import { JwtStrategy } from './jwt.strategy'
-import { JwtAuthGuard } from './jwt-auth.guard'
-=======
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
+import { GoogleOAuthUserSchema, UserSchema } from 'src/schemas/user.schema'
+import { GoogleStrategy } from './google.strategy'
 
 @Module({
 	imports: [
@@ -22,15 +17,17 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 			secret: process.env.SECRET_KEY,
 			signOptions: { expiresIn: '14d' }
 		}),
-		MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
+		MongooseModule.forFeature([
+			{ name: 'Users', schema: UserSchema },
+			{
+				name: 'GoogleOAuthUser',
+				schema: GoogleOAuthUserSchema
+			}
+		]),
 		UsersModule,
 		PassportModule
 	],
-<<<<<<< HEAD
-	providers: [AuthService, LocalStrategy, JwtStrategy],
-=======
-	providers: [AuthService],
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
+	providers: [AuthService, GoogleStrategy],
 	controllers: [AuthController],
 	exports: [AuthService]
 })

@@ -1,22 +1,15 @@
 import {
 	Body,
 	Controller,
-<<<<<<< HEAD
 	Get,
-=======
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 	HttpCode,
 	HttpException,
 	HttpStatus,
 	NotFoundException,
 	Post,
-<<<<<<< HEAD
-	Request,
+	Req,
 	Res,
 	UseGuards
-=======
-	Res
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
 } from '@nestjs/common'
 import { Response } from 'express'
 import { CreateUserDto } from 'src/users/dto/create-user.dto'
@@ -32,11 +25,7 @@ import {
 	ApiUnauthorizedResponse
 } from '@nestjs/swagger'
 import { LoginUserDto } from 'src/users/dto/loginin-user.dto'
-<<<<<<< HEAD
-import { LocalAuthGuard } from './local-auth.guard'
-import { JwtAuthGuard } from './jwt-auth.guard'
-=======
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
+import { AuthGuard } from '@nestjs/passport'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -92,22 +81,14 @@ export class AuthController {
 			}
 		}
 	}
-<<<<<<< HEAD
 
-	// 	@UseGuards(JwtAuthGuard)
-	// 	@ApiBearerAuth()
-	// 	@ApiUnauthorizedResponse({ description: 'Unauthorized' })
-	// 	@ApiOperation({
-	// 		summary: 'Get User Profile',
-	// 		description: 'Get User Profile (work only via Bearer tokens)'
-	// 	})
-	// 	@ApiOkResponse({
-	// 		description: 'User profile retrieved successfully'
-	// 	})
-	// 	@Get('profile')
-	// 	getProfile(@Request() req): CreateUserDto {
-	// 		return req.user
-	// 	}
-=======
->>>>>>> 4c33f43 (feature, fix / secure fix, books rating/views/likes/dislikes)
+	@Get('google')
+	@UseGuards(AuthGuard('google'))
+	async googleAuth(@Req() req) {}
+
+	@Get('google/redirect')
+	@UseGuards(AuthGuard('google'))
+	async googleAuthRedirect(@Req() req) {
+		return this.authService.googleLogin(req)
+	}
 }

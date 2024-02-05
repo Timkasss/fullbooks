@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { UserSchema } from 'src/schemas/user.schema'
+import { GoogleOAuthUserSchema, UserSchema } from 'src/schemas/user.schema'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UserController } from './user.controller'
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
@@ -11,7 +11,13 @@ import { AccessControlService } from 'src/shared/access-contol.service'
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
+		MongooseModule.forFeature([
+			{ name: 'Users', schema: UserSchema },
+			{
+				name: 'GoogleOAuthUser',
+				schema: GoogleOAuthUserSchema
+			}
+		]),
 		NestjsFormDataModule.config({ storage: MemoryStoredFile }),
 		HttpModule,
 		SharedModule

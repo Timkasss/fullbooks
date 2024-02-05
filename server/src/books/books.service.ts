@@ -21,7 +21,6 @@ export class BooksService {
 	async createBook(CreateBookDto: CreateBookDto): Promise<BookDocument> {
 		const book = new this.bookModel(CreateBookDto)
 
-		// Upload image
 		const imageUrl = await this.imageService.uploadImage(CreateBookDto.image)
 
 		book.image = imageUrl
@@ -68,6 +67,7 @@ export class BooksService {
 	async deleteBook(id: string): Promise<BookDocument> {
 		return await this.bookModel.findByIdAndDelete(id)
 	}
+
 	async giveLike(id: string) {
 		const book = await this.updateGrade(id, 'likes', 1)
 		return book
