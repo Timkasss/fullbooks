@@ -3,15 +3,13 @@ import {
 	Controller,
 	Get,
 	HttpCode,
-	HttpException,
 	HttpStatus,
-	NotFoundException,
 	Post,
 	Req,
 	Res,
 	UseGuards
 } from '@nestjs/common'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { CreateUserDto } from 'src/users/dto/create-user.dto'
 import { AuthService } from './auth.service'
 import {
@@ -52,7 +50,7 @@ export class AuthController {
 			return res.json(user)
 		} catch (error) {
 			console.error(error)
-			throw new NotFoundException('User not found')
+			throw error
 		}
 	}
 
@@ -71,24 +69,17 @@ export class AuthController {
 			return res.json(newUser)
 		} catch (error) {
 			console.error(error)
-			if (error.code === 11000) {
-				throw new HttpException('User already exists', HttpStatus.CONFLICT)
-			} else {
-				throw new HttpException(
-					'Failed to create user',
-					HttpStatus.INTERNAL_SERVER_ERROR
-				)
-			}
+			throw error
 		}
 	}
 
 	@Get('google')
 	@UseGuards(AuthGuard('google'))
-	async googleAuth(@Req() req) {}
+	async googleAuth(@Req() req: Request) {}
 
 	@Get('google/redirect')
 	@UseGuards(AuthGuard('google'))
-	async googleAuthRedirect(@Req() req) {
+	async googleAuthRedirect(@Req() req: Request) {
 		return this.authService.googleLogin(req)
 	}
 }

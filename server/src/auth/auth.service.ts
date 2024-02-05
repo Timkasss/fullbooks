@@ -11,6 +11,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { UsersService } from 'src/users/users.service'
 import { GoogleOAuthUserDocument, UserDocument } from 'src/schemas/user.schema'
+import { MailService } from 'src/utils/mail/mail.service'
 
 @Injectable()
 export class AuthService {
@@ -19,142 +20,95 @@ export class AuthService {
 		@InjectModel('GoogleOAuthUser')
 		private googleUserModel: Model<GoogleOAuthUserDocument>,
 		private jwtService: JwtService,
-		private usersService: UsersService
+		private usersService: UsersService,
+		private mailService: MailService
 	) {}
 
-	async signIn(
-		email: string,
-		pass: string
-	): Promise<
-		{ access_token: string } | { error: string } | { message: string }
-	> {
+	async signIn(email: string, pass: string): Promise<{ access_token: string }> {
 		try {
 			const userInUserModel: UserDocument | null = await this.userModel.findOne(
 				{ email }
 			)
-
-			if (!userInUserModel) {
-				const userInGoogleUserModel = await this.googleUserModel.findOne({
+			const userInGoogleUserModel: null | GoogleOAuthUserDocument =
+				await this.googleUserModel.findOne({
 					email
 				})
 
-				if (!userInGoogleUserModel) {
-					throw new NotFoundException('User not found')
-				}
-
-				console.log(
-					'User found in GoogleOAuthUserModel:',
-					userInGoogleUserModel
-				)
-				return {
-					message:
-						'Seems you are registered with Google. Please sign in with Google and change your password'
-				}
+			if (!userInUserModel && !userInGoogleUserModel) {
+				throw new NotFoundException('User not found')
 			}
 
 			const match: boolean = await bcrypt.compare(
 				pass,
-				userInUserModel.password
+				userInUserModel
+					? userInUserModel.password
+					: userInGoogleUserModel.password
 			)
 
-			if (!match) {
-				throw new NotFoundException('User not found')
-			}
+			if (!match)
+				throw new HttpException(
+					'Password or email not found',
+					HttpStatus.BAD_REQUEST
+				)
 
-			const payload: { [key: string]: any } =
-				this.createJwtPayload(userInUserModel)
+			const dataForPayload = userInUserModel
+				? userInUserModel
+				: userInGoogleUserModel
+
+			const payload = this.createJwtPayload(dataForPayload)
+
 			return {
 				access_token: await this.jwtService.signAsync(payload)
 			}
 		} catch (error) {
 			console.error('Error in signIn:', error.message)
 
-			return {
-				error: error.message
-			}
+			throw error
 		}
 	}
 
 	async signUp(
 		createUserDto: CreateUserDto
-	): Promise<{ access_token: string } | { error: string }> {
+	): Promise<{ access_token: string }> {
 		try {
 			const existingUserInUserModel = await this.userModel.findOne({
 				email: createUserDto.email
 			})
+			const existingUserInGoogleUserModel = await this.googleUserModel.findOne({
+				email: createUserDto.email
+			})
 
-			if (!existingUserInUserModel) {
-				const existingUserInGoogleUserModel =
-					await this.googleUserModel.findOne({ email: createUserDto.email })
-
-				if (!existingUserInGoogleUserModel) {
-					const newUser = new this.userModel(createUserDto)
-					const salt = await bcrypt.genSalt(10)
-					const hashPassword = await bcrypt.hash(newUser.password, salt)
-
-					newUser.password = hashPassword
-
-					let date_ob = new Date()
-					let date = ('0' + date_ob.getDate()).slice(-2)
-					let month = ('0' + (date_ob.getMonth() + 1)).slice(-2)
-					let year = date_ob.getFullYear()
-					let hours = date_ob.getHours()
-					let minutes = date_ob.getMinutes()
-					newUser.date =
-						year + '-' + month + '-' + date + ' ' + hours + ':' + minutes
-
-					await newUser.save()
-
-					const payload = {
-						id: newUser._id,
-						role: newUser.role
-					}
-
-					return {
-						access_token: await this.jwtService.signAsync(payload)
-					}
-				}
-
-				await existingUserInGoogleUserModel.save()
-
-				const payload = {
-					id: existingUserInGoogleUserModel._id,
-					role: existingUserInGoogleUserModel.role
-				}
-
-				return {
-					access_token: await this.jwtService.signAsync(payload)
-				}
+			if (existingUserInUserModel || existingUserInGoogleUserModel) {
+				throw new HttpException('User already exists', HttpStatus.CONFLICT)
 			}
 
-			throw new NotFoundException('User already registered')
+			const newUser = new this.userModel(createUserDto)
+			const salt = await bcrypt.genSalt(10)
+			const hashPassword = await bcrypt.hash(newUser.password, salt)
+
+			newUser.password = hashPassword
+
+			let date_ob = new Date()
+			let date = ('0' + date_ob.getDate()).slice(-2)
+			let month = ('0' + (date_ob.getMonth() + 1)).slice(-2)
+			let year = date_ob.getFullYear()
+			let hours = date_ob.getHours()
+			let minutes = date_ob.getMinutes()
+			newUser.date =
+				year + '-' + month + '-' + date + ' ' + hours + ':' + minutes
+
+			await newUser.save()
+
+			const payload = this.createJwtPayload(newUser)
+
+			return {
+				access_token: await this.jwtService.signAsync(payload)
+			}
 		} catch (error) {
 			console.error('Error in signUp:', error.message)
 
-			return {
-				error: error.message
-			}
+			throw new HttpException(error.message, error.status)
 		}
-	}
-
-	async validateUser(
-		email: string,
-		pass: string
-	): Promise<{ [key: string]: any } | null> {
-		const user: UserDocument | null | GoogleOAuthUserDocument =
-			await this.usersService.findByEmail(email, 'local')
-
-		if (!user) {
-			throw new NotFoundException()
-		}
-
-		const { password, ...result } = user
-		const match: boolean = await bcrypt.compare(pass, password)
-
-		if (match) {
-			return result
-		}
-		return null
 	}
 
 	async googleLogin(req) {
@@ -171,19 +125,25 @@ export class AuthService {
 			)
 
 			if (existingUserInUserModel) {
+				const payload = this.createJwtPayload(existingUserInUserModel)
+
 				return {
-					message: 'User information successfully retrieved from UserModel',
-					user: existingUserInUserModel
+					access_token: await this.jwtService.signAsync(payload)
 				}
 			}
 
 			if (existingUserInGoogleUserModel) {
+				const payload = this.createJwtPayload(existingUserInGoogleUserModel)
+
 				return {
-					message:
-						'User information successfully retrieved from GoogleOAuthUserModel',
-					user: existingUserInGoogleUserModel
+					access_token: await this.jwtService.signAsync(payload)
 				}
 			}
+
+			const generatedPass = this.passwordGeneration(10)
+
+			const salt = await bcrypt.genSalt(10)
+			const hashPassword = await bcrypt.hash(generatedPass, salt)
 
 			const newUser = new this.googleUserModel({
 				accessToken: googleUser.accessToken,
@@ -192,23 +152,43 @@ export class AuthService {
 				firstName: googleUser.firstName,
 				lastName: googleUser.lastName,
 				avatar: googleUser.picture,
-				locale: googleUser.locale
+				locale: googleUser.locale,
+				password: hashPassword
 			})
 
 			await newUser.save()
 
+			await this.mailService.sendEmail(newUser, generatedPass)
+
+			const payload = this.createJwtPayload(newUser)
+
 			return {
-				message: 'New user registered with Google OAuth',
-				user: newUser
+				access_token: await this.jwtService.signAsync(payload)
 			}
 		} catch (error) {
 			console.error('Error in googleLogin:', error.message)
 
-			return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+			throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
 		}
 	}
 
-	private createJwtPayload(user: UserDocument): { [key: string]: any } {
+	private passwordGeneration(length: number): string {
+		const charset =
+			'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+		let password = ''
+
+		for (let i = 0; i < length; i++) {
+			const randomIndex = Math.floor(Math.random() * charset.length)
+
+			password += charset.charAt(randomIndex)
+		}
+
+		return password
+	}
+
+	private createJwtPayload(user: UserDocument | GoogleOAuthUserDocument): {
+		[key: string]: any
+	} {
 		return {
 			id: user._id,
 			role: user.role
