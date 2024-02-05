@@ -1,10 +1,10 @@
 {
 	"name": "book-shop-backend",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "",
 	"author": "",
 	"private": true,
-	"license": "UNLICENSED",
+	"license": "MIT",
 	"scripts": {
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -20,6 +20,7 @@
 		"test:e2e": "jest --config ./test/jest-e2e.json"
 	},
 	"dependencies": {
+		"@google-cloud/storage": "^7.7.0",
 		"@nestjs-modules/mailer": "^1.10.3",
 		"@nestjs/axios": "^3.0.1",
 		"@nestjs/common": "^10.0.0",
@@ -32,13 +33,15 @@
 		"@nestjs/passport": "^10.0.3",
 		"@nestjs/platform-express": "^10.0.0",
 		"@nestjs/swagger": "^7.1.16",
+		"@types/ejs": "^3.0.3",
+		"@types/pug": "^2.0.6",
 		"axios": "^1.6.4",
 		"bcrypt": "^5.1.1",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.0",
+		"ejs": "^3.1.2",
 		"handlebars": "^4.7.8",
 		"jsonwebtoken": "^9.0.2",
-		"mongo-gridfs": "github:khoapmd/mongo-gridfs",
 		"mongoose": "^8.0.1",
 		"nestjs-form-data": "^1.9.5",
 		"nodemailer": "^6.9.9",
@@ -46,10 +49,12 @@
 		"passport-google-oauth20": "^2.0.0",
 		"passport-jwt": "^4.0.1",
 		"passport-local": "^1.0.0",
+		"pug": "^3.0.1",
 		"redis": "^4.6.10",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "^7.8.1",
-		"swagger-ui-express": "^5.0.0"
+		"swagger-ui-express": "^5.0.0",
+		"webpack": "^5.0.0"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^10.0.0",
@@ -63,7 +68,6 @@
 		"@types/nodemailer": "^6.4.14",
 		"@types/passport-google-oauth20": "^2.0.14",
 		"@types/passport-jwt": "^3.0.13",
-		"@types/supertest": "^2.0.12",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"eslint": "^8.42.0",

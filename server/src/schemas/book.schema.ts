@@ -42,6 +42,8 @@ export class Book {
 	pages: string
 	@Prop({ required: true, type: String })
 	image: string
+	@Prop({ required: true, type: String })
+	pdf: string
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book)

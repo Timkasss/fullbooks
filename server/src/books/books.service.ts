@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { ImageService } from 'src/utils/imageService.service'
 import { UpdateBookDto } from './dto/update-book.dto'
+import { Storage } from '@google-cloud/storage'
 
 @Injectable()
 export class BooksService {
@@ -22,10 +23,42 @@ export class BooksService {
 		const book = new this.bookModel(CreateBookDto)
 
 		const imageUrl = await this.imageService.uploadImage(CreateBookDto.image)
-
 		book.image = imageUrl
 
+		const pdfUrl = await this.uploadFileToGoogleStorage(
+			CreateBookDto.pdf,
+			'books',
+			'pdf'
+		)
+		book.pdf = pdfUrl
+
 		return await book.save()
+	}
+
+	private async uploadFileToGoogleStorage(
+		fileBuffer: Buffer,
+		bucketName: string,
+		folderName: string
+	): Promise<string> {
+		const storage = new Storage()
+		const bucket = storage.bucket(bucketName)
+
+		const fileName = `${folderName}/pdf_${Date.now()}.pdf`
+
+		const file = bucket.file(fileName)
+		await file.save(fileBuffer, {
+			metadata: {
+				contentType: 'application/pdf'
+			}
+		})
+
+		const expires = Date.now() + 365 * 24 * 60 * 60 * 1000 // 1 year
+		const signedUrl = await file.getSignedUrl({
+			action: 'read',
+			expires
+		})
+
+		return signedUrl[0]
 	}
 
 	async getBooks(): Promise<BookDocument[]> {

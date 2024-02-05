@@ -53,4 +53,7 @@ export class CreateBookDto {
 
 	@ApiProperty({ description: 'URL to the image of the book', type: String })
 	readonly image: any
+
+	@ApiProperty({ description: 'URL to the pdf of the book', type: String })
+	readonly pdf: any
 }
