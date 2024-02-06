@@ -10,13 +10,14 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { ImageService } from 'src/utils/imageService.service'
 import { UpdateBookDto } from './dto/update-book.dto'
-import { Storage } from '@google-cloud/storage'
+import { FileUploadingService } from 'src/utils/fileUploading.service'
 
 @Injectable()
 export class BooksService {
 	constructor(
 		@InjectModel('Books') private bookModel: Model<BookDocument>,
-		private imageService: ImageService
+		private imageService: ImageService,
+		private filesService: FileUploadingService
 	) {}
 
 	async createBook(CreateBookDto: CreateBookDto): Promise<BookDocument> {
@@ -24,43 +25,13 @@ export class BooksService {
 
 		const imageUrl = await this.imageService.uploadImage(CreateBookDto.image)
 		book.image = imageUrl
+		console.log(CreateBookDto.pdf.buffer)
 
-		const pdfUrl = await this.uploadFileToGoogleStorage(
-			CreateBookDto.pdf,
-			'books',
-			'pdf'
-		)
+		const pdfUrl = await this.filesService.uploadFileToMega(CreateBookDto.pdf)
 		book.pdf = pdfUrl
 
 		return await book.save()
 	}
-
-	private async uploadFileToGoogleStorage(
-		fileBuffer: Buffer,
-		bucketName: string,
-		folderName: string
-	): Promise<string> {
-		const storage = new Storage()
-		const bucket = storage.bucket(bucketName)
-
-		const fileName = `${folderName}/pdf_${Date.now()}.pdf`
-
-		const file = bucket.file(fileName)
-		await file.save(fileBuffer, {
-			metadata: {
-				contentType: 'application/pdf'
-			}
-		})
-
-		const expires = Date.now() + 365 * 24 * 60 * 60 * 1000 // 1 year
-		const signedUrl = await file.getSignedUrl({
-			action: 'read',
-			expires
-		})
-
-		return signedUrl[0]
-	}
-
 	async getBooks(): Promise<BookDocument[]> {
 		return await this.bookModel.find()
 	}
