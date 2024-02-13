@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { BookSchema } from 'src/schemas/book.schema'
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
 import { HttpModule } from '@nestjs/axios'
+import { ImageService } from 'src/utils/imageService.service'
+import { FileUploadingService } from 'src/utils/fileUploading.service'
 
 @Module({
 	imports: [
@@ -12,7 +14,7 @@ import { HttpModule } from '@nestjs/axios'
 		NestjsFormDataModule.config({ storage: MemoryStoredFile }),
 		HttpModule
 	],
-	providers: [BooksService],
+	providers: [BooksService, ImageService, FileUploadingService],
 	controllers: [BooksController]
 })
 export class BooksModule {}

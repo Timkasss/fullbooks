@@ -1,94 +1,111 @@
 import {
 	BadRequestException,
-	HttpException,
-	HttpStatus,
 	Injectable,
 	NotFoundException
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { UserDocument } from '../schemas/user.schema'
+import { GoogleOAuthUserDocument, UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
+import { ImageService } from 'src/utils/imageService.service'
+import { Request } from 'express'
 import * as bcrypt from 'bcrypt'
-import { catchError, firstValueFrom } from 'rxjs'
-import { HttpService } from '@nestjs/axios'
-import { AxiosError } from 'axios'
 
 @Injectable()
 export class UsersService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
+		@InjectModel('GoogleOAuthUser')
+		private googleUserModel: Model<GoogleOAuthUserDocument>,
 		private jwtService: JwtService,
-		private readonly httpService: HttpService
+		private imageService: ImageService
 	) {}
+
 	async findByUsername(username: string): Promise<UserDocument> {
-		const user = this.userModel.findOne({ username })
+		const user = await this.userModel.findOne({ username })
 
 		if (!user) throw new NotFoundException('User not found')
 		return user
 	}
 
-	async findByEmail(email: string): Promise<UserDocument> {
-		const user = this.userModel.findOne({ email })
+	async findByEmail(
+		email: string,
+		place: string
+	): Promise<UserDocument | null | GoogleOAuthUserDocument> {
+		try {
+			if (place === 'google') {
+				const user = await this.googleUserModel.findOne({ email })
+				if (!user) {
+					return null
+				}
+				return user
+			} else if (place === 'local') {
+				const user = await this.userModel.findOne({ email })
 
-		if (!user) throw new NotFoundException('User not found')
-		return user
+				if (!user) {
+					return null
+				}
+
+				return user
+			}
+		} catch (error) {
+			throw error
+		}
 	}
 
-	async update(
-		id: string,
-		updateUserDto: updateUserDto
-	): Promise<UserDocument> {
+	async update(id: string, updateUserDto: updateUserDto): Promise<any> {
 		try {
 			const user = await this.userModel.findById(id)
-			if (!user) {
-				throw new HttpException('User not found', HttpStatus.NOT_FOUND)
-			}
+			if (!user) throw new NotFoundException('User not found')
 
-			if (updateUserDto.username) {
-				user.username = updateUserDto.username
-			}
+			const image = await this.imageService.uploadImage(updateUserDto.avatar)
 
-			if (updateUserDto.email) {
-				user.email = updateUserDto.email
-			}
+			const password = await bcrypt.hash(updateUserDto.password, 10)
 
-			if (updateUserDto.password) {
-				const salt = await bcrypt.genSalt(10)
-				const hashPassword = await bcrypt.hash(updateUserDto.password, salt)
-				user.password = hashPassword
-			}
+			const updatedUser = await this.userModel.findByIdAndUpdate(
+				id,
+				{ ...updateUserDto, avatar: image, password: password },
+				{ new: true }
+			)
 
-			if (updateUserDto.avatar) {
-				const avatar = updateUserDto.avatar
-				const formData = new FormData()
-				formData.append('image', avatar.buffer.toString('base64'))
-				const uploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.IMG_API_KEY}`
-				const { data: imageData } = await firstValueFrom(
-					this.httpService.post(uploadUrl, formData).pipe(
-						catchError((error: AxiosError) => {
-							throw error
-						})
-					)
-				)
-				user.avatar = imageData.data.url
-			}
+			if (!updatedUser)
+				throw new BadRequestException('Update operation not acknowledged')
 
-			await user.save()
-
-			return user
+			return updatedUser
 		} catch (error) {
 			console.error(error)
-			throw new BadRequestException('Something went wrong')
+			throw error
 		}
 	}
 
 	async remove(id: string): Promise<UserDocument> {
-		const user = this.userModel.findByIdAndDelete(id).exec()
+		const user = await this.userModel.findByIdAndDelete(id).exec()
 
 		if (!user) throw new NotFoundException('User not found')
 		return user
+	}
+
+	async profile(req: Request): Promise<UserDocument> {
+		try {
+			const token = req.headers.authorization.split(' ')[1]
+			const decodedToken = await this.jwtService.verify(token, {
+				secret: process.env.SECRET_KEY
+			})
+
+			if (typeof decodedToken !== 'object' || !('id' in decodedToken))
+				throw new BadRequestException('Invalid token format')
+
+			const userId = decodedToken.id
+			const user = await this.userModel.findById(userId)
+
+			if (!user) throw new NotFoundException('User not found')
+
+			return user
+		} catch (error) {
+			console.error(error)
+			throw error
+		}
 	}
 
 	async validateToken(token: string) {

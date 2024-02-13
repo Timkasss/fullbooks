@@ -1,12 +1,11 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { ValidationPipe } from '@nestjs/common'
+import { INestApplication, ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule)
+	const app = await NestFactory.create(AppModule, {})
 	app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }))
-	// there are swagger connecting
 	const config = new DocumentBuilder()
 		.setTitle('Book Shop')
 		.setDescription('Doc of book shop api')

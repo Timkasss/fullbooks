@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
+import { IsOptional, IsString } from 'class-validator'
 
-export class CreateBookDto {
+export class CreateAuthorDto {
 	@ApiProperty({ description: 'Full name of Author', type: String })
 	@IsString({ message: 'Full name must be a string' })
 	readonly fullname: string
@@ -29,4 +29,6 @@ export class CreateBookDto {
 	@ApiProperty({ description: "Language of Author's books", type: String })
 	@IsString({ message: 'Language works must be a string' })
 	readonly languageworks: string
+	@ApiProperty({ description: "Author's image" })
+	readonly image: any
 }

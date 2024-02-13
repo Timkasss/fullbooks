@@ -6,10 +6,9 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
-import { UserSchema } from 'src/schemas/user.schema'
-import { LocalStrategy } from './local.strategy'
-import { JwtStrategy } from './jwt.strategy'
-import { JwtAuthGuard } from './jwt-auth.guard'
+import { GoogleOAuthUserSchema, UserSchema } from 'src/schemas/user.schema'
+import { GoogleStrategy } from './google.strategy'
+import { MailModule } from 'src/utils/mail/mail.module'
 
 @Module({
 	imports: [
@@ -19,11 +18,18 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 			secret: process.env.SECRET_KEY,
 			signOptions: { expiresIn: '14d' }
 		}),
-		MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
+		MongooseModule.forFeature([
+			{ name: 'Users', schema: UserSchema },
+			{
+				name: 'GoogleOAuthUser',
+				schema: GoogleOAuthUserSchema
+			}
+		]),
 		UsersModule,
-		PassportModule
+		PassportModule,
+		MailModule
 	],
-	providers: [AuthService, LocalStrategy, JwtStrategy],
+	providers: [AuthService, GoogleStrategy],
 	controllers: [AuthController],
 	exports: [AuthService]
 })
