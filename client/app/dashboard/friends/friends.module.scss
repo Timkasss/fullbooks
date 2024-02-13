@@ -1,0 +1,183 @@
+@import '../../ui/adaptiv.module.scss';
+
+.friends {
+   border-radius: 10px;
+   background: #191E2E;
+   @include adaptiv-value('padding-top', 35, 15, 0);
+   @include adaptiv-value('padding-left', 50, 20, 0);
+   @include adaptiv-value('padding-right', 50, 20, 0);
+   @include adaptiv-value('padding-bottom', 60, 40, 0);
+   width: 100%;
+
+   .container {
+      max-width: 1430px;
+      margin: 0px auto;
+      padding: 0px 15px;
+   }
+
+   .head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @include adaptiv-value('padding-bottom', 30, 15, 0);
+   }
+
+   @media (max-width:$tablet) {
+      .head {
+         flex-direction: column;
+         align-items: flex-start;
+         row-gap: 10px;
+      }
+   }
+
+   .title {
+      @include adaptiv-value('font-size', 30, 20, 0);
+      font-weight: 900;
+   }
+
+   .linksWrapper {
+      display: flex;
+      gap: 15px;
+   }
+
+   @media (max-width:424px) {
+      .linksWrapper {
+         flex-wrap: wrap;
+      }
+   }
+
+   .link {
+      display: flex;
+      gap: 5px;
+      color: rgba(255, 255, 255, 0.82);
+      @include adaptiv-value('font-size', 15, 13, 0);
+      font-weight: 500;
+   }
+
+   .alert {
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+      background: rgba(54, 87, 203, 0.30);
+      padding: 12px;
+      @include adaptiv-value('padding-right', 30, 12, 0);
+      @include adaptiv-value('margin-bottom', 35, 25, 0);
+   }
+
+   .alertImageWrapper {
+      @include adaptiv-value('width', 54, 35, 0);
+      @include adaptiv-value('height', 54, 35, 0);
+   }
+
+   .alertImage {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+
+   }
+
+   .alertText {
+      @include adaptiv-value('padding-left', 25, 5, 0);
+      flex: 1 1 auto;
+      @include adaptiv-value('font-size', 15, 10, 0);
+      font-weight: 600;
+      line-height: normal;
+   }
+
+   .alertControls {
+      display: flex;
+      @include adaptiv-value('column-gap', 20, 10, 0);
+      @include adaptiv-value('padding-right', 25, 10, 0);
+      padding-left: 15px;
+   }
+
+   @media (max-width:$tablet) {
+      .alert {
+         flex-wrap: wrap;
+         align-items: flex-start;
+      }
+
+      .alertControls {
+         padding-left: 48px;
+      }
+   }
+
+   @media (max-width:425px) {
+      .alertText {
+         padding-left: 59px;
+         transform: translateY(-120%);
+      }
+   }
+
+   .alertClose {
+      background: url('../../../public/img/personal/close.svg')no-repeat center center/cover;
+      @include adaptiv-value('width', 12, 8, 0);
+      @include adaptiv-value('height', 12, 8, 0);
+      cursor: pointer;
+   }
+
+
+
+   .alert_fonts {
+      color: rgba(255, 255, 255, 0.80);
+      @include adaptiv-value('font-size', 15, 10, 0);
+      font-weight: 500;
+      cursor: pointer;
+   }
+
+   .alert_fonts:hover {
+      text-decoration: underline;
+      color: #FFF;
+   }
+
+   .friendImageWrapper {
+      @include adaptiv-value('width', 213, 154, 0);
+      @include adaptiv-value('height', 215, 155, 0);
+      border-radius: 5px;
+   }
+
+   @media (max-width:424px) {
+      .friendImageWrapper {
+         @include adaptiv-value('width', 213, 124, 0);
+         @include adaptiv-value('height', 215, 125, 0);
+      }
+   }
+
+   .friendImage {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+   }
+
+   .friendWrapper {
+      display: flex;
+      @include adaptiv-value('column-gap', 30, 8, 0);
+      flex-wrap: wrap;
+      @include adaptiv-value('row-gap', 45, 20, 0);
+   }
+
+   @media (max-width:768px) {
+      .friendWrapper {
+         display: flex;
+         justify-content: space-between;
+      }
+   }
+
+   .friendName {
+      @include adaptiv-value('font-size', 18, 15, 0);
+      font-weight: 700;
+      @include adaptiv-value('padding-top', 15, 10, 0);
+   }
+
+   .friendStatus {
+      color: #F2F60F;
+      @include adaptiv-value('font-size', 14, 13, 0);
+      font-weight: 400;
+      padding-top: 5px;
+   }
+
+}

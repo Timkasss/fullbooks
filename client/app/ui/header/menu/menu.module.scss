@@ -1,0 +1,51 @@
+@import '../../adaptiv.module.scss';
+
+
+.menu {}
+
+.list {
+   display: flex;
+   flex-wrap: wrap;
+   @include adaptiv-value('gap', 25, 10, 0);
+}
+
+.item {}
+
+.item_hover {
+   position: relative;
+}
+
+.item_hover::after {
+   content: '';
+   position: absolute;
+   left: 0;
+   bottom: -5px;
+}
+
+.item_hover:hover::after {
+   width: 100%;
+   height: 3px;
+   background-color: #fff;
+   animation: menu-hover 0.5s;
+
+}
+
+.link {
+   color: #FFF;
+   @include adaptiv-value('font-size', 17, 13, 0);
+   font-weight: 700;
+   line-height: normal;
+}
+
+
+@keyframes menu-hover {
+   from {
+      width: 0;
+      left: 50%;
+   }
+
+   to {
+      width: 100%;
+      left: 0%;
+   }
+}
