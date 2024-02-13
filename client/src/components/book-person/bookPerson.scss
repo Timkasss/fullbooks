@@ -1,9 +1,0 @@
-@import '../../index.scss';
-
-.book-person {
-   @include adaptiv-value('padding-top', 100, 55, 0);
-
-   &__title {
-      @include adaptiv-value('padding-bottom', 55, 25, 0);
-   }
-}

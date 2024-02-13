@@ -1,9 +1,0 @@
-@import '../../index.scss';
-
-.what-read {
-   @include adaptiv-value('padding-top', 80, 30, 0);
-
-   &__title {
-      @include adaptiv-value('padding-bottom', 70, 20, 0);
-   }
-}
