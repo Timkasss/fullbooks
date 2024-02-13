@@ -1,0 +1,220 @@
+import foto1 from '../../public/img/authors/author.png';
+
+
+
+export const books = [
+   {
+      _id: 0,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 1,
+      title: "Бак Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 2,
+      title: "Окей Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 3,
+      title: "Інший Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 4,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 5,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 6,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 7,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+   {
+      _id: 8,
+      title: "Ананьєв Анатолій Андрійович",
+      subTitle: "18 липня",
+      authors: "Ауліє-Ата. Казахская АССР",
+      genre: "7 грудня 2001(76)",
+      grade: { rating: 0, likes: 0, dislikes: 0, views: 0 },
+      language: "Москва, Росія",
+      publishedDate: "Прозаїк",
+      publisher: "Соціалістичний реалізм",
+      description: "Роман",
+      pages: "Російська",
+      image: foto1
+   },
+]
+
+
+export const writers = [
+   {
+      _id: 0,
+      fullname: "Вася Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 1,
+      fullname: "Саша Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 2,
+      fullname: "Олег Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 3,
+      fullname: "Андрій Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 4,
+      fullname: "Ананьєв Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 5,
+      fullname: "Ананьєв Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   },
+   {
+      _id: 6,
+      fullname: "Ананьєв Анатолій Андрійович",
+      birthday: "18 липня",
+      placeofbirth: "Ауліє-Ата. Казахская АССР",
+      deathdate: "7 грудня 2001(76)",
+      placeofdeath: "Москва, Росія",
+      typeactivity: "Прозаїк",
+      direction: "Соціалістичний реалізм",
+      languageworks: "Роман",
+      image: foto1
+   }
+]
