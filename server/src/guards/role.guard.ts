@@ -28,7 +28,7 @@ export class RoleGuard {
 		const request = context.switchToHttp().getRequest()
 		const token = request['token'] as TokenDto
 
-		for (let role of requiredRoles) {
+		for (const role of requiredRoles) {
 			const result = this.accessControlService.isAuthorized({
 				currentRole: token.role,
 				requiredRole: role

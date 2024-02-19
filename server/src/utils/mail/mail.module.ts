@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config'
 	imports: [
 		ConfigModule.forRoot(),
 		MailerModule.forRoot({
-			transport: `${process.env.EMAIL_SMTP_LINK}`,
+			transport: `smtps://developerjsua@gmail.com:bosj wxay jneg ssep @smtp.gmail.com`,
 			defaults: {
 				from: `"Books App" <${process.env.EMAIL_NAME}>`
 			},

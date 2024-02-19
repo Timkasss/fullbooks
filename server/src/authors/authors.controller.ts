@@ -6,8 +6,7 @@ import {
 	Param,
 	Post,
 	HttpException,
-	HttpStatus,
-	UseGuards
+	HttpStatus
 } from '@nestjs/common'
 import {
 	ApiTags,

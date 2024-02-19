@@ -6,7 +6,6 @@ import {
 import { CreateBookDto } from './dto/create-book.dto'
 import { BookDocument } from 'src/schemas/book.schema'
 import { InjectModel } from '@nestjs/mongoose'
-
 import { Model } from 'mongoose'
 import { ImageService } from 'src/utils/imageService.service'
 import { UpdateBookDto } from './dto/update-book.dto'
@@ -23,17 +22,15 @@ export class BooksService {
 	async createBook(CreateBookDto: CreateBookDto): Promise<BookDocument> {
 		const book = new this.bookModel(CreateBookDto)
 
-		const imageUrl = await this.imageService.uploadImage(CreateBookDto.image)
-		book.image = imageUrl
+		book.image = await this.imageService.uploadImage(CreateBookDto.image)
 		console.log(CreateBookDto.pdf.buffer)
 
-		const pdfUrl = await this.filesService.uploadFileToMega(CreateBookDto.pdf)
-		book.pdf = pdfUrl
+		book.pdf = await this.filesService.uploadFileToMega(CreateBookDto.pdf)
 
 		return await book.save()
 	}
 	async getBooks(): Promise<BookDocument[]> {
-		return await this.bookModel.find()
+		return this.bookModel.find()
 	}
 
 	async updateBook(
@@ -69,17 +66,15 @@ export class BooksService {
 	}
 
 	async deleteBook(id: string): Promise<BookDocument> {
-		return await this.bookModel.findByIdAndDelete(id)
+		return this.bookModel.findByIdAndDelete(id)
 	}
 
 	async giveLike(id: string) {
-		const book = await this.updateGrade(id, 'likes', 1)
-		return book
+		return await this.updateGrade(id, 'likes', 1)
 	}
 
 	async giveDislike(id: string) {
-		const book = await this.updateGrade(id, 'dislikes', 1)
-		return book
+		return await this.updateGrade(id, 'dislikes', 1)
 	}
 
 	async getBook(id: string): Promise<BookDocument> {
@@ -91,13 +86,11 @@ export class BooksService {
 	}
 
 	async removeLike(id: string) {
-		const book = await this.updateGrade(id, 'likes', -1)
-		return book
+		return await this.updateGrade(id, 'likes', -1)
 	}
 
 	async removeDislike(id: string) {
-		const book = await this.updateGrade(id, 'dislikes', -1)
-		return book
+		return await this.updateGrade(id, 'dislikes', -1)
 	}
 
 	async getBooksByAuthor(authorName: string): Promise<BookDocument[]> {

@@ -22,7 +22,7 @@ export class CreateUserDto {
 	})
 	@IsString()
 	@MinLength(6)
-	readonly password: number
+	readonly password: string
 	@ApiProperty({
 		type: String,
 		description: 'This is a required property'

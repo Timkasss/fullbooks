@@ -21,15 +21,13 @@ export class AuthorsAwardsController {
 	@Post()
 	async createAward(@Body() createAwardDto: CreateAwardDto) {
 		try {
-			const newAward =
-				await this.authorsAwardsService.createAward(createAwardDto)
-			return newAward
+			return await this.authorsAwardsService.createAward(createAwardDto)
 		} catch (error) {
 			console.log(error)
 			if (error.code === 11000) {
 				throw new HttpException('Award already exists', HttpStatus.CONFLICT)
 			} else {
-				throw new HttpException('Image not provided', HttpStatus.BAD_REQUEST)
+				throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
 			}
 		}
 	}

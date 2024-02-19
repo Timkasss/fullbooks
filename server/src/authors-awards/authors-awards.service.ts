@@ -19,13 +19,13 @@ export class AuthorsAwardsService {
 		const award = new this.authorsAwardsModel(createAwardDto)
 
 		const image = await this.imageService.uploadImage(createAwardDto.image)
-		console.log(image)
+
 		award.image = image
 		return await award.save()
 	}
 
 	async getAwards(): Promise<AuthorsAwardsDocument[]> {
-		return await this.authorsAwardsModel.find()
+		return this.authorsAwardsModel.find()
 	}
 
 	async getAward(id: string): Promise<AuthorsAwardsDocument> {

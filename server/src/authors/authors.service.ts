@@ -16,14 +16,13 @@ export class AuthorsService {
 		createAuthorDto: CreateAuthorDto
 	): Promise<AuthorDocument> {
 		const author = new this.authorModel(createAuthorDto)
-		const image = await this.imageService.uploadImage(createAuthorDto.image)
-		author.image = image
+		author.image = await this.imageService.uploadImage(createAuthorDto.image)
 
 		return await author.save()
 	}
 
 	async getAuthors(): Promise<AuthorDocument[]> {
-		return await this.authorModel.find()
+		return this.authorModel.find()
 	}
 
 	async getAuthor(id: string): Promise<AuthorDocument> {

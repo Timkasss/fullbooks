@@ -30,25 +30,18 @@ export class UsersService {
 	}
 
 	async findByEmail(
-		email: string,
-		place: string
+		email: string
 	): Promise<UserDocument | null | GoogleOAuthUserDocument> {
 		try {
-			if (place === 'google') {
-				const user = await this.googleUserModel.findOne({ email })
-				if (!user) {
-					return null
-				}
-				return user
-			} else if (place === 'local') {
-				const user = await this.userModel.findOne({ email })
+			const userModel = await this.googleUserModel.findOne({ email })
+			const googleUserModel = await this.userModel.findOne({ email })
 
-				if (!user) {
-					return null
-				}
+			const user = userModel || googleUserModel
 
-				return user
+			if (!user) {
+				return null
 			}
+			return user
 		} catch (error) {
 			throw error
 		}
@@ -86,8 +79,12 @@ export class UsersService {
 		return user
 	}
 
-	async profile(req: Request): Promise<UserDocument> {
+	async profile(req: Request): Promise<UserDocument | GoogleOAuthUserDocument> {
 		try {
+			if (!req.headers.authorization) {
+				throw new BadRequestException("Token don't provided")
+			}
+
 			const token = req.headers.authorization.split(' ')[1]
 			const decodedToken = await this.jwtService.verify(token, {
 				secret: process.env.SECRET_KEY
@@ -97,14 +94,21 @@ export class UsersService {
 				throw new BadRequestException('Invalid token format')
 
 			const userId = decodedToken.id
-			const user = await this.userModel.findById(userId)
+			const userModel = await this.userModel
+				.findById(userId)
+				.select('-password')
+			const googleUserModel = await this.googleUserModel
+				.findById(userId)
+				.select('-password')
+
+			const user = userModel || googleUserModel
 
 			if (!user) throw new NotFoundException('User not found')
 
 			return user
 		} catch (error) {
 			console.error(error)
-			throw error
+			throw new BadRequestException(error.message)
 		}
 	}
 

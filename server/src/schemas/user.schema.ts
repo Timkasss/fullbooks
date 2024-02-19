@@ -40,11 +40,11 @@ export class GoogleOAuthUser {
 	@Prop({ type: String, required: true })
 	lastName: string
 
-	@Prop({ type: String, default: '' })
+	@Prop({ type: String, required: true })
 	password: string
 
 	@Prop({ type: String, required: true })
-	avatar: string
+	picture: string
 
 	@Prop({ type: String, required: true })
 	locale: string
