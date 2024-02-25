@@ -6,6 +6,15 @@ import { INestApplication, ValidationPipe } from '@nestjs/common'
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {})
 	app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }))
+
+	setupOpenApi(app)
+
+	app.enableCors()
+	await app.listen(4000)
+}
+bootstrap()
+
+function setupOpenApi(app: INestApplication) {
 	const config = new DocumentBuilder()
 		.setTitle('Book Shop')
 		.setDescription('Doc of book shop api')
@@ -14,7 +23,4 @@ async function bootstrap() {
 		.build()
 	const document = SwaggerModule.createDocument(app, config)
 	SwaggerModule.setup('api-docs', app, document)
-	app.enableCors()
-	await app.listen(4000)
 }
-bootstrap()

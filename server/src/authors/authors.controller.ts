@@ -3,20 +3,20 @@ import {
 	Controller,
 	Delete,
 	Get,
-	Param,
-	Post,
 	HttpException,
-	HttpStatus
+	HttpStatus,
+	Param,
+	Post
 } from '@nestjs/common'
 import {
-	ApiTags,
-	ApiCreatedResponse,
-	ApiOkResponse,
-	ApiNotFoundResponse,
-	ApiParam,
 	ApiBadRequestResponse,
+	ApiConflictResponse,
+	ApiCreatedResponse,
+	ApiNotFoundResponse,
+	ApiOkResponse,
 	ApiOperation,
-	ApiConflictResponse
+	ApiParam,
+	ApiTags
 } from '@nestjs/swagger'
 import { CreateAuthorDto } from './create-author.dto'
 import { AuthorsService } from './authors.service'
@@ -66,9 +66,7 @@ export class AuthorsController {
 	@ApiParam({ name: 'id', description: 'Author ID', required: true })
 	@Get(':id')
 	getAuthor(@Param('id') id: string) {
-		const author = this.authorsService.getAuthor(id)
-
-		return author
+		return this.authorsService.getAuthor(id)
 	}
 
 	@ApiOperation({ summary: 'Delete Author by ID' })

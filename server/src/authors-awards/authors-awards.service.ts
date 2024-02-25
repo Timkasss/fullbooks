@@ -18,9 +18,7 @@ export class AuthorsAwardsService {
 	): Promise<AuthorsAwardsDocument> {
 		const award = new this.authorsAwardsModel(createAwardDto)
 
-		const image = await this.imageService.uploadImage(createAwardDto.image)
-
-		award.image = image
+		award.image = await this.imageService.uploadImage(createAwardDto.image)
 		return await award.save()
 	}
 

@@ -1,9 +1,10 @@
-import { ExecutionContext, Injectable, CanActivate } from '@nestjs/common'
+import { ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
 import { ROLE_KEY } from 'src/decorators/roles.decorator'
 import { Role } from 'src/enums/role.enum'
 import { AccessControlService } from 'src/shared/access-contol.service'
+import { JwtService } from '@nestjs/jwt'
 
 export class TokenDto {
 	id: number
@@ -14,7 +15,8 @@ export class TokenDto {
 export class RoleGuard {
 	constructor(
 		private reflector: Reflector,
-		private accessControlService: AccessControlService
+		private accessControlService: AccessControlService,
+		private jwtService: JwtService
 	) {}
 
 	canActivate(
@@ -26,11 +28,13 @@ export class RoleGuard {
 		])
 
 		const request = context.switchToHttp().getRequest()
-		const token = request['token'] as TokenDto
+		const token = request.headers['authorization'].split(' ')[1]
+
+		const decodedToken = this.jwtService.decode(token)
 
 		for (const role of requiredRoles) {
 			const result = this.accessControlService.isAuthorized({
-				currentRole: token.role,
+				currentRole: decodedToken.role,
 				requiredRole: role
 			})
 

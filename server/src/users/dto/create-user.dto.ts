@@ -8,7 +8,14 @@ export class CreateUserDto {
 	})
 	@IsString()
 	@MinLength(3)
-	readonly username: string
+	readonly firstName: string
+	@ApiProperty({
+		type: String,
+		description: 'This is a required property'
+	})
+	@IsString()
+	@MinLength(2)
+	readonly lastName: string
 	@ApiProperty({
 		type: String,
 		description: 'This is a required property'

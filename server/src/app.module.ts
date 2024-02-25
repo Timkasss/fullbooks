@@ -8,6 +8,7 @@ import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data'
 import { AuthorsModule } from './authors/authors.module'
 import { AuthorsAwardsModule } from './authors-awards/authors-awards.module'
 import { SharedModule } from './shared/shared.module'
+import { PostsModule } from './posts/posts.module'
 @Module({
 	imports: [
 		ConfigModule.forRoot({ isGlobal: true }),
@@ -20,7 +21,8 @@ import { SharedModule } from './shared/shared.module'
 		BooksModule,
 		AuthorsModule,
 		AuthorsAwardsModule,
-		SharedModule
+		SharedModule,
+		PostsModule
 	],
 	controllers: [],
 	providers: []

@@ -1,31 +1,31 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument } from 'mongoose'
+import { HydratedDocument, ObjectId, SchemaTypes } from 'mongoose'
 
 export type PostDocument = HydratedDocument<Post>
 
 @Schema()
 export class Post {
-	@Prop({ required: true, type: String })
+	@Prop({ unique: true, required: true, type: String })
 	title: string
 	@Prop({ required: true, type: String })
 	content: string
-	@Prop({ required: true, type: String })
+	@Prop({ type: String })
 	image: string
-	@Prop({ required: true, type: String })
-	author: string
+	@Prop({ type: SchemaTypes.ObjectId, ref: 'Users' })
+	author: ObjectId
 	@Prop({ required: true, type: String })
 	date: string
 	@Prop({ required: true, type: String })
 	category: string
-	@Prop({ required: true, type: String })
-	tags: string
-	@Prop({ required: true, type: Number })
+	@Prop({ type: [String], default: [] })
+	tags: string[]
+	@Prop({ required: true, type: Number, default: 0 })
 	views: number
-	@Prop({ required: true, type: Number })
+	@Prop({ required: true, type: Number, default: 0 })
 	likes: number
-	@Prop({ required: true, type: Number })
+	@Prop({ required: true, type: Number, default: 0 })
 	dislikes: number
-	@Prop({ required: true, type: [String] })
+	@Prop({ type: [String], default: [] })
 	comments: string[]
 	@Prop({ required: true, type: String })
 	video: string

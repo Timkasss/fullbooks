@@ -16,8 +16,6 @@ export class OwnerGuard implements CanActivate {
 			return true
 		}
 
-		const isOwner = requestingUserId == targetUserId
-
-		return isOwner
+		return requestingUserId == targetUserId
 	}
 }

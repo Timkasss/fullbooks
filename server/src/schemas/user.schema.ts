@@ -4,8 +4,11 @@ import { HydratedDocument } from 'mongoose'
 export type UserDocument = HydratedDocument<User>
 @Schema()
 export class User {
-	@Prop({ unique: true, required: true, type: String })
-	username: string
+	@Prop({ type: String, required: true })
+	firstName: string
+
+	@Prop({ type: String, required: true })
+	lastName: string
 
 	@Prop({ unique: true, required: true, type: String })
 	email: string
@@ -16,45 +19,17 @@ export class User {
 	@Prop({ required: true })
 	date: string
 
-	@Prop({ type: String })
-	avatar: string
+	@Prop({
+		type: String,
+		default:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/1024px-Missing_avatar.svg.png'
+	})
+	picture: string
+
+	@Prop({ type: String, required: true, default: 'en' })
+	locale: string
 
 	@Prop({ default: 'USER' })
 	role: string
 }
 export const UserSchema = SchemaFactory.createForClass(User)
-
-export type GoogleOAuthUserDocument = HydratedDocument<GoogleOAuthUser>
-
-@Schema()
-export class GoogleOAuthUser {
-	@Prop({ type: String, required: true })
-	googleId: string
-
-	@Prop({ type: String, required: true })
-	email: string
-
-	@Prop({ type: String, required: true })
-	firstName: string
-
-	@Prop({ type: String, required: true })
-	lastName: string
-
-	@Prop({ type: String, required: true })
-	password: string
-
-	@Prop({ type: String, required: true })
-	picture: string
-
-	@Prop({ type: String, required: true })
-	locale: string
-
-	@Prop({ type: String, required: true })
-	accessToken: string
-
-	@Prop({ default: 'USER' })
-	role: string
-}
-
-export const GoogleOAuthUserSchema =
-	SchemaFactory.createForClass(GoogleOAuthUser)

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { GoogleOAuthUserDocument, UserDocument } from '../schemas/user.schema'
+import { UserDocument } from '../schemas/user.schema'
 import { updateUserDto } from './dto/update-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from 'src/utils/imageService.service'
@@ -16,8 +16,8 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
-		@InjectModel('GoogleOAuthUser')
-		private googleUserModel: Model<GoogleOAuthUserDocument>,
+		// @InjectModel('GoogleOAuthUser')
+		// private googleUserModel: Model<GoogleOAuthUserDocument>,
 		private jwtService: JwtService,
 		private imageService: ImageService
 	) {}
@@ -29,14 +29,9 @@ export class UsersService {
 		return user
 	}
 
-	async findByEmail(
-		email: string
-	): Promise<UserDocument | null | GoogleOAuthUserDocument> {
+	async findByEmail(email: string): Promise<UserDocument | null> {
 		try {
-			const userModel = await this.googleUserModel.findOne({ email })
-			const googleUserModel = await this.userModel.findOne({ email })
-
-			const user = userModel || googleUserModel
+			const user = await this.userModel.findOne({ email })
 
 			if (!user) {
 				return null
@@ -79,7 +74,7 @@ export class UsersService {
 		return user
 	}
 
-	async profile(req: Request): Promise<UserDocument | GoogleOAuthUserDocument> {
+	async profile(req: Request): Promise<UserDocument> {
 		try {
 			if (!req.headers.authorization) {
 				throw new BadRequestException("Token don't provided")
@@ -94,14 +89,7 @@ export class UsersService {
 				throw new BadRequestException('Invalid token format')
 
 			const userId = decodedToken.id
-			const userModel = await this.userModel
-				.findById(userId)
-				.select('-password')
-			const googleUserModel = await this.googleUserModel
-				.findById(userId)
-				.select('-password')
-
-			const user = userModel || googleUserModel
+			const user = await this.userModel.findById(userId).select('-password')
 
 			if (!user) throw new NotFoundException('User not found')
 

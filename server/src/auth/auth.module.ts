@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
-import { GoogleOAuthUserSchema, UserSchema } from 'src/schemas/user.schema'
+import { UserSchema } from 'src/schemas/user.schema'
 import { GoogleStrategy } from './google.strategy'
 import { MailModule } from 'src/utils/mail/mail.module'
 
@@ -18,13 +18,7 @@ import { MailModule } from 'src/utils/mail/mail.module'
 			secret: process.env.SECRET_KEY,
 			signOptions: { expiresIn: '14d' }
 		}),
-		MongooseModule.forFeature([
-			{ name: 'Users', schema: UserSchema },
-			{
-				name: 'GoogleOAuthUser',
-				schema: GoogleOAuthUserSchema
-			}
-		]),
+		MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
 		UsersModule,
 		PassportModule,
 		MailModule

@@ -1,30 +1,65 @@
-import { Body, Controller } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Post,
+	Query,
+	Req
+} from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './create-post.dto'
+import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
+import { Request } from 'express'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
 	constructor(private PostService: PostsService) {}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async createPost(@Body() createPostDto: CreatePostDto) {
+	// example of using Roles Guard
+	// @UseGuards(RoleGuard)
+	// @Roles(Role.USER)
+	@FormDataRequest({ storage: MemoryStoredFile })
+	@Post('create')
+	async createPost(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
 		try {
-			// pass
+			const post = this.PostService.createPost(createPostDto, req)
+			return post
 		} catch (error) {
 			console.error(error)
 			throw error
 		}
 	}
+	@Get()
+	async getPosts() {
+		return await this.PostService.getPosts()
+	}
 
-	async getPosts() {}
+	@Get('post/:id')
+	async getPost(@Param('id') id: string) {
+		return await this.PostService.getPost(id)
+	}
 
-	async getPost() {}
+	@Delete('/:id')
+	async deletePost(@Param('id') id: string) {
+		return await this.PostService.deletePost(id)
+	}
 
-	async deletePost() {}
+	@Get('author')
+	async getPostsByAuthor(@Query('authorId') authorId: string) {
+		return await this.PostService.getPostsByAuthor(authorId)
+	}
 
-	async getPostsByAuthor() {}
+	@Get('tag')
+	async getPostsByTag(@Query('tags') tags: string[]) {
+		return await this.PostService.getPostsByTag(tags)
+	}
 
-	async getPostsByTag() {}
-
-	async getPostsByCategory() {}
+	@Get('category')
+	async getPostsByCategory(@Query('category') category: string) {
+		return this.PostService.getPostsByCategory(category)
+	}
 }

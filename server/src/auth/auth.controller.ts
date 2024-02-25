@@ -6,7 +6,6 @@ import {
 	HttpCode,
 	HttpException,
 	HttpStatus,
-	NotFoundException,
 	Post,
 	Req,
 	UseGuards
@@ -26,11 +25,7 @@ import {
 } from '@nestjs/swagger'
 import { LoginUserDto } from 'src/users/dto/loginin-user.dto'
 import { AuthGuard } from '@nestjs/passport'
-import {
-	GoogleOAuthUser,
-	GoogleOAuthUserDocument,
-	UserDocument
-} from '../schemas/user.schema'
+import { User, UserDocument } from '../schemas/user.schema'
 import { MailService } from '../utils/mail/mail.service'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/mongoose'
@@ -43,9 +38,7 @@ export class AuthController {
 		private authService: AuthService,
 		private mailService: MailService,
 		private jwtService: JwtService,
-		@InjectModel('Users') private userModel: Model<UserDocument>,
-		@InjectModel('GoogleOAuthUser')
-		private googleUserModel: Model<GoogleOAuthUserDocument>
+		@InjectModel('Users') private userModel: Model<UserDocument>
 	) {}
 
 	@HttpCode(HttpStatus.OK)
@@ -67,12 +60,8 @@ export class AuthController {
 			const userInUserModel: UserDocument | null = await this.userModel.findOne(
 				{ email }
 			)
-			const userInGoogleUserModel: null | GoogleOAuthUserDocument =
-				await this.googleUserModel.findOne({
-					email
-				})
 
-			if (!userInUserModel && !userInGoogleUserModel) {
+			if (!userInUserModel) {
 				throw new HttpException(
 					'Password or email not found',
 					HttpStatus.NOT_FOUND
@@ -109,11 +98,8 @@ export class AuthController {
 			const existingUserInUserModel = await this.userModel.findOne({
 				email: signUpDto.email
 			})
-			const existingUserInGoogleUserModel = await this.googleUserModel.findOne({
-				email: signUpDto.email
-			})
 
-			if (existingUserInUserModel || existingUserInGoogleUserModel) {
+			if (existingUserInUserModel) {
 				throw new HttpException('User already exists', HttpStatus.CONFLICT)
 			}
 			const user = await this.authService.signUp(signUpDto)
@@ -138,11 +124,11 @@ export class AuthController {
 
 	@Get('google/redirect')
 	@UseGuards(AuthGuard('google'))
-	async googleAuthRedirect(@Req() req: Request<GoogleOAuthUser>) {
+	async googleAuthRedirect(@Req() req: Request<User>) {
 		const generatedPass = this.passwordGeneration(10)
 		const user = await this.authService.googleLogin(req, generatedPass)
-		const googleUser: GoogleOAuthUser = <GoogleOAuthUser>req.user
-		await this.mailService.sendEmail(generatedPass, googleUser.email)
+
+		await this.mailService.sendEmail(generatedPass, user.email)
 
 		return {
 			token: await this.jwtService.signAsync({
