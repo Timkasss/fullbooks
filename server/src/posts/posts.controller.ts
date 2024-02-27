@@ -5,6 +5,7 @@ import {
 	Get,
 	Param,
 	Post,
+	Put,
 	Query,
 	Req
 } from '@nestjs/common'
@@ -61,5 +62,25 @@ export class PostsController {
 	@Get('category')
 	async getPostsByCategory(@Query('category') category: string) {
 		return this.PostService.getPostsByCategory(category)
+	}
+
+	@Post('givelike/:id')
+	async giveLike(@Param('id') id: string) {
+		return this.PostService.giveLike(id)
+	}
+
+	@Post('givedislike/:id')
+	async giveDisLike(@Param('id') id: string) {
+		return this.PostService.giveDislike(id)
+	}
+
+	@Post('removelike/:id')
+	async removeLike(@Param('id') id: string) {
+		return this.PostService.removeLike(id)
+	}
+
+	@Post('removedislike/:id')
+	async removeDislike(@Param('id') id: string) {
+		return this.PostService.removeDislike(id)
 	}
 }

@@ -11,6 +11,12 @@ import { CreatePostDto } from './create-post.dto'
 import { Request } from 'express'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from '../utils/imageService.service'
+import { UpdatePostDto } from './update-post.dto'
+
+interface IPostRepository {
+	create(data: CreatePostDto): Promise<PostDocument>
+	delete(id: string): Promise<PostDocument>
+}
 
 @Injectable()
 export class PostsService {
@@ -57,9 +63,9 @@ export class PostsService {
 
 	async getPost(id: string) {
 		try {
-			const post = await this.PostsModel.findById(id).populate([
-				{ path: 'author', select: '-password' }
-			])
+			const post = await this.PostsModel.findByIdAndUpdate(id, {
+				$inc: { views: 1 }
+			}).populate([{ path: 'author', select: '-password' }])
 
 			if (!post) {
 				throw new HttpException('Post not found', 404)
@@ -136,6 +142,56 @@ export class PostsService {
 		} catch (e) {
 			throw new HttpException(e.message, e.status)
 		}
+	}
+
+	async giveLike(id: string) {
+		const post = await this.PostsModel.findOneAndUpdate(
+			{ _id: id },
+			{
+				$inc: { likes: 1 }
+			},
+			{ new: true }
+		)
+		console.log(post)
+		if (!post) throw new NotFoundException()
+		return post
+	}
+
+	async giveDislike(id: string) {
+		const post = await this.PostsModel.findOneAndUpdate(
+			{ _id: id },
+			{
+				$inc: { dislikes: 1 }
+			},
+			{ new: true }
+		)
+		if (!post) throw new NotFoundException()
+		return post
+	}
+
+	async removeLike(id: string) {
+		const post = await this.PostsModel.findOneAndUpdate(
+			{ _id: id, likes: { $gte: 1 } },
+			{
+				$inc: { likes: -1 }
+			},
+			{ new: true }
+		)
+		if (!post) throw new NotFoundException()
+		return post
+	}
+
+	async removeDislike(id: string) {
+		const post = await this.PostsModel.findOneAndUpdate(
+			{ _id: id, dislikes: { $gte: 1 } },
+			{
+				$inc: { dislikes: -1 }
+			},
+			{ new: true }
+		)
+		console.log(post)
+		if (!post) throw new NotFoundException()
+		return post
 	}
 
 	private generateDate(): string {
