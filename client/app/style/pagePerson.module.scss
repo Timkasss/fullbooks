@@ -81,10 +81,7 @@
    object-position: center top;
 }
 
-.informationWrapper {
-   grid-area: infa;
-   padding-top: 30px;
-}
+
 
 .headerTitle {
    @include adaptiv-value('font-size', 65, 25, 0);
@@ -147,26 +144,7 @@
    }
 }
 
-.switch {
-   display: flex;
-   column-gap: 20px;
-   padding-bottom: 17px;
-}
 
-.switchInformation,
-.switchBiography {
-   color: #6D717D;
-   @include adaptiv-value('font-size', 19, 15, 0);
-   font-weight: 600;
-   cursor: pointer;
-   user-select: none;
-
-}
-
-.pagePerson_switch_active {
-   color: #FFF;
-   text-decoration-line: underline;
-}
 
 #personInfo {
    border-collapse: collapse;

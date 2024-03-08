@@ -4,8 +4,8 @@ import styles from './whatread.module.scss';
 // import { BooksContext } from '../context';
 // import { useContext } from 'react';
 import Slider from '../slider/Slider';
-import { books } from '@/app/lib/placeholder-data';
-export default function Whatread() {
+
+export default function Whatread({ books }) {
 
    // const { dataBooks, setDataBooks } = useContext(BooksContext);
 

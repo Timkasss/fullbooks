@@ -1,0 +1,50 @@
+.wrapper {
+   //flex: 1 1 auto;
+   border: 2px solid #181515;
+   border-radius: 10px;
+   color: black;
+
+   .menu {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: black;
+
+      .button {
+         padding: 10px;
+         background: transparent;
+         color: white;
+
+         .icon {
+            width: 20px;
+            height: 20px;
+         }
+      }
+
+      .button:hover {
+         background-color: rgb(75, 67, 61);
+         border-radius: 10px;
+      }
+
+      .isActive {
+         background-color: rgb(75, 67, 61);
+         border-radius: 10px;
+      }
+
+
+   }
+
+}
+
+.colorStyle {
+   color: black;
+   padding: 10px;
+   border: 2px solid #181515;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
+
+   .quote {
+      border-left: 3px solid rgba(#0d0d0d, 0.1);
+      padding-left: 1rem;
+   }
+}

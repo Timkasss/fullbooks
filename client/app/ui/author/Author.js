@@ -23,7 +23,11 @@ export default function Author({ authors, index }) {
                   <Link href={`/authors/${index}`} className={`${styles.hoverButton} ${styles.button}`}>Карточка персоны</Link>
                </div>
             }
-            <Image src={authors.image} alt="poster" className={styles.poster} />
+            <Image
+               src={authors.image}
+               width={1000}
+               height={500}
+               alt="poster" className={styles.poster} />
          </div>
 
       </article >

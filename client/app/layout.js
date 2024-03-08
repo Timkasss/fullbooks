@@ -12,14 +12,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="wrapper">
+        {children}
+
+        {/* <div className="wrapper">
           <Header />
           <div className="main">
             {children}
           </div>
           <Email />
           <Footer />
-        </div>
+        </div> */}
       </body>
     </html>
   );

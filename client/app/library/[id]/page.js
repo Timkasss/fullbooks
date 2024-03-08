@@ -5,19 +5,21 @@ import Review from '@/app/ui/review/Review';
 
 import styles from '@/app/style/book.module.scss';
 
-
 import avatar from '@/public/img/book/avatar-comment.png';
 import Image from 'next/image';
 
-import { books } from '@/app/lib/placeholder-data';
+import { loadBook } from '@/app/lib/load-date';
+import { loadBooks } from '@/app/lib/load-date';
 
-export default function Book({ params: { id } }) {
-   //ДОБАВИТИ ПРЕЛОУД
-   const slides = books;
+export default async function Book({ params: { id } }) {
+   const books = await loadBook(id)
+
+   //написать алгоритм похожх книг
+   const similerBooks = await loadBooks()
 
    return (
       <>
-         <BookCard databook={books[id]} />
+         <BookCard databook={books} />
          <div className={styles.container}>
             <section className={styles.quotesBlock}>
                <h1 className={`${styles.QBtitle} ${styles.section_title}`}>Цитати з книги</h1>
@@ -32,7 +34,7 @@ export default function Book({ params: { id } }) {
             </section>
             <section className={styles.similerBooks}>
                <h1 className={styles.SBtitle}>Схожі книги</h1>
-               <Slider books={slides} />
+               <Slider books={similerBooks} />
             </section>
             <section className={styles.bookReviews}>
                <div className={styles.titleWrapper}>
@@ -40,11 +42,11 @@ export default function Book({ params: { id } }) {
                   <div className={styles.add}>Добавить рецензию</div>
                </div>
                <header className={styles.header}>
-                  <div className={styles.pick}>Всего <span className='book-reviews__pick-count book-reviews__pick-count_color_blue'>36</span></div>
-                  <div className={styles.pick}>Положительных <span className='book-reviews__pick-count book-reviews__pick-count_color_green'>28</span></div>
-                  <div className={styles.pick}>Отрицательных<span className='book-reviews__pick-count book-reviews__pick-count_color_red'>3</span></div>
-                  <div className={styles.pick}>Нейтральных рецензий<span className='book-reviews__pick-count book-reviews__pick-count_color_yellow'>5</span></div>
-                  <div className={styles.pick}>Процент<span className='book-reviews__pick-count book-reviews__pick-count_color_brown'>87%</span></div>
+                  <div className={styles.pick}>Всего <span className={`${styles.pickCount} ${styles.pickCount_color_blue}`}>36</span></div>
+                  <div className={styles.pick}>Положительных <span className={`${styles.pickCount}  ${styles.pickCount_color_green}`}>28</span></div>
+                  <div className={styles.pick}>Отрицательных<span className={`${styles.pickCount} ${styles.pickCount_color_red}`}>3</span></div>
+                  <div className={styles.pick}>Нейтральных рецензий<span className={`${styles.pickCount}  ${styles.pickCount_color_yellow}`}>5</span></div>
+                  <div className={styles.pick}>Процент<span className={`${styles.pickCount}  ${styles.pickCount_color_brown}`}>87%</span></div>
                </header>
                <div className={styles.wrapper}>
                   <Review />
@@ -61,7 +63,11 @@ export default function Book({ params: { id } }) {
             <div className={styles.writeComment}>
                <div className={styles.person}>
                   <div className={styles.avatar}>
-                     <Image src={avatar} alt="avatar" className={styles.img} />
+                     <Image
+                        src={avatar}
+                        width={1000}
+                        height={500}
+                        alt="avatar" className={styles.img} />
                   </div>
                   <div className={styles.personData}>
                      <h1 className={styles.personName}>Евгений Батиков</h1>

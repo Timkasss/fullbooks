@@ -1,0 +1,73 @@
+.formArticle {
+   width: 1144px;
+   height: 678px;
+   background-color: #fff;
+   border-radius: 20px;
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+
+   .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #EFF4FA;
+
+      .title {
+         font-size: 20px;
+         color: black;
+         padding-bottom: 20px;
+      }
+
+      .close {
+         color: black;
+         width: 24px;
+         height: 24px;
+         cursor: pointer;
+      }
+   }
+
+
+   .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+
+      .addButton {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: #4A85F6;
+         color: white;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .addButton:active {
+         transform: scale(1.01);
+      }
+
+      .addButton:hover {
+         background-color: #477cdf;
+      }
+
+      .closeModel {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: transparent;
+         color: #8F9BB3;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .closeModel:hover {
+         border: 2px solid #8F9BB3;
+      }
+   }
+}

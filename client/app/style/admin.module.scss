@@ -1,0 +1,154 @@
+.block {
+   display: flex;
+   flex-direction: column;
+   flex: 1 1 auto;
+
+   .blockUsers {
+      margin-left: 25px;
+      margin-right: 25px;
+      margin-top: 25px;
+      background-color: #fff;
+      max-height: 1150px;
+      border-radius: 15px;
+      color: black;
+
+      .title {
+         font-size: 20px;
+         font-weight: bold;
+         padding: 20px;
+      }
+
+      .header {
+         display: flex;
+         justify-content: space-between;
+         color: #8F9BB3;
+         padding: 20px;
+         padding-left: 30px;
+         padding-right: 30px;
+         background-color: #eff4fa;
+         display: grid;
+         grid-template-columns: 3fr 1fr 1fr 0.5fr;
+
+         .titleName {}
+
+         .actionTitle {
+            justify-self: end;
+         }
+      }
+
+      .item {
+         // display: flex;
+         // justify-content: space-between;
+         align-items: center;
+         padding: 20px;
+         border-bottom: 1px solid #EFF4FA;
+         display: grid;
+         grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+
+         .person {
+            padding-left: 40px;
+
+            .fullname {
+               font-size: 18px;
+               padding-bottom: 5px;
+            }
+
+            .email {
+               font-size: 16px;
+               color: #8F9BB3;
+            }
+         }
+
+         .date {
+            font-size: 16px;
+         }
+
+         .role {
+            font-size: 16px;
+         }
+
+         .action {
+            color: #C5CEE0;
+            display: flex;
+            gap: 20px;
+            justify-self: end;
+
+            .change {
+               width: 20px;
+               height: 20px;
+               cursor: pointer;
+               user-select: none;
+            }
+
+            .change:hover {
+               color: #0095FF;
+               transition: 0.3s ease-in-out;
+            }
+
+            .delete {
+               width: 20px;
+               height: 20px;
+               user-select: none;
+               cursor: pointer;
+            }
+
+            .delete:hover {
+               color: crimson;
+               transition: 0.3s ease-in-out;
+            }
+
+            .change:active,
+            .delete:active {
+               transform: scale(1.1);
+            }
+         }
+      }
+
+      .item:hover {
+         background-color: #EFF4FA;
+      }
+
+      .button {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: #4A85F6;
+         width: 111px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+         height: 26px;
+         color: white;
+      }
+
+      .button:active {
+         transform: scale(1.01);
+      }
+
+      .button:hover {
+         background-color: #477cdf;
+      }
+
+      .default {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 111px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+         height: 26px;
+         background-color: #EFF4FA;
+         color: #8F9BB3;
+      }
+
+      .default:active {
+         transform: scale(1.01);
+      }
+
+      .default:hover {
+         background-color: #e0e7f0;
+      }
+
+   }
+}
