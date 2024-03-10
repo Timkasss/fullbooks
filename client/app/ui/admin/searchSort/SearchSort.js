@@ -6,15 +6,17 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import AddAuthor from "../AddAuthor/AddAuthor";
 import AddBook from "../AddBook/AddBook";
-import AddArticle from "../AddArticle/AddArticle";
+import Link from "next/link";
 export default function SearchSort() {
+
+
    const pathname = usePathname()
    const [openModal, setOpenModal] = useState(false);
-
    return (
       <div>
          <h1 className={styles.title}>{pathname === "/admin" && 'Users Dashboard' || pathname === "/admin/users" && 'Users' || pathname === "/admin/authors" && 'Authors'}</h1>
          <div className={styles.wrapper}>
+
             <div className={styles.wrapperInput}>
                <HiOutlineMagnifyingGlass className={styles.icon} />
                <input type="text" className={styles.search} placeholder="Search" />
@@ -34,9 +36,9 @@ export default function SearchSort() {
                            Add book +
                         </div>
                         : pathname === "/admin/articles" ?
-                           <div className={styles.button} onClick={() => setOpenModal(!openModal)}>
+                           <Link className={styles.button} href="/admin/articles/article">
                               Add article +
-                           </div>
+                           </Link>
                            : null
             }
 
@@ -60,16 +62,11 @@ export default function SearchSort() {
                         :
                         pathname === "/admin/books" ?
                            <AddBook openModel={setOpenModal} />
-                           :
-                           pathname === "/admin/articles" ?
-                              <AddArticle openModel={setOpenModal} />
-
-                              : null
+                           : null
                }
 
             </div>
          }
-
       </div>
    )
 }

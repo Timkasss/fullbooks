@@ -1,10 +1,12 @@
+"use client"
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
+import Image from '@tiptap/extension-image';
 import {
    FaBold,
    FaHighlighter,
    FaItalic, FaUnderline,
-   FaStrikethrough, FaQuoteLeft, FaListUl, FaListOl
+   FaStrikethrough, FaQuoteLeft, FaListUl, FaListOl, FaImage
 } from "react-icons/fa";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 
@@ -77,6 +79,24 @@ const MenuBar = ({ editor }) => {
       },
    ]
 
+
+   const addImage = () => {
+      const url = prompt('URL')
+      const width = prompt('Width')
+      const height = prompt('Height')
+
+      if (url) {
+         editor.chain().focus().setImage({ src: url, width, height }).run()
+      }
+   }
+   // const addImage = () => {
+   //    const image = prompt("add link", "");
+   //    if (image) {
+   //       editor.chain().focus().setImage({ src: image, alt: "image" }).run()
+   //    } else {
+   //       return null
+   //    }
+   // }
    return (
       <div className={styles.wrapper}>
          <div className={styles.menu}>
@@ -94,6 +114,13 @@ const MenuBar = ({ editor }) => {
                   )
                })
             }
+            <button className={styles.image}
+               onClick={(event) => {
+                  event.preventDefault();
+                  addImage()
+               }}>
+               <FaImage className={styles.icon} />
+            </button>
          </div>
       </div >
    )
@@ -102,6 +129,59 @@ const MenuBar = ({ editor }) => {
 
 
 export default function TipTap() {
+
+   const CustomImage = Image.extend({
+      addAttributes() {
+         return {
+            src: {
+               default: null,
+               parseHTML: element => ({
+                  src: element.getAttribute('src'),
+               }),
+               renderHTML: attributes => {
+                  if (!attributes.src) {
+                     return {}
+                  }
+
+                  return {
+                     src: attributes.src,
+                  }
+               },
+            },
+            width: {
+               default: null,
+               parseHTML: element => ({
+                  width: element.getAttribute('width'),
+               }),
+               renderHTML: attributes => {
+                  if (!attributes.width) {
+                     return {}
+                  }
+
+                  return {
+                     width: attributes.width,
+                  }
+               },
+            },
+            height: {
+               default: null,
+               parseHTML: element => ({
+                  height: element.getAttribute('height'),
+               }),
+               renderHTML: attributes => {
+                  if (!attributes.height) {
+                     return {}
+                  }
+
+                  return {
+                     height: attributes.height,
+                  }
+               },
+            },
+         }
+      },
+   })
+
    const editor = useEditor({
       extensions: [
          StarterKit.configure({
@@ -115,13 +195,15 @@ export default function TipTap() {
             }
          }),
          Underline,
-         Highlight.configure({
-
-         }),
+         Highlight,
+         CustomImage,
       ],
-      content: `<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis accusantium quos ducimus sunt ab deserunt, laborum nihil nostrum iste, aut voluptas. Animi accusamus est itaque sed cum qui quod nisi.</p>`,
+      content: ``,
       autofocus: true,
    })
+
+   // const json = editor.getJSON();
+
    return (
       <>
          <MenuBar editor={editor} />

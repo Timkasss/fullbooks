@@ -26,6 +26,7 @@ export async function loadAuthors() {
    if (!data.ok) {
       throw new Error('Failed to fetch data')
    }
+
    const response = data.json();
    return response;
 }
@@ -38,4 +39,31 @@ export async function loadAuthor(id) {
    }
    const response = data.json();
    return response;
+}
+
+export async function deleteAuthor(id) {
+   const data = await fetch(`http://localhost:4000/authors/${id}`, {
+      method: 'DELETE'
+   });
+
+   if (!data.ok) {
+      throw new Error('Failed to delete data')
+   }
+   const response = data.json();
+   return response;
+}
+
+export async function addAuthor(newAuthor) {
+
+   const data = await fetch(`http://localhost:4000/authors`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newAuthor)
+   });
+
+   if (!data.ok) {
+      throw new Error('Failed to add data')
+   }
 }

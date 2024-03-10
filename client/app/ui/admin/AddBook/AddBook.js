@@ -3,8 +3,22 @@ import { IoMdClose } from "react-icons/io";
 import book from '@/public/img/books/filmpreview.png'
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
+import Select from 'react-select';
 
 export default function AddBook({ openModel }) {
+
+   const genre = [
+      { value: "lyrics", label: "вірші" },
+      { value: "writings", label: "твори" },
+   ]
+   const author = [
+      { value: "bitalii", label: "Віталій Петльований" },
+      { value: "gorkii", label: "Максим Горький" }
+   ]
+   const publisher = [
+      { value: "test", label: "test" },
+      { value: "test", label: "test" }
+   ]
    return (
       <form className={styles.formBook} onClick={(e) => e.stopPropagation()}>
          <header className={styles.header}>
@@ -41,17 +55,39 @@ export default function AddBook({ openModel }) {
             </div>
             <div>
                <label htmlFor="author" className={styles.titleInput}>Author</label>
-               <select name="author" placeholder="Select author" className={styles.input} id="author">
-                  <option value="admin" >Віталій Петльований</option>
-                  <option value="user">Максим Горький</option>
-               </select>
+               <Select options={author} id="author" styles={{
+                  control: (baseStyles, state) => ({
+                     ...baseStyles,
+                     minHeight: "34px",
+                     color: "#222B45",
+                     border: "1px solid #EFF4FA",
+                     width: "100%",
+                     borderRadius: "10px",
+                     marginTop: "5px"
+                  }),
+                  option: (baseStyles, state) => ({
+                     ...baseStyles,
+                     color: "#222B45",
+                  }),
+               }} />
             </div>
             <div>
                <label htmlFor="genre" className={styles.titleInput}>Genre</label>
-               <select name="genre" placeholder="Select genre" className={styles.input} id="genre">
-                  <option value="admin" >вірші</option>
-                  <option value="user">твори</option>
-               </select>
+               <Select options={genre} id="genre" styles={{
+                  control: (baseStyles, state) => ({
+                     ...baseStyles,
+                     minHeight: "34px",
+                     color: "#222B45",
+                     border: "1px solid #EFF4FA",
+                     width: "100%",
+                     borderRadius: "10px",
+                     marginTop: "5px"
+                  }),
+                  option: (baseStyles, state) => ({
+                     ...baseStyles,
+                     color: "#222B45",
+                  }),
+               }} />
             </div>
 
             <div>
@@ -71,10 +107,21 @@ export default function AddBook({ openModel }) {
             </div>
             <div>
                <label htmlFor="publisher" className={styles.titleInput}>Publisher</label>
-               <select name="publisher" placeholder="Select publisher" className={styles.input} id="publisher">
-                  <option value="admin" >Ukainian</option>
-                  <option value="user">Russian</option>
-               </select>
+               <Select options={publisher} id="publisher" styles={{
+                  control: (baseStyles, state) => ({
+                     ...baseStyles,
+                     minHeight: "34px",
+                     color: "#222B45",
+                     border: "1px solid #EFF4FA",
+                     width: "100%",
+                     borderRadius: "10px",
+                     marginTop: "5px"
+                  }),
+                  option: (baseStyles, state) => ({
+                     ...baseStyles,
+                     color: "#222B45",
+                  }),
+               }} />
             </div>
             <div className={styles.wrapTextarea}>
                <label htmlFor="description" className={styles.titleInput}>description</label>

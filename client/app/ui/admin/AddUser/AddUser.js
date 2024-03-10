@@ -11,14 +11,14 @@ export default function AddUser({ openModel }) {
 
          <div className={styles.wrapInputs}>
             <div className={styles.top}>
-               <input type="text" placeholder="First Name" className={styles.input} id={styles.firstName} />
-               <input type="text" placeholder="Last Name" className={styles.input} id={styles.lastName} />
+               <input type="text" name="firstname" placeholder="First Name" className={styles.input} id={styles.firstName} />
+               <input type="text" name="lastname" placeholder="Last Name" className={styles.input} id={styles.lastName} />
             </div>
             <div className={styles.bottom}>
-               <input type="email" placeholder="Email" className={styles.input} id={styles.email} />
-               <input type="password" placeholder="Password" className={styles.input} id={styles.password} />
+               <input type="email" name="email" placeholder="Email" className={styles.input} id={styles.email} />
+               <input type="password" name="password" placeholder="Password" className={styles.input} id={styles.password} />
                <select name="role" placeholder="Select Role Type" className={styles.input} id={styles.role}>
-                  <option value="admin" selected>admin</option>
+                  <option value="admin" defaultValue="admin">admin</option>
                   <option value="user">user</option>
                </select>
             </div>
