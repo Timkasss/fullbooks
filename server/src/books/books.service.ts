@@ -131,7 +131,7 @@ export class BooksService {
 		return book
 	}
 
-	async calculateRating(
+	private async calculateRating(
 		views: number,
 		likes: number,
 		dislikes: number

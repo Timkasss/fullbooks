@@ -7,13 +7,15 @@ import { Model } from 'mongoose'
 import { UsersService } from 'src/users/users.service'
 import { User, UserDocument } from 'src/schemas/user.schema'
 import { Request } from 'express'
+import { GenerateDateService } from '../utils/generateDate.service'
 
 @Injectable()
 export class AuthService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
 		private jwtService: JwtService,
-		private usersService: UsersService
+		private usersService: UsersService,
+		private generateDateService: GenerateDateService
 	) {}
 	async signIn(email: string, pass: string): Promise<UserDocument> {
 		try {
@@ -43,7 +45,7 @@ export class AuthService {
 			const salt = await bcrypt.genSalt(10)
 			newUser.password = await bcrypt.hash(newUser.password, salt)
 
-			newUser.date = this.generateDate()
+			newUser.date = this.generateDateService.generateDate()
 			return await newUser.save()
 		} catch (error) {
 			console.error('Error in signUp:', error.message)
@@ -68,7 +70,9 @@ export class AuthService {
 			const salt = await bcrypt.genSalt(10)
 			const hashPassword = await bcrypt.hash(generatedPass, salt)
 
-			const date = this.generateDate()
+			const date = this.generateDateService.generateDate()
+
+			console.log(date)
 
 			const newUser = new this.userModel({
 				firstName: googleUser.firstName,
@@ -86,16 +90,5 @@ export class AuthService {
 
 			throw error
 		}
-	}
-
-	private generateDate(): string {
-		const date_ob = new Date()
-		const date = ('0' + date_ob.getDate()).slice(-2)
-		const month = ('0' + (date_ob.getMonth() + 1)).slice(-2)
-		const year = date_ob.getFullYear()
-		const hours = date_ob.getHours()
-		const minutes = date_ob.getMinutes()
-
-		return year + '-' + month + '-' + date + ' ' + hours + ':' + minutes
 	}
 }

@@ -6,7 +6,8 @@ import {
 	HttpException,
 	HttpStatus,
 	Param,
-	Post
+	Post,
+	Query
 } from '@nestjs/common'
 import {
 	ApiBadRequestResponse,
@@ -38,6 +39,7 @@ export class AuthorsController {
 	async createAuthor(@Body() createAuthorDto: CreateAuthorDto) {
 		try {
 			const author = await this.authorsService.createAuthor(createAuthorDto)
+			console.log(createAuthorDto)
 			return author
 		} catch (error) {
 			console.log(error)
@@ -53,8 +55,8 @@ export class AuthorsController {
 	@ApiOkResponse({
 		description: 'List of authors retrieved successfully'
 	})
-	@Get()
-	getAuthors() {
+	@Get('')
+	async getAuthors() {
 		return this.authorsService.getAuthors()
 	}
 
@@ -64,8 +66,8 @@ export class AuthorsController {
 	})
 	@ApiNotFoundResponse({ description: 'Author not found' })
 	@ApiParam({ name: 'id', description: 'Author ID', required: true })
-	@Get(':id')
-	getAuthor(@Param('id') id: string) {
+	@Get('/getbyid/:id')
+	async getAuthor(@Param('id') id: string) {
 		return this.authorsService.getAuthor(id)
 	}
 
@@ -77,7 +79,12 @@ export class AuthorsController {
 	@ApiBadRequestResponse({ description: 'Bad Request' })
 	@ApiParam({ name: 'id', description: 'Author ID', required: true })
 	@Delete(':id')
-	deleteAuthor(@Param('id') id: string) {
+	async deleteAuthor(@Param('id') id: string) {
 		return this.authorsService.deleteAuthor(id)
+	}
+
+	@Get('getbyname')
+	async getAuthorByName(@Query('authorName') authorName: string) {
+		return await this.authorsService.getAuthorByName(authorName)
 	}
 }

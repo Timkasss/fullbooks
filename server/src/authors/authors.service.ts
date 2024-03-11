@@ -38,4 +38,9 @@ export class AuthorsService {
 			throw new HttpException('Author not found', HttpStatus.NOT_FOUND)
 		return author
 	}
+
+	async getAuthorByName(authorName: string): Promise<AuthorDocument[]> {
+		const regex = new RegExp(authorName, 'i')
+		return this.authorModel.find({ fullname: regex })
+	}
 }

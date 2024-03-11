@@ -16,8 +16,6 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
 	constructor(
 		@InjectModel('Users') private userModel: Model<UserDocument>,
-		// @InjectModel('GoogleOAuthUser')
-		// private googleUserModel: Model<GoogleOAuthUserDocument>,
 		private jwtService: JwtService,
 		private imageService: ImageService
 	) {}

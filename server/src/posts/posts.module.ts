@@ -8,6 +8,7 @@ import { PostSchema } from '../schemas/post.schema'
 import { AccessControlService } from '../shared/access-contol.service'
 import { UserSchema } from '../schemas/user.schema'
 import { ImageService } from '../utils/imageService.service'
+import { GenerateDateService } from '../utils/generateDate.service'
 
 @Module({
 	imports: [
@@ -17,7 +18,12 @@ import { ImageService } from '../utils/imageService.service'
 		HttpModule
 	],
 	exports: [],
-	providers: [PostsService, AccessControlService, ImageService],
+	providers: [
+		PostsService,
+		AccessControlService,
+		ImageService,
+		GenerateDateService
+	],
 	controllers: [PostsController]
 })
 export class PostsModule {}

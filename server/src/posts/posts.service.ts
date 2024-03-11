@@ -11,19 +11,15 @@ import { CreatePostDto } from './create-post.dto'
 import { Request } from 'express'
 import { JwtService } from '@nestjs/jwt'
 import { ImageService } from '../utils/imageService.service'
-import { UpdatePostDto } from './update-post.dto'
-
-interface IPostRepository {
-	create(data: CreatePostDto): Promise<PostDocument>
-	delete(id: string): Promise<PostDocument>
-}
+import { GenerateDateService } from '../utils/generateDate.service'
 
 @Injectable()
 export class PostsService {
 	constructor(
 		@InjectModel('Posts') private PostsModel: Model<PostDocument>,
 		private jwtService: JwtService,
-		private imageService: ImageService
+		private imageService: ImageService,
+		private generateDateService: GenerateDateService
 	) {}
 
 	async createPost(postDto: CreatePostDto, req: Request) {
@@ -34,7 +30,7 @@ export class PostsService {
 			const authorId = new Types.ObjectId(decodedToken._id || decodedToken.id)
 
 			const image = await this.imageService.uploadImage(postDto.image)
-			const date = this.generateDate()
+			const date = this.generateDateService.generateDate()
 
 			const post = await new this.PostsModel({
 				...postDto,
@@ -192,16 +188,5 @@ export class PostsService {
 		console.log(post)
 		if (!post) throw new NotFoundException()
 		return post
-	}
-
-	private generateDate(): string {
-		const date_ob = new Date()
-		const date = ('0' + date_ob.getDate()).slice(-2)
-		const month = ('0' + (date_ob.getMonth() + 1)).slice(-2)
-		const year = date_ob.getFullYear()
-		const hours = date_ob.getHours()
-		const minutes = date_ob.getMinutes()
-
-		return year + '-' + month + '-' + date + ' ' + hours + ':' + minutes
 	}
 }

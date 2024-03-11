@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { UserSchema } from 'src/schemas/user.schema'
 import { GoogleStrategy } from './google.strategy'
 import { MailModule } from 'src/utils/mail/mail.module'
+import { GenerateDateService } from '../utils/generateDate.service'
 
 @Module({
 	imports: [
@@ -23,7 +24,7 @@ import { MailModule } from 'src/utils/mail/mail.module'
 		PassportModule,
 		MailModule
 	],
-	providers: [AuthService, GoogleStrategy],
+	providers: [AuthService, GoogleStrategy, GenerateDateService],
 	controllers: [AuthController],
 	exports: [AuthService]
 })
