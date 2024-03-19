@@ -1,5 +1,3 @@
-"use client"
-import { useState } from 'react';
 
 //import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
 import BookPerson from '@/app/ui/book-person/BookPerson';
@@ -12,17 +10,16 @@ import award1 from '@/public/img/page-person/award1.png';
 import award2 from '@/public/img/page-person/award2.png';
 import award3 from '@/public/img/page-person/award3.png';
 
-import { writers } from '@/app/lib/placeholder-data';
+
 import Image from 'next/image';
 
+import { loadAuthor } from '@/app/lib/load-date';
+import Switch from '@/app/ui/switch/Switch';
+import FavouritesBut from '@/app/ui/favouritesBut/FavouritesBut';
 
-export default function PagePerson({ params: { id } }) {
-   // const { dataAuthors } = useContext(AuthorsContext);
-   // const { authorId } = useParams();
-   // const author = dataAuthors.find(item => item._id === authorId);
-   const [pickInfa, setPickInfa] = useState(true);
+export default async function PagePerson({ params: { id } }) {
+   const author = await loadAuthor(id);
 
-   const author = writers[id];
    return (
       <div className={styles.container}>
          <section className={styles.pagePerson}>
@@ -41,75 +38,15 @@ export default function PagePerson({ params: { id } }) {
                   <p className={styles.headerSubtitle}></p>
                </div>
                <div className={styles.wrapperImg}>
-                  <Image src={author.image} alt='face' className={styles.image} />
+                  <Image
+                     src={author.image}
+                     width={1000}
+                     height={500}
+                     alt='face' className={styles.image} />
                </div>
-               <div className={styles.informationWrapper}>
-                  <div className={styles.switch}>
-                     <div
-                        onClick={() => setPickInfa(true)}
-                        className={`${styles.switchInformation} ${pickInfa ? styles.pagePerson_switch_active : ''}`}
-                     >
-                        Информация</div>
-                     <div
-                        onClick={() => setPickInfa(false)}
-                        className={`${styles.switchBiography} ${!pickInfa ? styles.pagePerson_switch_active : ''}`}
-                     >Биография</div>
-                  </div>
-                  <div className={`${styles.personInfoWrapper} ${pickInfa ? styles.personInfoWrapper_visible : ''}`}>
-                     <table id={styles.personInfo} >
-                        <tbody>
-                           <tr>
-                              <th>Рід діяльності</th>
-                              <td>{author.typeactivity}</td>
-                           </tr>
-                           <tr>
-                              <th>Направлення</th>
-                              <td>{author.direction}</td>
-                           </tr>
-                           <tr>
-                              <th>Дата народження</th>
-                              <td>{author.birthday}</td>
-                           </tr>
-                           <tr>
-                              <th>Місце народження</th>
-                              <td>{author.placeofbirth}</td>
-                           </tr>
-                           <tr>
-                              <th>Жанри</th>
-                              <td>{author.genre}</td>
-                           </tr>
-                           <tr>
-                              <th>Мова творів</th>
-                              <td>{author.languageworks}</td>
-                           </tr>
-                           <tr>
-                              <th>Дата смерті</th>
-                              <td>{author.deathdate}</td>
-                           </tr>
-                           <tr>
-                              <th>Місце смерті</th>
-                              <td>{author.placeofdeath}</td>
-                           </tr>
-                           <tr>
-                              <th>Всего книг</th>
-                              <td>невідомо</td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <div className={`${styles.biography} ${!pickInfa ? styles.biographyVisible : ''}`}>
-                     <p className={styles.biographyText}>
-                        Каждый из нас понимает очевидную вещь: постоянное информационно-пропагандистское обеспечение нашей деятельности играет определяющее значение для вывода текущих активов.
-                     </p>
-                     <p className={styles.biographyText}>
-                        Безусловно, реализация намеченных плановых заданий в значительной степени обусловливает важность новых принципов формирования материально-технической и кадровой базы. Приятно, граждане, наблюдать, как базовые сценарии поведения пользователей, превозмогая сложившуюся непростую экономическую ситуацию, ассоциативно распределены по отраслям.
-                     </p>
-                  </div>
-               </div>
-               <div className={styles.favorites}>
-                  <div className={styles.favoritesButton}></div>
-                  В избранном у 37933 человек
-               </div>
+               <Switch author={author} />
+
+               <FavouritesBut author={author} />
             </div>
          </section >
          <div className={styles.award}>
@@ -170,7 +107,7 @@ export default function PagePerson({ params: { id } }) {
                </div>
             </div>
          </div>
-         <BookPerson books={writers} />
+         <BookPerson />
          <Gallery />
          <Comment />
       </div>

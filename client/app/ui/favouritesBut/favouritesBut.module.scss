@@ -1,0 +1,55 @@
+@import "../../ui/adaptiv.module.scss";
+
+.favorites {
+   grid-area: favorites;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+   color: #E8E9EB;
+   font-size: 14px;
+   font-weight: 500;
+}
+
+.favoritesButton {
+   @include adaptiv-value('width', 59, 53, 0);
+   @include adaptiv-value('height', 59, 53, 0);
+   border-radius: 10px;
+   background: #1B2133;
+   position: relative;
+   cursor: pointer;
+}
+
+.active {
+   @include adaptiv-value('width', 59, 53, 0);
+   @include adaptiv-value('height', 59, 53, 0);
+   border-radius: 10px;
+   position: relative;
+   cursor: pointer;
+   background: #df4e4e;
+}
+
+.active:hover {
+   background: #ee5c5c;
+}
+
+.favoritesButton:hover {
+   background: #232a3f;
+}
+
+.favoritesButton::before,
+.active::before {
+   content: '';
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   background: url('../../../public/img/page-person/heart.svg') no-repeat center center/cover;
+   @include adaptiv-value('width', 24, 21, 0);
+   @include adaptiv-value('height', 24, 21, 0);
+}
+
+.favoritesButton:active::before {
+   content: '';
+   transform: translate(-50%, -50%) scale(1.4);
+   transition: ease-in-out 0.3s random($limit: 1);
+}

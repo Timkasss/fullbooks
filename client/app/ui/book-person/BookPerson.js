@@ -1,7 +1,9 @@
 
 import styles from './bookPerson.module.scss';
 import Slider from '../slider/Slider';
-function BookPerson({ books }) {
+import { loadBooks } from '@/app/lib/load-date';
+export default async function BookPerson() {
+   const books = await loadBooks();
    return (
       <section className={styles.bookPerson}>
          <div className={styles.container}>
@@ -11,4 +13,3 @@ function BookPerson({ books }) {
       </section>
    )
 }
-export default BookPerson;

@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@import '../adaptiv.module.scss';
 
 .quote {
    border-radius: 10px;
@@ -11,13 +11,13 @@
    flex-direction: column;
    gap: 15px;
 
-   &__name {
+   .name {
       @include adaptiv-value('font-size', 18, 16, 0);
       font-weight: 600;
       order: 1;
    }
 
-   &__text {
+   .text {
       @include adaptiv-value('font-size', 17, 15, 0);
       font-style: italic;
       font-weight: 400;
@@ -31,7 +31,7 @@
    position: absolute;
    top: -10px;
    left: 50px;
-   background: url('../../img/book-card/paws.svg') no-repeat center center/cover;
+   background: url('../../../public/img/book-card/paws.svg') no-repeat center center/cover;
    @include adaptiv-value('width', 200, 130, 0);
    @include adaptiv-value('height', 50, 40, 0);
 }

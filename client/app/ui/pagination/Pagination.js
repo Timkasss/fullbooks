@@ -1,7 +1,12 @@
+"use client"
+import { useEffect } from 'react';
 import styles from './pagination.module.scss';
 import { usePathname, useSearchParams } from "next/navigation";
 
+
+
 export default function Pagination({ totalPage }) {
+
 
    const pathname = usePathname()
    const viewBooks = 4;
@@ -9,6 +14,7 @@ export default function Pagination({ totalPage }) {
    const searchParams = useSearchParams();
    const currentPage = Number(searchParams.get('page')) || 1;
 
+   console.log(allpages)
 
    const createPageURL = (pageNumber) => {
       const params = new URLSearchParams(searchParams);
@@ -34,10 +40,8 @@ export default function Pagination({ totalPage }) {
                </svg>
             </span>
             {/* {
-               paginationRange.map((pageNumber, index) => {
-                  if (pageNumber === DOTS) {
-                     return <span className={styles.pointers} key={index} >...</span>
-                  }
+               allpages.map((pageNumber, index) => {
+
                   return (
                      <li className={styles.item} key={index} onClick={() => onPageChange(pageNumber)}>
                         <div className={`pagination__link ${pageNumber === currentPage ? 'pagination_link-active' : ''}`

@@ -29,35 +29,6 @@
    }
 }
 
-.favorites {
-   grid-area: favorites;
-   display: flex;
-   align-items: center;
-   gap: 20px;
-   color: #E8E9EB;
-   font-size: 14px;
-   font-weight: 500;
-}
-
-.favoritesButton {
-   @include adaptiv-value('width', 59, 53, 0);
-   @include adaptiv-value('height', 59, 53, 0);
-   border-radius: 10px;
-   background: #1B2133;
-   position: relative;
-   cursor: pointer;
-}
-
-.favoritesButton::before {
-   content: '';
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
-   background: url('../../public/img/page-person/heart.svg') no-repeat center center/cover;
-   @include adaptiv-value('width', 24, 21, 0);
-   @include adaptiv-value('height', 24, 21, 0);
-}
 
 .headerWrapper {
    grid-area: header;
@@ -81,10 +52,7 @@
    object-position: center top;
 }
 
-.informationWrapper {
-   grid-area: infa;
-   padding-top: 30px;
-}
+
 
 .headerTitle {
    @include adaptiv-value('font-size', 65, 25, 0);
@@ -147,26 +115,7 @@
    }
 }
 
-.switch {
-   display: flex;
-   column-gap: 20px;
-   padding-bottom: 17px;
-}
 
-.switchInformation,
-.switchBiography {
-   color: #6D717D;
-   @include adaptiv-value('font-size', 19, 15, 0);
-   font-weight: 600;
-   cursor: pointer;
-   user-select: none;
-
-}
-
-.pagePerson_switch_active {
-   color: #FFF;
-   text-decoration-line: underline;
-}
 
 #personInfo {
    border-collapse: collapse;

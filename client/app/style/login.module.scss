@@ -1,0 +1,313 @@
+@import "../ui/adaptiv.module.scss";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  .model {
+    height: 562px;
+    max-width: 815px;
+    width: 100%;
+    border-radius: 10px;
+    background: #191e2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: open-model 0.5s;
+    position: relative;
+  }
+
+  .model::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url("../../public/img/header/header_logo.png");
+    background-position: center;
+    background-size: cover;
+    width: 125px;
+    height: 45px;
+  }
+
+  .loginFormWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 50%;
+    .formTitle {
+      @include adaptiv-value("font-size", 40, 20, 0);
+      font-weight: 800;
+      text-align: center;
+      padding-top: 41px;
+      padding-bottom: 30px;
+    }
+
+    .formLogin {
+      border-radius: 10px;
+      background: #1e2538;
+      color: rgba(255, 255, 255, 0.6);
+      @include adaptiv-value("font-size", 17, 14, 0);
+      font-weight: 400;
+      height: 67px;
+      padding-left: 25px;
+    }
+
+    .formPassword {
+      border-radius: 10px;
+      background: #1e2538;
+      color: rgba(255, 255, 255, 0.6);
+      @include adaptiv-value("font-size", 17, 14, 0);
+      font-weight: 400;
+      height: 67px;
+      padding-left: 25px;
+    }
+    .formEnter {
+      border-radius: 10px;
+      background: #f2f60f;
+      color: #151a26;
+      font-size: 17px;
+      font-weight: 600;
+      text-align: center;
+      height: 55px;
+      margin-top: 4px;
+    }
+  }
+
+  @media (max-width: $tablet) {
+    .loginFormWrapper {
+      width: 70%;
+    }
+  }
+
+  .formRegistration {
+    display: inline-block;
+    border-radius: 10px;
+    background: #1e2538;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    cursor: pointer;
+    .link {
+      color: white;
+    }
+  }
+
+  .restore {
+    color: #3657cb;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    text-decoration-line: underline;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+
+  .socials {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .socialItem {
+    width: 41px;
+    height: 41px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #1e2538;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      fill: #fff;
+      width: 50%;
+      height: 50%;
+    }
+  }
+
+  .socialItem:hover {
+    background: #3657cb;
+  }
+}
+//form for registration users
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .registration {
+    height: 635px;
+    max-width: 815px;
+    width: 100%;
+    border-radius: 10px;
+    background: #191e2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: open-rigistration 0.5s;
+    position: relative;
+  }
+
+  .registration::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url("../../public/img/header/header_logo.png");
+    background-position: center;
+    background-size: cover;
+    width: 125px;
+    height: 45px;
+  }
+
+  .registrationTitle {
+    @include adaptiv-value("font-size", 40, 20, 0);
+    font-weight: 800;
+    padding-top: 41px;
+    padding-bottom: 34px;
+  }
+
+  .formRegistrationWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 50%;
+  }
+
+  .registrationInput {
+    border-radius: 10px;
+    background-color: #1e2538;
+    height: 67px;
+    color: rgba(255, 255, 255, 0.6);
+    @include adaptiv-value("font-size", 17, 14, 0);
+    font-weight: 400;
+    padding-left: 26px;
+  }
+  #datec {
+    position: relative;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    color: white;
+    background: transparent;
+  }
+
+  @media (max-width: $tablet) {
+    .formRegistrationWrapper {
+      width: 70%;
+    }
+
+    .registrationInput {
+      height: 47px;
+    }
+  }
+
+  .checkboxWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    position: relative;
+  }
+
+  .checkbox_1,
+  .checkbox_2 {
+    --webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+  }
+
+  .checkboxLabel_1,
+  .checkboxLabel_2 {
+    font-size: 15px;
+    font-weight: 400;
+    padding-left: 25px;
+    user-select: none;
+  }
+
+  .checkboxLabel_1::before,
+  .checkboxLabel_2::before {
+    content: "";
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    border: 1px solid #f2f60f;
+    background: #f2f60f;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+  }
+
+  .checkboxLabel_1::before {
+    top: 0;
+  }
+
+  .checkboxLabel_2::before {
+    bottom: 0;
+  }
+
+  .checkboxLabel_1::after,
+  .checkboxLabel_2::after {
+    content: "";
+    background-image: url("../../public/img/header/check.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 10px;
+    height: 9px;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: #151a26;
+    z-index: 2;
+    position: absolute;
+    left: 3px;
+    opacity: 0;
+  }
+
+  .checkboxLabel_1::after {
+    top: 3px;
+  }
+
+  .checkboxLabel_2::after {
+    bottom: 3px;
+  }
+
+  .checkbox_1:checked + .checkboxLabel_1::after {
+    opacity: 1;
+  }
+
+  .checkbox_2:checked + .checkboxLabel_2::after {
+    opacity: 1;
+  }
+
+  .checkboxLink {
+    color: #f2f60f;
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration-line: underline;
+  }
+
+  .sent {
+    border-radius: 10px;
+    background: #f2f60f;
+    height: 55px;
+    color: #151a26;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+  }
+}

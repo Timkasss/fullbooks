@@ -30,7 +30,11 @@ export default function BookCard({ databook }) {
                <div className={styles.wrapper}>
                   <div className={styles.mainBlock}>
                      <div className={styles.wrapperImg}>
-                        <Image src={image} alt="poster" className={styles.img} />
+                        <Image
+                           src={image}
+                           width={1000}
+                           height={500}
+                           alt="poster" className={styles.img} />
                      </div>
 
                      <div className={styles.wraperCrumbs}>
