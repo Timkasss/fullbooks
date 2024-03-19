@@ -3,19 +3,25 @@ import styles from "@/app/style/authorspage.module.scss";
 import Image from "next/image";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { LuPencilLine } from "react-icons/lu";
-import { useStore } from "@/app/lib/store";
+import { useStoreAuthors } from "@/app/lib/store";
 import { useEffect } from "react";
 
 
-export default function Authors() {
+export default function Authors({ searchParams }) {
 
-   const fetchAuthors = useStore((state) => state.fetchAuthors);
-   const authors = useStore(state => state.authors);
-   const deleteAuthors = useStore((state) => state.deleteAuthors);
+
+
+   const query = searchParams?.query || '';
+   const currentPage = Number(searchParams?.page) || 1;
+
+   const authors = useStoreAuthors(state => state.authors);
+   const deleteAuthors = useStoreAuthors((state) => state.deleteAuthors);
+
+   const fetchAuthors = useStoreAuthors((state) => state.fetchAuthors);
+
    useEffect(() => {
       fetchAuthors()
-   }, [fetchAuthors])
-
+   }, [authors])
    const del = (id) => deleteAuthors(id);
 
 

@@ -36,6 +36,7 @@
 .list {
    display: flex;
    @include adaptiv-value('gap', 30, 15, 0);
+   list-style: none;
 }
 
 @media (max-width:$tablet) {

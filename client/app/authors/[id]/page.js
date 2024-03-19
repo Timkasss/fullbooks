@@ -15,6 +15,7 @@ import Image from 'next/image';
 
 import { loadAuthor } from '@/app/lib/load-date';
 import Switch from '@/app/ui/switch/Switch';
+import FavouritesBut from '@/app/ui/favouritesBut/FavouritesBut';
 
 export default async function PagePerson({ params: { id } }) {
    const author = await loadAuthor(id);
@@ -45,10 +46,7 @@ export default async function PagePerson({ params: { id } }) {
                </div>
                <Switch author={author} />
 
-               <div className={styles.favorites}>
-                  <div className={styles.favoritesButton}></div>
-                  В избранном у 37933 человек
-               </div>
+               <FavouritesBut author={author} />
             </div>
          </section >
          <div className={styles.award}>

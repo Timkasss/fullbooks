@@ -3,14 +3,30 @@ import styles from "@/app/ui/admin/searchSort/searchsort.module.scss";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import AddUser from "../AddUser/AddUser";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import AddAuthor from "../AddAuthor/AddAuthor";
 import AddBook from "../AddBook/AddBook";
 import Link from "next/link";
+import { useDebouncedCallback } from "use-debounce";
 export default function SearchSort() {
 
-
    const pathname = usePathname()
+   const searchParams = useSearchParams()
+   const { replace } = useRouter()
+
+   const handleSearch = useDebouncedCallback((term) => {
+      const params = new URLSearchParams(searchParams)
+      params.set("page", "1")
+      if (term) {
+         params.set("query", term)
+      } else {
+         params.delete("query")
+      }
+      replace(`${pathname}?${params.toString()}`)
+
+   }, 300)
+
+
    const [openModal, setOpenModal] = useState(false);
    return (
       <div>
@@ -19,7 +35,9 @@ export default function SearchSort() {
 
             <div className={styles.wrapperInput}>
                <HiOutlineMagnifyingGlass className={styles.icon} />
-               <input type="text" className={styles.search} placeholder="Search" />
+               <input type="text" className={styles.search} placeholder="Search"
+                  defaultValue={searchParams.get("query")?.toString()}
+                  onChange={(e) => handleSearch(e.target.value)} />
             </div>
             {
                pathname === "/admin" ?

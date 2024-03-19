@@ -30,6 +30,7 @@
       display: flex;
       @include adaptiv-value('gap', 30, 15, 0);
       flex-wrap: wrap;
+      list-style: none;
    }
 
    .filterLink.section_filter.filter_pick {
