@@ -1,4 +1,5 @@
 import {
+	ForbiddenException,
 	HttpException,
 	HttpStatus,
 	Injectable,
@@ -24,6 +25,8 @@ export class PostsService {
 
 	async createPost(postDto: CreatePostDto, req: Request) {
 		try {
+			if (!req.headers.authorization) throw new ForbiddenException()
+
 			const token = req.headers.authorization.split(' ')[1]
 			const decodedToken = await this.jwtService.decode(token)
 
@@ -36,14 +39,16 @@ export class PostsService {
 				...postDto,
 				author: authorId,
 				image: image,
-				date: date
+				date: date,
+				video: 'temp'
 			}).save()
 
 			await post.populate([{ path: 'author', select: '-password' }])
 
 			return post
 		} catch (e) {
-			throw new HttpException(e.message, HttpStatus.BAD_REQUEST)
+			console.log(e)
+			throw new HttpException(e.message, e.status)
 		}
 	}
 

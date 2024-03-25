@@ -23,9 +23,7 @@ export class BooksService {
 		const book = new this.bookModel(CreateBookDto)
 
 		book.image = await this.imageService.uploadImage(CreateBookDto.image)
-		console.log(CreateBookDto.pdf.buffer)
-
-		book.pdf = await this.filesService.uploadFileToMega(CreateBookDto.pdf)
+		book.pdf = (await this.filesService.uploadFile(CreateBookDto.pdf)).path
 
 		return await book.save()
 	}

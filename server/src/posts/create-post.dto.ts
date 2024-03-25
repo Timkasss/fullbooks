@@ -1,7 +1,9 @@
+import { IsOptional } from 'class-validator'
+
 export class CreatePostDto {
 	readonly title: string
 	readonly content: string
-	readonly image: string
+	readonly image: any
 	readonly author: string
 	readonly date: string
 	readonly category: string
@@ -10,5 +12,5 @@ export class CreatePostDto {
 	readonly likes: number
 	readonly dislikes: number
 	readonly comments: string[]
-	readonly video: string
+	readonly video: any
 }

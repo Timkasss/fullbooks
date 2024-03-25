@@ -1,28 +1,26 @@
-import { Injectable } from '@nestjs/common'
-import * as mega from 'megajs'
+import { Injectable, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { diskStorage } from 'multer'
+import path from 'path'
 
 @Injectable()
 export class FileUploadingService {
-	async uploadFileToMega(fileBuffer: any): Promise<string> {
-		try {
-			const storage = await mega({
-				email: process.env.EMAIL_NAME,
-				password: process.env.PASS_TO_MEGA
-			}).ready
-
-			const upload = await storage.upload(
-				`${Date.now()}.pdf`,
-				Buffer.from(fileBuffer.buffer, 'base64')
-			).complete
-
-			const key = upload.key.toString('base64')
-			const link = await upload.link(true)
-			const encryptedLink = `${link}#${key}`
-			console.log(encryptedLink)
-
-			return encryptedLink
-		} catch (error) {
-			throw new Error('Failed to upload file to Mega: ' + error.message)
-		}
+	constructor(private readonly httpService: HttpService) {}
+	@UseInterceptors(
+		FileInterceptor('file', {
+			storage: diskStorage({
+				destination: './assets/pdfs/',
+				filename: (req, file, cb) => {
+					const fileName =
+						path.parse(file.originalname).name.replace(/\s/g, '') + Date.now()
+					const extension = path.parse(file.originalname).ext
+					cb(null, `${fileName}.${extension}`)
+				}
+			})
+		})
+	)
+	uploadFile(@UploadedFile() file: any) {
+		return file
 	}
 }

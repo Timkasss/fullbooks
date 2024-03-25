@@ -8,14 +8,18 @@ export class ImageService {
 
 	async uploadImage(image: any) {
 		try {
-			if (!image) throw new HttpException('Image not provided', 400)
+			if (!image.buffer || !image)
+				throw new BadRequestException('Image not provided')
+
 			const formData = new FormData()
-			if (!image.buffer) throw new BadRequestException('Image not provided')
+
 			formData.append('image', image.buffer.toString('base64'))
 			const uploadUrl = `https://api.imgbb.com/1/upload?key=${process.env.IMG_API_KEY}`
+
 			const { data: imageData } = await firstValueFrom(
 				this.httpService.post(uploadUrl, formData)
 			)
+
 			return imageData.data.url
 		} catch (error) {
 			console.error(error)

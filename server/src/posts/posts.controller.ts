@@ -3,9 +3,9 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpException,
 	Param,
 	Post,
-	Put,
 	Query,
 	Req
 } from '@nestjs/common'
@@ -27,11 +27,10 @@ export class PostsController {
 	@Post('create')
 	async createPost(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
 		try {
-			const post = this.PostService.createPost(createPostDto, req)
-			return post
+			return this.PostService.createPost(createPostDto, req)
 		} catch (error) {
 			console.error(error)
-			throw error
+			throw new HttpException(error.message, error.status)
 		}
 	}
 	@Get()
