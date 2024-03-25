@@ -3,9 +3,8 @@ import { useState } from 'react';
 import styles from './popular.module.scss';
 import Poster from './poster/Poster';
 
-import { books } from '@/app/lib/placeholder-data';
 import Link from 'next/link';
-export default function Popular() {
+export default function Popular({ books }) {
 
    const [pick, setPick] = useState(0);
 

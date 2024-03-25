@@ -1,5 +1,5 @@
 import styles from './comment.module.scss';
-import avatar from '../../../public/img/page-person/person.png';
+import avatar from '@/public/img/page-person/person.png';
 import Image from 'next/image';
 
 export default function Comment() {

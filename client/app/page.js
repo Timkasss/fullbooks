@@ -5,16 +5,20 @@ import Popular from "./ui/popular/Popular";
 import Video from "./ui/video/Video";
 import Whatread from "./ui/whatread/Whatread";
 
+import { loadBooks } from "./lib/load-date";
 
-export default function Home() {
+export default async function Home() {
+
+  const books = await loadBooks();
+
   return (
     <>
-      <Popular />
-      <Video />
-      <Whatread />
+      <Popular books={books} />
+      {/* <Video /> */}
+      <Whatread books={books} />
       <Person />
       <News />
-      <Education />
+      <Education books={books} />
     </>
   );
 }

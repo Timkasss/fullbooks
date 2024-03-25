@@ -5,10 +5,10 @@ a:visited {
   text-decoration: none;
 }
 
-ul,
-ol li {
-  list-style: none;
-}
+// ul,
+// ol li {
+//   list-style: none;
+// }
 
 button {
   cursor: pointer;
@@ -62,6 +62,18 @@ body {
   //height: 100px;
 }
 
+.wrapper-admin {
+  height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+}
+
+.wrapper-content-admin {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
 
 [class*="__container"] {
   max-width: 1430px;

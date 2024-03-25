@@ -1,0 +1,97 @@
+.formUser {
+   width: 1144px;
+   height: 278px;
+   background-color: #fff;
+   border-radius: 20px;
+   padding: 20px;
+
+   .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #EFF4FA;
+
+      .title {
+         font-size: 20px;
+         color: black;
+         padding-bottom: 20px;
+      }
+
+      .close {
+         color: black;
+         width: 24px;
+         height: 24px;
+         cursor: pointer;
+      }
+   }
+
+   .wrapInputs {
+      padding-top: 20px;
+
+      .input {
+         height: 34px;
+         border-radius: 10px;
+         color: #222B45;
+         font-size: 16px;
+         border: 1px solid #EFF4FA;
+         padding-left: 10px;
+         width: 100%;
+      }
+
+      .top {
+         display: flex;
+         gap: 15px;
+         padding-bottom: 15px;
+      }
+
+      .bottom {
+         display: flex;
+         gap: 15px;
+      }
+   }
+
+   .buttons {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+      padding-top: 50px;
+      gap: 20px;
+
+      .addButton {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: #4A85F6;
+         color: white;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .addButton:active {
+         transform: scale(1.01);
+      }
+
+      .addButton:hover {
+         background-color: #477cdf;
+      }
+
+      .closeModel {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: transparent;
+         color: #8F9BB3;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .closeModel:hover {
+         border: 2px solid #8F9BB3;
+      }
+   }
+}

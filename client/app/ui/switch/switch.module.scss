@@ -1,0 +1,82 @@
+@import '../adaptiv.module.scss';
+
+.informationWrapper {
+   grid-area: infa;
+   padding-top: 30px;
+}
+
+
+#personInfo {
+   border-collapse: collapse;
+
+   tr {}
+
+   th {
+      color: rgba(255, 255, 255, 0.80);
+      @include adaptiv-value('font-size', 18, 12, 0);
+      font-weight: 600;
+      text-align: left;
+      padding-right: 20px;
+      padding-bottom: 15px;
+   }
+
+   td {
+      padding-bottom: 15px;
+      color: #F2F60F;
+      @include adaptiv-value('font-size', 18, 12, 0);
+      font-weight: 400;
+      text-decoration-line: underline;
+
+   }
+}
+
+.personInfoWrapper {
+   display: none;
+}
+
+.personInfoWrapper_visible {
+   display: block;
+}
+
+.biography {
+   display: none;
+
+}
+
+.biographyVisible {
+   display: block;
+
+}
+
+.biographyText {
+   color: rgba(255, 255, 255, 0.80);
+   @include adaptiv-value('font-size', 17, 13, 0);
+   font-weight: 500;
+   line-height: normal;
+
+}
+
+.biographyText:not(:last-child) {
+   padding-bottom: 10px;
+}
+
+.switch {
+   display: flex;
+   column-gap: 20px;
+   padding-bottom: 17px;
+}
+
+.switchInformation,
+.switchBiography {
+   color: #6D717D;
+   @include adaptiv-value('font-size', 19, 15, 0);
+   font-weight: 600;
+   cursor: pointer;
+   user-select: none;
+
+}
+
+.pagePerson_switch_active {
+   color: #FFF;
+   text-decoration-line: underline;
+}

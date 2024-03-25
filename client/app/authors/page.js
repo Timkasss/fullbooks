@@ -4,11 +4,13 @@
 // import BreadCrumbs from "../components/bread-crumbs/BreadCrumbs";
 import Author from "../ui/author/Author";
 
-import { writers } from '../lib/placeholder-data';
 import styles from '../style/authors.module.scss';
+import { loadAuthors } from "../lib/load-date";
 
-export default function Authors() {
 
+export default async function Authors() {
+
+   const writers = await loadAuthors()
 
    // let PageSize = 12;
    // const [currentPage, setCurrentPage] = useState(1);

@@ -1,0 +1,211 @@
+.formBook {
+   width: 1144px;
+   height: 678px;
+   background-color: #fff;
+   border-radius: 20px;
+   padding: 20px;
+
+   .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #EFF4FA;
+
+      .title {
+         font-size: 20px;
+         color: black;
+         padding-bottom: 20px;
+      }
+
+      .close {
+         color: black;
+         width: 24px;
+         height: 24px;
+         cursor: pointer;
+      }
+   }
+
+   .wrapInputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 0.1fr 0.1fr 0.1fr 0.1fr 0.1fr;
+      padding-top: 20px;
+      gap: 15px;
+
+      .wrapImage {
+         width: 250px;
+         height: 330px;
+         grid-row: 1/5;
+
+         .fileContainer {
+            width: 250px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+
+            .upFile {
+               width: 40px;
+               height: 40px;
+               color: black;
+            }
+
+            .textFile {
+               padding-top: 5px;
+
+               .textFileOne {
+                  color: black;
+                  padding-bottom: 5px;
+                  font-size: 20px;
+                  font-weight: bold;
+               }
+
+               .backImage {
+                  position: absolute;
+                  width: 1px;
+                  height: 1px;
+                  padding: 0;
+                  margin: -1px;
+                  overflow: hidden;
+                  clip: rect(0, 0, 0, 0);
+                  white-space: nowrap;
+                  border-width: 0;
+               }
+
+               .customUpload {
+                  padding-left: 10px;
+                  color: black;
+                  cursor: pointer;
+               }
+
+               .styleWord {
+                  color: #2629f0;
+                  font-weight: bold;
+               }
+            }
+
+
+         }
+
+         .image {
+            max-width: 100%;
+            object-fit: cover;
+            object-position: top;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+         }
+      }
+
+      .titleInput {
+         color: #6A707E;
+      }
+
+      .input {
+         height: 34px;
+         border-radius: 10px;
+         color: #222B45;
+         font-size: 16px;
+         border: 1px solid #EFF4FA;
+         padding-left: 10px;
+         width: 100%;
+         margin-top: 5px;
+      }
+
+      .wrapTextarea {
+         display: flex;
+         flex-direction: column;
+         grid-column: 1/4;
+
+         .textarea {
+            border: 2px solid #477cdf;
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            margin-top: 10px;
+         }
+      }
+
+      .coverUploadBook {
+         display: flex;
+         gap: 30px;
+         padding-top: 10px;
+         height: 30px;
+         cursor: pointer;
+
+         .uploadText {
+            background-color: #f57878;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+            cursor: pointer;
+         }
+
+         .bookFile {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+         }
+
+         .text {
+            color: black;
+         }
+      }
+
+   }
+
+
+
+   .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+
+      .addButton {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: #4A85F6;
+         color: white;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .addButton:active {
+         transform: scale(1.01);
+      }
+
+      .addButton:hover {
+         background-color: #477cdf;
+      }
+
+      .closeModel {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: transparent;
+         color: #8F9BB3;
+         width: 88px;
+         height: 26px;
+         border-radius: 10px;
+         cursor: pointer;
+         user-select: none;
+      }
+
+      .closeModel:hover {
+         border: 2px solid #8F9BB3;
+      }
+   }
+}

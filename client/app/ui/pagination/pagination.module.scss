@@ -48,8 +48,8 @@
         font-weight: 600;
      }
 
-     .arrow-prev,
-     .arrow-next {
+     .arrowPrev,
+     .arrowNext {
         @include adaptiv-value('width', 73, 33, 0);
         @include adaptiv-value('height', 73, 33, 0);
         border-radius: 10px;
@@ -70,13 +70,13 @@
         }
      }
 
-     .arrow-next {
+     .arrowNext {
         svg * {
            fill: #FFF;
         }
      }
   }
 
-  .pagination_link-active {
+  .pagination_linkActive {
      background: #3657CB;
   }
