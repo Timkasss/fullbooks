@@ -1,58 +1,58 @@
 import {
-	Body,
-	Controller,
-	Delete,
-	Get,
-	HttpException,
-	HttpStatus,
-	Param,
-	Patch,
-	Post
-} from '@nestjs/common'
-import { AuthorsAwardsService } from './authors-awards.service'
-import { CreateAwardDto } from './authors-awards-create.dto'
-import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+} from "@nestjs/common";
+import { AuthorsAwardsService } from "./authors-awards.service";
+import { CreateAwardDto } from "./authors-awards-create.dto";
+import { FormDataRequest, MemoryStoredFile } from "nestjs-form-data";
 
-@Controller('awards')
+@Controller("awards")
 export class AuthorsAwardsController {
-	constructor(private authorsAwardsService: AuthorsAwardsService) {}
+  constructor(private authorsAwardsService: AuthorsAwardsService) {}
 
-	@FormDataRequest({ storage: MemoryStoredFile })
-	@Post()
-	async createAward(@Body() createAwardDto: CreateAwardDto) {
-		try {
-			return await this.authorsAwardsService.createAward(createAwardDto)
-		} catch (error) {
-			console.log(error)
-			if (error.code === 11000) {
-				throw new HttpException('Award already exists', HttpStatus.CONFLICT)
-			} else {
-				throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
-			}
-		}
-	}
+  @FormDataRequest({ storage: MemoryStoredFile })
+  @Post()
+  async createAward(@Body() createAwardDto: CreateAwardDto) {
+    try {
+      return await this.authorsAwardsService.createAward(createAwardDto);
+    } catch (error) {
+      console.log(error);
+      if (error.code === 11000) {
+        throw new HttpException("Award already exists", HttpStatus.CONFLICT);
+      } else {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+    }
+  }
 
-	@Get('')
-	async getAwards() {
-		return await this.authorsAwardsService.getAwards()
-	}
+  @Get("")
+  async getAwards() {
+    return await this.authorsAwardsService.getAwards();
+  }
 
-	@Get(':id')
-	async getAward(@Param('id') id: string) {
-		return await this.authorsAwardsService.getAward(id)
-	}
+  @Get(":id")
+  async getAward(@Param("id") id: string) {
+    return await this.authorsAwardsService.getAward(id);
+  }
 
-	@Delete(':id')
-	async deleteAward(@Param('id') id: string) {
-		return await this.authorsAwardsService.deleteAward(id)
-	}
+  @Delete(":id")
+  async deleteAward(@Param("id") id: string) {
+    return await this.authorsAwardsService.deleteAward(id);
+  }
 
-	@FormDataRequest({ storage: MemoryStoredFile })
-	@Patch(':id')
-	async updateAward(
-		@Body() createAwardDto: CreateAwardDto,
-		@Param('id') id: string
-	) {
-		return await this.authorsAwardsService.updateAward(id, createAwardDto)
-	}
+  @FormDataRequest({ storage: MemoryStoredFile })
+  @Patch(":id")
+  async updateAward(
+    @Body() createAwardDto: CreateAwardDto,
+    @Param("id") id: string
+  ) {
+    return await this.authorsAwardsService.updateAward(id, createAwardDto);
+  }
 }

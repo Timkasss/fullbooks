@@ -9,9 +9,7 @@ import {
 	Patch,
 	Post,
 	Query,
-	Res,
-	UploadedFile,
-	UseInterceptors
+	Res
 } from '@nestjs/common'
 import {
 	ApiTags,
@@ -27,9 +25,6 @@ import { Response } from 'express'
 import { BooksService } from './books.service'
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data'
 import { UpdateBookDto } from './dto/update-book.dto'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { diskStorage } from 'multer'
-import * as path from 'path'
 
 @ApiTags('books')
 @Controller('books')
